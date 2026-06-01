@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世纪公园探索图鉴 - 照片上传</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 世纪公园探索图鉴</h1>
+            <p class="subtitle">辰辰的冒险照片墙</p>
+        </header>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="fileInput" accept="image/*" multiple>
+                <label for="fileInput" class="upload-label">
+                    <div class="upload-icon">📷</div>
+                    <p>点击或拖拽上传照片</p>
+                    <p class="hint">支持 JPG、PNG、GIF 格式</p>
+                </label>
+            </div>
+
+            <div class="week-selector">
+                <label for="weekSelect">选择周次：</label>
+                <select id="weekSelect">
+                    <option value="week1">第1周 - 初识公园</option>
+                    <option value="week2">第2周 - 公园地图</option>
+                    <option value="week3">第3周 - 换条路走</option>
+                    <option value="week4">第4周 - 公园的一天</option>
+                    <option value="week5">第5周 - 树木猎人</option>
+                    <option value="week6">第6周 - 树叶收藏家</option>
+                    <option value="week7">第7周 - 选一棵我的树</option>
+                    <option value="week8">第8周 - 树的秘密</option>
+                </select>
+            </div>
+
+            <div class="photo-info">
+                <label for="photoDesc">照片描述：</label>
+                <input type="text" id="photoDesc" placeholder="这张照片拍的是什么？">
+            </div>
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <h2>📸 待上传照片预览</h2>
+            <div class="preview-grid" id="previewGrid">
+                <div class="empty-state">
+                    <div class="empty-icon">🖼️</div>
+                    <p>还没有选择照片</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <h2>🖼️ 照片墙</h2>
+            <div class="gallery-grid" id="galleryGrid">
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 世纪公园探索年 · 辰辰的冒险</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

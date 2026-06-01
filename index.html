@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世纪公园探索图鉴</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-link.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .nav-link.secondary:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .version {
+            margin-top: 30px;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .week-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🌳</div>
+        <h1>世纪公园探索图鉴</h1>
+        <p class="subtitle">辰辰的48周冒险之旅</p>
+        <div class="week-badge">当前：第2周 · 公园地图</div>
+        
+        <div class="nav-links">
+            <a href="世纪公园/photos/index.html" class="nav-link">
+                <span>📷</span>
+                <span>照片上传</span>
+            </a>
+            <a href="世纪公园/week3-任务卡.md" class="nav-link secondary" target="_blank">
+                <span>📋</span>
+                <span>第3周任务卡</span>
+            </a>
+            <a href="辰辰-世纪公园冒险纪事.md" class="nav-link secondary" target="_blank">
+                <span>📝</span>
+                <span>冒险纪事</span>
+            </a>
+        </div>
+
+        <div class="version">版本：2026-06-01.1</div>
+    </div>
+</body>
+</html>
