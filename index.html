@@ -194,11 +194,14 @@
     }
     .badge-section-title { display: flex; align-items: center; gap: 8px; font-weight: 700; }
     .badge-section-count { font-size: 12px; color: #888; }
-    .badge-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 12px; }
+    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 12px; }
+    @media (min-width: 480px) {
+      .badge-grid { grid-template-columns: repeat(4, 1fr); }
+    }
     .badge-card {
-      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
+      background: #fff; border-radius: 16px; padding: 12px 6px; text-align: center;
       box-shadow: 0 3px 12px rgba(26,58,42,0.08); transition: all 0.2s;
-      position: relative; min-height: 100px;
+      position: relative; min-height: 90px;
     }
     .badge-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(26,58,42,0.15); }
     .badge-card.locked { opacity: 0.5; filter: grayscale(0.8); }
@@ -208,7 +211,7 @@
     }
     @keyframes badgeUnlock { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
     .badge-emoji-wrap {
-      width: 44px; height: 44px; margin: 0 auto 8px;
+      width: 40px; height: 40px; margin: 0 auto 6px;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
       background: linear-gradient(135deg, #e8f5e9, #d8f3dc);
     }
@@ -216,10 +219,10 @@
       background: linear-gradient(135deg, #ffd166, #f4a261);
       box-shadow: 0 4px 12px rgba(233, 168, 32, 0.3);
     }
-    .badge-icon { font-size: 28px; }
-    .badge-name { font-size: 11px; font-weight: 800; color: var(--green-deep); }
+    .badge-icon { font-size: 24px; }
+    .badge-name { font-size: 10px; font-weight: 800; color: var(--green-deep); line-height: 1.2; }
     .badge-card.locked .badge-name { color: #aaa; }
-    .badge-status { font-size: 9px; padding: 2px 8px; border-radius: 10px; margin-top: 6px; display: inline-block; }
+    .badge-status { font-size: 8px; padding: 2px 6px; border-radius: 8px; margin-top: 4px; display: inline-block; }
     .badge-card.locked .badge-status { background: #f0f0f0; color: #999; }
     .badge-card.unlocked .badge-status { background: var(--green-pale); color: var(--green); font-weight: 600; }
     .badge-manual {
