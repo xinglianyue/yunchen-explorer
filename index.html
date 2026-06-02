@@ -231,6 +231,85 @@
     }
     .edit-btn:hover { background: var(--green-light); color: #fff; }
 
+    .drawing-toggle {
+      flex: 1; padding: 10px; border-radius: 10px;
+      background: #f0f9f4; border: 2px solid #e8f5e9;
+      font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+    }
+    .drawing-toggle.selected {
+      background: #d8f3dc; border-color: var(--green-light);
+      color: var(--green); font-weight: 700;
+    }
+    .drawing-check { font-size: 16px; }
+
+    .challenge-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+    }
+    .challenge-option {
+      padding: 12px 8px; border-radius: 10px; text-align: center;
+      background: #f0f9f4; border: 2px solid #e8f5e9;
+      font-size: 12px; cursor: pointer; transition: all 0.2s;
+    }
+    .challenge-option:hover { border-color: var(--green-light); background: #e8f5e9; }
+    .challenge-option.selected {
+      background: var(--green-pale); border-color: var(--green-light);
+      color: var(--green); font-weight: 700;
+    }
+    .challenge-option .option-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+
+    .streak-banner {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+      border-radius: 14px; border: 2px solid #ffb74d;
+      animation: streakPulse 2s ease infinite;
+    }
+    @keyframes streakPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.4); }
+      50% { box-shadow: 0 0 20px 5px rgba(255, 152, 0, 0.2); }
+    }
+    .streak-fire { font-size: 36px; animation: fireShake 0.5s ease infinite; }
+    @keyframes fireShake { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+    .streak-info { flex: 1; }
+    .streak-count { font-size: 16px; font-weight: 900; color: #e65100; }
+    .streak-reward { font-size: 13px; color: #f57c00; font-weight: 700; }
+
+    .super-discovery-banner {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px; margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffd54f, #ffb300);
+      border-radius: 14px; border: 2px solid #ffc107;
+      animation: superGlow 1s ease infinite;
+    }
+    @keyframes superGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 193, 7, 0.6); }
+      50% { box-shadow: 0 0 40px rgba(255, 193, 7, 0.9); }
+    }
+    .super-icon { font-size: 40px; animation: starSpin 2s linear infinite; }
+    @keyframes starSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .super-text { font-size: 20px; font-weight: 900; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+    .stars-preview {
+      padding: 16px; margin: 16px 0;
+      background: linear-gradient(135deg, #fff8e1, #ffeaa7);
+      border-radius: 16px; border: 3px solid var(--gold-light);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .stars-preview::before {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 50%);
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .stars-preview-label { font-size: 13px; color: #8b6914; font-weight: 600; position: relative; z-index: 1; }
+    .stars-preview-value { 
+      font-size: 36px; font-weight: 900; color: var(--gold); 
+      position: relative; z-index: 1; text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+    }
+
     .page { display: none; padding-bottom: 80px; animation: pageIn 0.3s ease; }
     @keyframes pageIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     .page.active { display: block; }
@@ -1036,15 +1115,15 @@
     <div class="section-header"><div class="section-title"><span>⚔️</span>今日探险任务</div></div>
     <div class="checkin-form">
       <div class="checkin-header">
-        <h3>🎯 第<span id="checkinWeek">2</span>周 · 任务清单</h3>
+        <h3>🎯 第<span id="checkinWeek">2</span>周 · 冒险任务</h3>
       </div>
       <div class="checkin-body">
         
         <div class="checkin-task" id="task-photo" onclick="toggleTask('photo')">
-          <div class="checkin-task-icon">📸</div>
+          <div class="checkin-task-icon">🌳</div>
           <div class="checkin-task-info">
-            <div class="checkin-task-title">记录精彩瞬间</div>
-            <div class="checkin-task-desc">上传照片，获得 +1⭐/张</div>
+            <div class="checkin-task-title">发现任务</div>
+            <div class="checkin-task-desc">去了公园 +1⭐ | 拍5张+1⭐</div>
           </div>
           <div class="checkin-task-status"><span>✓</span></div>
         </div>
@@ -1059,41 +1138,87 @@
         </div>
         
         <div class="checkin-task" id="task-species" onclick="toggleTask('species')">
-          <div class="checkin-task-icon">🔍</div>
+          <div class="checkin-task-icon">🐛</div>
           <div class="checkin-task-info">
-            <div class="checkin-task-title">发现新物种</div>
-            <div class="checkin-task-desc">记录今天发现了什么，获得 +2⭐/种</div>
+            <div class="checkin-task-title">挑战任务</div>
+            <div class="checkin-task-desc">完成挑战 +1⭐ | 新物种 +2⭐/种</div>
           </div>
           <div class="checkin-task-status"><span>✓</span></div>
         </div>
 
         <div id="species-section" style="display:none; margin-bottom: 12px;">
           <div class="form-group">
+            <div class="form-label" style="font-size:12px;color:var(--green);margin-bottom:8px;">🔮 发现的物种（用逗号分隔）</div>
             <input type="text" class="form-input" id="speciesFound" placeholder="例如：蝴蝶、蒲公英、梧桐树..." oninput="updateExpectedStars()">
           </div>
         </div>
-        
+
         <div class="checkin-task" id="task-notes" onclick="toggleTask('notes')">
-          <div class="checkin-task-icon">📝</div>
+          <div class="checkin-task-icon">📖</div>
           <div class="checkin-task-info">
-            <div class="checkin-task-title">写探险日记</div>
-            <div class="checkin-task-desc">记录今天的故事，获得 +3⭐</div>
+            <div class="checkin-task-title">记录任务</div>
+            <div class="checkin-task-desc">完成记录 +1⭐ | 画一幅画 +2⭐</div>
           </div>
           <div class="checkin-task-status"><span>✓</span></div>
         </div>
 
         <div id="notes-section" style="display:none; margin-bottom: 12px;">
           <div class="form-group">
+            <div class="form-label" style="font-size:12px;color:var(--green);margin-bottom:8px;">✏️ 探险日记</div>
             <textarea class="form-input" id="exploreNotes" placeholder="今天探索了什么？发生了什么有趣的事？" rows="3" oninput="updateExpectedStars()"></textarea>
+          </div>
+          <div class="form-group">
+            <div class="form-label" style="font-size:12px;color:var(--green);margin-bottom:8px;">🎨 画了一幅画吗？</div>
+            <div style="display:flex;gap:10px;">
+              <label class="drawing-toggle" id="drawingYes" onclick="selectDrawing(true)">
+                <input type="radio" name="drawing" value="yes" style="display:none;">
+                <span class="drawing-check">○</span> 是的！画了画
+              </label>
+              <label class="drawing-toggle" id="drawingNo" onclick="selectDrawing(false)">
+                <input type="radio" name="drawing" value="no" style="display:none;">
+                <span class="drawing-check">○</span> 没有
+              </label>
+            </div>
           </div>
         </div>
 
-        <div style="margin-top: 12px; padding: 12px; background: linear-gradient(135deg, #fff8e1, #ffeaa7); border-radius: 12px; text-align: center;">
-          <div style="font-size: 13px; color: #8b6914; margin-bottom: 6px;">预计获得</div>
-          <div style="font-size: 32px; font-weight: 900; color: #d6a500;" id="expected-stars">+0 ⭐</div>
+        <div class="checkin-task" id="task-challenge" onclick="toggleTask('challenge')">
+          <div class="checkin-task-icon">🏠</div>
+          <div class="checkin-task-info">
+            <div class="checkin-task-title">回家任务</div>
+            <div class="checkin-task-desc">完成回家任务 +2⭐</div>
+          </div>
+          <div class="checkin-task-status"><span>✓</span></div>
         </div>
-        
-        <button class="submit-btn" onclick="submitCheckin()">🎊 完成探险！</button>
+
+        <div id="challenge-section" style="display:none; margin-bottom: 12px;">
+          <div class="form-group">
+            <div class="form-label" style="font-size:12px;color:var(--green);margin-bottom:8px;">✨ 回家做了什么？</div>
+            <div class="challenge-options" id="challengeOptions"></div>
+          </div>
+        </div>
+
+        <div class="streak-banner" id="streakBanner" style="display:none;">
+          <div class="streak-fire">🔥</div>
+          <div class="streak-info">
+            <div class="streak-count">连续 <span id="streakDays">0</span> 周</div>
+            <div class="streak-reward">连击奖励 +<span id="streakBonus">0</span>⭐</div>
+          </div>
+        </div>
+
+        <div class="super-discovery-banner" id="superDiscoveryBanner" style="display:none;">
+          <div class="super-icon">🌟</div>
+          <div class="super-text">超级发现！+3⭐</div>
+        </div>
+
+        <div class="stars-preview">
+          <div class="stars-preview-label">预计获得</div>
+          <div class="stars-preview-value" id="expected-stars">+0 ⭐</div>
+        </div>
+
+        <button class="submit-btn" onclick="submitCheckin()">
+          <span class="btn-text">🎊 完成探险！</span>
+        </button>
       </div>
     </div>
   </div>
@@ -1596,6 +1721,7 @@
           localStorage.setItem('yunchen_data', JSON.stringify(state));
           console.log('数据加载成功:', state);
           updateUI();
+          renderChallengeOptions();
           showToast('✅ 已同步云端数据', 'good');
         } else {
           throw new Error('网络错误');
@@ -2857,18 +2983,101 @@
       let stars = 0;
       
       const photos = document.querySelectorAll('#photoPreview .photo-thumb');
-      if (photos.length > 0) stars += photos.length * 1;
+      if (photos.length > 0) {
+        stars += 1;
+        if (photos.length >= 5) stars += 1;
+      }
       
       const speciesInput = document.getElementById('speciesFound');
       if (speciesInput && speciesInput.value.trim()) {
-        const species = speciesInput.value.split(/[,，\s]+/).filter(s => s.trim());
-        stars += species.length * 2;
+        const species = speciesInput.value.split(/[,，、\s]+/).filter(s => s.trim());
+        if (species.length > 0) stars += 1;
+        species.forEach(s => {
+          const trimmed = s.trim();
+          if (trimmed && !state.guide.find(g => g.name === trimmed)) {
+            stars += 2;
+          }
+        });
       }
       
       const notesInput = document.getElementById('exploreNotes');
-      if (notesInput && notesInput.value.trim().length > 5) stars += 3;
+      if (notesInput && notesInput.value.trim().length > 5) stars += 1;
       
-      document.getElementById('expected-stars').textContent = '+' + stars + ' ⭐';
+      const drawingSelected = document.querySelector('.drawing-toggle.selected');
+      if (drawingSelected && drawingSelected.id === 'drawingYes') stars += 2;
+      
+      const challengeSelected = document.querySelector('.challenge-option.selected');
+      if (challengeSelected) stars += 2;
+      
+      const streak = calculateStreak();
+      const streakBonus = getStreakBonus(streak);
+      if (streak > 0) {
+        document.getElementById('streakBanner').style.display = 'flex';
+        document.getElementById('streakDays').textContent = streak;
+        document.getElementById('streakBonus').textContent = streakBonus;
+      } else {
+        document.getElementById('streakBanner').style.display = 'none';
+      }
+      
+      if (Math.random() < 0.15) {
+        document.getElementById('superDiscoveryBanner').style.display = 'flex';
+        stars += 3;
+      } else {
+        document.getElementById('superDiscoveryBanner').style.display = 'none';
+      }
+      
+      document.getElementById('expected-stars').textContent = '+' + (stars + streakBonus) + ' ⭐';
+    }
+
+    function calculateStreak() {
+      let streak = 0;
+      for (let w = 1; w <= state.week; w++) {
+        if (state.taskHistory[w]?.complete) streak++;
+        else break;
+      }
+      return streak;
+    }
+
+    function getStreakBonus(streak) {
+      if (streak >= 12) return 15;
+      if (streak >= 8) return 10;
+      if (streak >= 4) return 5;
+      if (streak >= 2) return 3;
+      return 0;
+    }
+
+    function selectDrawing(isDrawing) {
+      document.querySelectorAll('.drawing-toggle').forEach(el => {
+        el.classList.remove('selected');
+        el.querySelector('.drawing-check').textContent = '○';
+      });
+      const target = document.getElementById(isDrawing ? 'drawingYes' : 'drawingNo');
+      target.classList.add('selected');
+      target.querySelector('.drawing-check').textContent = '✓';
+      updateExpectedStars();
+    }
+
+    function selectChallenge(challenge) {
+      document.querySelectorAll('.challenge-option').forEach(el => el.classList.remove('selected'));
+      document.getElementById('challenge-' + challenge).classList.add('selected');
+      updateExpectedStars();
+    }
+
+    function renderChallengeOptions() {
+      const options = [
+        { id: 'draw', icon: '🎨', label: '画了画' },
+        { id: 'collect', icon: '🍂', label: '收集了东西' },
+        { id: 'share', icon: '📢', label: '给爸妈讲' },
+        { id: 'photo', icon: '📷', label: '拍了照' }
+      ];
+      
+      const container = document.getElementById('challengeOptions');
+      container.innerHTML = options.map(opt => `
+        <div class="challenge-option" id="challenge-${opt.id}" onclick="selectChallenge('${opt.id}')">
+          <span class="option-icon">${opt.icon}</span>
+          ${opt.label}
+        </div>
+      `).join('');
     }
 
     function handlePhotoUpload(event) {
