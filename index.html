@@ -310,6 +310,34 @@
       position: relative; z-index: 1; text-shadow: 2px 2px 0 rgba(0,0,0,0.1);
     }
 
+    .daily-quest-card {
+      display: flex; align-items: center; gap: 12px;
+      margin: 0 12px 12px; padding: 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 16px; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s;
+      animation: dailyQuestGlow 3s ease infinite;
+    }
+    .daily-quest-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5); }
+    @keyframes dailyQuestGlow {
+      0%, 100% { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+      50% { box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6); }
+    }
+    .daily-quest-card.completed {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+      animation: none;
+    }
+    .daily-quest-icon { font-size: 32px; }
+    .daily-quest-content { flex: 1; }
+    .daily-quest-label { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; }
+    .daily-quest-title { font-size: 15px; color: #fff; font-weight: 800; margin-top: 2px; }
+    .daily-quest-reward {
+      background: rgba(255,255,255,0.3); color: #fff;
+      padding: 6px 12px; border-radius: 20px;
+      font-size: 13px; font-weight: 800;
+    }
+
     .page { display: none; padding-bottom: 80px; animation: pageIn 0.3s ease; }
     @keyframes pageIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     .page.active { display: block; }
@@ -1138,6 +1166,28 @@
     </div>
 
     <div class="section-header"><div class="section-title"><span>⚔️</span>今日探险任务</div></div>
+    
+    <div class="daily-quest-card" id="dailyQuestCard" onclick="toggleTask('daily')">
+      <div class="daily-quest-icon">🎯</div>
+      <div class="daily-quest-content">
+        <div class="daily-quest-label">✨ 今日惊喜任务</div>
+        <div class="daily-quest-title" id="dailyQuestTitle">加载中...</div>
+      </div>
+      <div class="daily-quest-reward" id="dailyQuestReward">+2⭐</div>
+    </div>
+
+    <div id="daily-quest-section" style="display:none; margin: 0 12px 12px;">
+      <div class="form-group">
+        <div class="form-label" style="font-size:12px;color:var(--green);margin-bottom:8px;">🎯 今日惊喜任务完成情况</div>
+        <div class="challenge-options">
+          <div class="challenge-option" id="daily-quest-complete" onclick="completeDailyQuest()">
+            <span class="option-icon">✓</span>
+            完成了！
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="checkin-form">
       <div class="checkin-header">
         <h3>🎯 第<span id="checkinWeek">2</span>周 · 冒险任务</h3>
@@ -1749,6 +1799,7 @@
           console.log('数据加载成功:', state);
           updateUI();
           renderChallengeOptions();
+          renderDailyQuest();
           showToast('✅ 已同步云端数据', 'good');
         } else {
           throw new Error('网络错误');
@@ -3092,6 +3143,74 @@
       if (streak >= 4) return 5;
       if (streak >= 2) return 3;
       return 0;
+    }
+
+    const DAILY_QUESTS = [
+      { title: '找到3种不同的树叶', icon: '🍂' },
+      { title: '拍摄一朵小花', icon: '🌸' },
+      { title: '观察一只昆虫', icon: '🐛' },
+      { title: '听3种不同的鸟叫', icon: '🐦' },
+      { title: '找到云朵像什么', icon: '☁️' },
+      { title: '收集5颗小石子', icon: '🪨' },
+      { title: '观察树叶的纹理', icon: '🍃' },
+      { title: '拍摄湖面的倒影', icon: '🌊' },
+      { title: '找到3种不同的颜色', icon: '🎨' },
+      { title: '观察小蚂蚁搬家', icon: '🐜' },
+      { title: '拍摄有趣的树皮', icon: '🌳' },
+      { title: '找到蒲公英吹一吹', icon: '🌼' },
+      { title: '观察蝴蝶的翅膀', icon: '🦋' },
+      { title: '记录2种不同的草', icon: '🌿' },
+      { title: '寻找公园的小秘密', icon: '🔮' }
+    ];
+
+    function getDailyQuest() {
+      const today = new Date().toDateString();
+      const savedDate = localStorage.getItem('dailyQuestDate');
+      const savedQuest = localStorage.getItem('dailyQuest');
+      const savedCompleted = localStorage.getItem('dailyQuestCompleted');
+      
+      if (savedDate === today && savedQuest) {
+        return { ...JSON.parse(savedQuest), completed: savedCompleted === 'true' };
+      }
+      
+      const quest = DAILY_QUESTS[Math.floor(Math.random() * DAILY_QUESTS.length)];
+      const newQuest = { ...quest, completed: false };
+      
+      localStorage.setItem('dailyQuestDate', today);
+      localStorage.setItem('dailyQuest', JSON.stringify(newQuest));
+      localStorage.setItem('dailyQuestCompleted', 'false');
+      
+      return newQuest;
+    }
+
+    function renderDailyQuest() {
+      const quest = getDailyQuest();
+      const card = document.getElementById('dailyQuestCard');
+      const title = document.getElementById('dailyQuestTitle');
+      
+      title.textContent = quest.icon + ' ' + quest.title;
+      
+      if (quest.completed) {
+        card.classList.add('completed');
+        card.querySelector('.daily-quest-icon').textContent = '✓';
+      } else {
+        card.classList.remove('completed');
+        card.querySelector('.daily-quest-icon').textContent = '🎯';
+      }
+    }
+
+    function completeDailyQuest() {
+      const quest = getDailyQuest();
+      if (!quest.completed) {
+        quest.completed = true;
+        localStorage.setItem('dailyQuestCompleted', 'true');
+        
+        document.getElementById('daily-quest-complete').classList.add('selected');
+        renderDailyQuest();
+        updateExpectedStars();
+        
+        showToast('🎉 惊喜任务完成！+2⭐', 'star');
+      }
     }
 
     function selectDrawing(isDrawing) {
