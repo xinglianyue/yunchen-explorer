@@ -367,14 +367,11 @@
     }
     .badge-section-title { display: flex; align-items: center; gap: 8px; font-weight: 700; }
     .badge-section-count { font-size: 12px; color: #888; }
-    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 12px; }
-    @media (min-width: 480px) {
-      .badge-grid { grid-template-columns: repeat(4, 1fr); }
-    }
+    .badge-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 12px; padding: 0 12px; }
     .badge-card {
-      background: #fff; border-radius: 16px; padding: 12px 6px; text-align: center;
+      background: #fff; border-radius: 16px; padding: 14px 16px; text-align: left;
       box-shadow: 0 3px 12px rgba(26,58,42,0.08); transition: all 0.2s;
-      position: relative; min-height: 90px;
+      position: relative; display: flex; align-items: center; gap: 14px;
     }
     .badge-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(26,58,42,0.15); }
     .badge-card.locked { opacity: 0.5; filter: grayscale(0.8); }
@@ -384,7 +381,7 @@
     }
     @keyframes badgeUnlock { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
     .badge-emoji-wrap {
-      width: 40px; height: 40px; margin: 0 auto 6px;
+      width: 48px; height: 48px; margin: 0; flex-shrink: 0;
       border-radius: 50%; display: flex; align-items: center; justify-content: center;
       background: linear-gradient(135deg, #e8f5e9, #d8f3dc);
     }
@@ -392,10 +389,12 @@
       background: linear-gradient(135deg, #ffd166, #f4a261);
       box-shadow: 0 4px 12px rgba(233, 168, 32, 0.3);
     }
-    .badge-icon { font-size: 24px; }
-    .badge-name { font-size: 10px; font-weight: 800; color: var(--green-deep); line-height: 1.2; }
+    .badge-icon { font-size: 26px; }
+    .badge-content { flex: 1; }
+    .badge-name { font-size: 14px; font-weight: 800; color: var(--green-deep); line-height: 1.2; }
     .badge-card.locked .badge-name { color: #aaa; }
-    .badge-status { font-size: 8px; padding: 2px 6px; border-radius: 8px; margin-top: 4px; display: inline-block; }
+    .badge-desc { font-size: 11px; color: #888; margin-top: 4px; }
+    .badge-status { font-size: 11px; padding: 4px 10px; border-radius: 10px; }
     .badge-card.locked .badge-status { background: #f0f0f0; color: #999; }
     .badge-card.unlocked .badge-status { background: var(--green-pale); color: var(--green); font-weight: 600; }
     .badge-manual {
@@ -1194,16 +1193,8 @@
       </div>
       <div class="checkin-body">
         
-        <div class="checkin-task" id="task-photo" onclick="toggleTask('photo')">
-          <div class="checkin-task-icon">🌳</div>
-          <div class="checkin-task-info">
-            <div class="checkin-task-title">发现任务</div>
-            <div class="checkin-task-desc">去了公园 +1⭐ | 拍5张+1⭐</div>
-          </div>
-          <div class="checkin-task-status"><span>✓</span></div>
-        </div>
-
-        <div id="photo-section" style="display:none; margin-bottom: 12px;">
+        <div class="form-group">
+          <div class="form-label" style="font-size:14px;color:var(--green);margin-bottom:10px;font-weight:800;">📸 上传探索照片</div>
           <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
             <div class="pu-icon">📸</div>
             <div class="pu-text">点击上传探索照片</div>
@@ -2920,7 +2911,10 @@
             <div class="badge-card ${unlocked ? 'unlocked' : 'locked'}">
               ${badge.type === 'manual' ? '<div class="badge-manual">👨‍👩‍👧</div>' : ''}
               <div class="badge-emoji-wrap"><span class="badge-icon">${badge.emoji}</span></div>
-              <div class="badge-name">${badge.name}</div>
+              <div class="badge-content">
+                <div class="badge-name">${badge.name}</div>
+                <div class="badge-desc">${badge.effect || '探索获得的奖励'}</div>
+              </div>
               <div class="badge-status">${unlocked ? '✨ 已获得' : '🔒 未解锁'}</div>
             </div>
           `;
