@@ -1,129 +1,1147 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>世纪公园探索图鉴</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+  <title>🌿 云辰的探索星球</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-deep: #1a3a2a;
+      --green: #2d6a4f;
+      --green-light: #52b788;
+      --green-pale: #b7e4c7;
+      --gold: #e9a820;
+      --gold-light: #ffd166;
+      --orange: #e76f51;
+      --radius: 18px;
+      --gray: #999;
+      --gray-light: #ddd;
+      --gray-pale: #eee;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Noto Sans SC', sans-serif; background: #e8f5e9; color: var(--green-deep); min-height: 100vh; padding-bottom: 85px; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+    .top-bar {
+      background: linear-gradient(160deg, #1a3a2a 0%, #2d6a4f 60%, #40916c 100%);
+      padding: 18px 18px 55px;
+    }
+    .top-bar-row { display: flex; align-items: center; justify-content: space-between; }
+    .top-logo { font-size: 18px; color: white; }
+    .top-date { color: rgba(255,255,255,0.8); font-size: 12px; text-align: right; }
+    .top-date .day { font-weight: 700; font-size: 14px; }
 
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            max-width: 500px;
-            width: 100%;
-        }
+    .top-card {
+      background: #fff; border-radius: var(--radius);
+      margin: -36px 12px 12px; padding: 16px;
+      box-shadow: 0 6px 24px rgba(26,58,42,0.15);
+      transition: transform 0.2s;
+    }
+    .profile-row { display: flex; align-items: center; gap: 12px; }
+    .avatar-wrap { position: relative; }
+    .avatar-ring {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #ffd166, #f4a261);
+      padding: 3px;
+    }
+    .avatar-inner {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+    }
+    .avatar-star {
+      position: absolute; top: -6px; right: -6px;
+      background: var(--orange); color: #fff;
+      font-size: 11px; font-weight: 700;
+      padding: 2px 7px; border-radius: 20px;
+    }
+    .profile-info { flex: 1; }
+    .profile-name { font-size: 20px; font-weight: 900; }
+    .profile-age { font-size: 11px; background: var(--green-pale); color: var(--green); padding: 1px 8px; border-radius: 10px; font-weight: 700; }
+    .profile-level { font-size: 13px; color: var(--green-light); margin-top: 2px; }
+    .lv-tag { display: inline-block; background: var(--gold-light); color: var(--gold); padding: 1px 8px; border-radius: 8px; font-weight: 800; font-size: 11px; margin-right: 4px; }
+    .profile-xp { margin-top: 8px; }
+    .xp-label { font-size: 10px; color: #999; display: flex; justify-content: space-between; }
+    .xp-bar-wrap { background: #e8f5e9; border-radius: 10px; height: 10px; overflow: hidden; }
+    .xp-bar { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--green-light), #95d5b2); transition: width 0.3s ease; }
+    .profile-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 12px; }
+    .pstat { background: #f0f9f4; border-radius: 10px; padding: 8px 4px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .pstat:hover { transform: scale(1.05); background: #e8f5e9; }
+    .pstat:active { transform: scale(0.95); }
+    .pstat-icon { font-size: 18px; }
+    .pstat-num { font-size: 16px; font-weight: 900; }
+    .pstat-label { font-size: 10px; color: #aaa; }
 
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
+    .section-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 16px 8px; }
+    .section-title { font-size: 17px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+    .section-more { font-size: 12px; color: var(--green-light); font-weight: 600; cursor: pointer; padding: 4px 10px; border-radius: 20px; background: var(--green-pale); transition: all 0.2s; }
+    .section-more:hover { background: var(--green-light); color: #fff; }
 
-        h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 10px;
-        }
+    .task-list { padding: 0 12px; }
+    .task-card {
+      background: #fff; border-radius: var(--radius);
+      margin-bottom: 12px; box-shadow: 0 4px 18px rgba(26,58,42,0.1);
+      overflow: hidden;
+    }
+    .task-header { padding: 14px 16px; display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg, var(--green-light), #74c69d); }
+    .task-week-badge { background: rgba(255,255,255,0.3); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+    .task-name { font-size: 16px; font-weight: 900; flex: 1; }
+    .task-body { padding: 12px 16px; }
+    .task-role { font-size: 12px; color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+    .task-steps { list-style: none; }
+    .task-step { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #e8f5e9; }
+    .task-step:last-child { border-bottom: none; }
+    .step-check {
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 2px solid #d0d0d0; flex-shrink: 0; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .step-check:hover { border-color: var(--green-light); }
+    .step-check.done { background: var(--green); border-color: var(--green); animation: checkPop 0.3s ease; }
+    @keyframes checkPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    .check-icon { font-size: 14px; color: #fff; display: none; }
+    .step-check.done .check-icon { display: block; }
+    .step-info h4 { font-size: 14px; font-weight: 700; }
+    .step-time { font-size: 10px; background: #f0f9f4; color: var(--green-light); padding: 1px 6px; border-radius: 6px; margin-left: 6px; }
+    .step-info p { font-size: 12px; color: #888; margin-top: 2px; }
+    .step-reward { margin-top: 4px; }
+    .step-reward span { font-size: 10px; background: #fff8e1; color: var(--gold); padding: 1px 8px; border-radius: 10px; font-weight: 700; }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-        }
+    .checkin-form {
+      background: #fff; border-radius: var(--radius);
+      margin: 0 12px 12px; box-shadow: 0 4px 18px rgba(26,58,42,0.1);
+      overflow: hidden;
+    }
+    .checkin-header {
+      background: linear-gradient(135deg, var(--gold-light), #f4a261);
+      padding: 12px 16px;
+    }
+    .checkin-header h3 { font-size: 15px; font-weight: 900; }
+    .checkin-body { padding: 14px 16px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .form-input {
+      width: 100%; padding: 10px 12px; border-radius: 10px;
+      border: 2px solid #e8f5e9; font-size: 14px;
+      background: #f8faf8; transition: all 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(82,183,136,0.2); }
+    .photo-upload-area {
+      border: 2px dashed var(--green-pale); border-radius: 10px;
+      padding: 20px; text-align: center; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .photo-upload-area:hover { border-color: var(--green-light); background: #f0f9f4; }
+    .pu-icon { font-size: 36px; }
+    .pu-text { font-size: 13px; color: #aaa; margin-top: 6px; }
+    .photo-preview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+    .photo-thumb { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .del-btn {
+      position: absolute; top: 4px; right: 4px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(0,0,0,0.7); color: #fff;
+      font-size: 14px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .del-btn:hover { background: #e76f51; transform: scale(1.1); }
+    .submit-btn {
+      width: 100%; padding: 14px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: #fff; font-size: 15px; font-weight: 800; border: none;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45,106,79,0.3); }
+    .submit-btn:active { transform: translateY(0); }
+    .edit-btn {
+      width: 100%; padding: 10px; border-radius: 10px;
+      background: var(--green-pale); color: var(--green);
+      font-size: 13px; font-weight: 700; border: none;
+      cursor: pointer; margin-top: 8px; transition: all 0.2s;
+    }
+    .edit-btn:hover { background: var(--green-light); color: #fff; }
 
-        .nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .page { display: none; padding-bottom: 80px; animation: pageIn 0.3s ease; }
+    @keyframes pageIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .page.active { display: block; }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+      display: flex; padding: 8px 0;
+      box-shadow: 0 -2px 20px rgba(0,0,0,0.08);
+      padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+    .nav-item { flex: 1; text-align: center; padding: 6px 0; color: #bbb; font-size: 10px; cursor: pointer; transition: all 0.2s; }
+    .nav-item:hover { color: var(--green-light); }
+    .nav-item.active { color: var(--green); }
+    .nav-icon { font-size: 24px; display: block; margin-bottom: 2px; }
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .photo-wall-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 12px; }
+    .photo-wall-item { aspect-ratio: 1; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+    .photo-wall-item:hover { transform: scale(1.02); }
+    .photo-wall-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        .nav-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
+    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 12px; }
+    .badge-card {
+      background: #fff; border-radius: 12px; padding: 16px 12px; text-align: center;
+      box-shadow: 0 3px 14px rgba(26,58,42,0.1); transition: all 0.2s;
+    }
+    .badge-card.locked { opacity: 0.6; filter: grayscale(0.7); }
+    .badge-card.unlocked { animation: badgeUnlock 0.4s ease; }
+    @keyframes badgeUnlock { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    .badge-icon { font-size: 42px; margin-bottom: 6px; display: block; }
+    .badge-name { font-size: 12px; font-weight: 700; }
+    .badge-status { font-size: 10px; padding: 3px 10px; border-radius: 12px; margin-top: 8px; display: inline-block; }
+    .badge-card.locked .badge-status { background: #eee; color: #aaa; }
+    .badge-card.unlocked .badge-status { background: var(--green-pale); color: var(--green); font-weight: 600; }
 
-        .nav-link.secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
+    .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
+    .guide-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 14px rgba(26,58,42,0.1); transition: transform 0.2s; }
+    .guide-card:hover { transform: translateY(-2px); }
+    .guide-pic { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #e8f5e9, #d8f3dc); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+    .guide-body { padding: 10px 12px; }
+    .guide-name { font-size: 14px; font-weight: 800; }
+    .guide-desc { font-size: 11px; color: #aaa; margin-top: 3px; }
 
-        .nav-link.secondary:hover {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+    .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
+    .ach-card { background: #fff; border-radius: 12px; padding: 14px 12px; box-shadow: 0 3px 14px rgba(26,58,42,0.1); display: flex; gap: 10px; transition: all 0.2s; }
+    .ach-card.locked { opacity: 0.6; }
+    .ach-card.unlocked { background: linear-gradient(135deg, #fff8e1, #fff); }
+    .ach-card-icon { font-size: 32px; }
+    .ach-card-body { flex: 1; }
+    .ach-card-title { font-size: 13px; font-weight: 800; }
+    .ach-card-desc { font-size: 11px; color: #aaa; margin-top: 3px; }
+    .ach-progress { margin-top: 6px; height: 4px; background: #eee; border-radius: 2px; overflow: hidden; }
+    .ach-progress-bar { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-light)); border-radius: 2px; transition: width 0.3s ease; }
 
-        .version {
-            margin-top: 30px;
-            color: #999;
-            font-size: 0.85rem;
-        }
+    .history-list { padding: 0 12px; }
+    .history-week {
+      background: #fff; border-radius: var(--radius);
+      margin-bottom: 10px; box-shadow: 0 3px 14px rgba(26,58,42,0.1);
+      overflow: hidden;
+    }
+    .history-week-header { padding: 14px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; background: linear-gradient(135deg, #b7e4c7, #95d5b2); transition: all 0.2s; }
+    .history-week-header:hover { background: linear-gradient(135deg, #95d5b2, #74c69d); }
+    .hw-week { font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 8px; }
+    .hw-name { flex: 1; font-size: 15px; font-weight: 800; }
+    .hw-rate { font-size: 22px; }
+    .history-week-body { padding: 14px 16px; display: none; background: #fafdfc; }
+    .history-week-body.show { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { opacity:0; max-height:0; } to { opacity:1; max-height:1000px; } }
+    .hw-photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+    .hw-photo-item { aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+    .hw-photo-item:hover { transform: scale(1.05); }
+    .hw-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+    .hw-notes { margin-top: 12px; padding: 12px; background: #fff; border-radius: 10px; font-size: 13px; line-height: 1.6; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
+    .hw-species { margin-top: 10px; font-size: 12px; color: var(--green); padding: 8px 12px; background: #f0f9f4; border-radius: 8px; }
 
-        .week-badge {
-            display: inline-block;
-            background: #ffd700;
-            color: #333;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-    </style>
+    .week-nav { display: flex; gap: 8px; padding: 10px 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .week-nav::-webkit-scrollbar { display: none; }
+    .week-tab { padding: 8px 16px; border-radius: 20px; background: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.2s; }
+    .week-tab:hover { transform: translateY(-1px); }
+    .week-tab.active { background: var(--green); color: #fff; box-shadow: 0 4px 12px rgba(45,106,79,0.3); }
+
+    .toast {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(26,58,42,0.95); color: #fff; padding: 14px 28px;
+      border-radius: 16px; font-size: 15px; font-weight: 700;
+      z-index: 999; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      animation: toastIn 0.3s ease;
+    }
+    @keyframes toastIn { from { opacity:0; transform: translate(-50%, -50%) scale(0.8); } to { opacity:1; transform: translate(-50%, -50%) scale(1); } }
+    .toast.show { display: block; }
+    .toast.good { background: linear-gradient(135deg, var(--green), var(--green-light)); }
+    .toast.star { background: linear-gradient(135deg, var(--gold-light), #f4a261); }
+    .sync-indicator { position: fixed; top: 20px; right: 20px; font-size: 18px; display: none; z-index: 100; background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); animation: syncPulse 1s infinite; }
+    @keyframes syncPulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+    .sync-indicator.show { display: flex; align-items: center; gap: 6px; }
+
+    .photo-viewer {
+      position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.92); z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      animation: viewerIn 0.2s ease;
+    }
+    @keyframes viewerIn { from { opacity:0; } to { opacity:1; } }
+    .photo-viewer img { max-width: 92%; max-height: 90%; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); animation: imgPop 0.3s ease; }
+    @keyframes imgPop { from { transform: scale(0.8); } to { transform: scale(1); } }
+
+    .empty-state { text-align: center; padding: 48px 24px; color: #aaa; }
+    .empty-state-icon { font-size: 48px; margin-bottom: 12px; display: block; }
+    .empty-state-text { font-size: 14px; line-height: 1.6; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">🌳</div>
-        <h1>世纪公园探索图鉴</h1>
-        <p class="subtitle">辰辰的48周冒险之旅</p>
-        <div class="week-badge">当前：第2周 · 公园地图</div>
-        
-        <div class="nav-links">
-            <a href="世纪公园/photos/index.html" class="nav-link">
-                <span>📷</span>
-                <span>照片上传</span>
-            </a>
-            <a href="世纪公园/week3-任务卡.md" class="nav-link secondary" target="_blank">
-                <span>📋</span>
-                <span>第3周任务卡</span>
-            </a>
-            <a href="辰辰-世纪公园冒险纪事.md" class="nav-link secondary" target="_blank">
-                <span>📝</span>
-                <span>冒险纪事</span>
-            </a>
-        </div>
+  <div class="sync-indicator" id="syncIndicator">🔄 <span>同步中...</span></div>
 
-        <div class="version">版本：2026-06-01.1</div>
+  <div class="page active" id="page-home">
+    <div class="top-bar">
+      <div class="top-bar-row">
+        <div class="top-logo">🌿</div>
+        <div class="top-date">
+          <div class="day" id="topWeek">第2周</div>
+          <div id="topDate">2026-06-01</div>
+        </div>
+      </div>
     </div>
+
+    <div class="top-card">
+      <div class="profile-row">
+        <div class="avatar-wrap">
+          <div class="avatar-ring"><div class="avatar-inner">🧒</div></div>
+          <div class="avatar-star" id="starBadge">⭐0</div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-name" id="profileName">云辰 <span class="profile-age" id="profileAge">9岁</span></div>
+          <div class="profile-level"><span class="lv-tag" id="levelTag">Lv.1</span> <span id="levelName">冒险新手</span></div>
+          <div class="profile-xp">
+            <div class="xp-label"><span>⭐ 升级进度</span><span id="xpText">0/10</span></div>
+            <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar" style="width:0%;"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="pstat" onclick="switchTab('history')"><div class="pstat-icon">🗺️</div><div class="pstat-num" id="statWeek">0</div><div class="pstat-label">探索周数</div></div>
+        <div class="pstat" onclick="switchTab('badges')"><div class="pstat-icon">🏅</div><div class="pstat-num" id="statBadge">0</div><div class="pstat-label">道馆徽章</div></div>
+        <div class="pstat" onclick="switchTab('guide')"><div class="pstat-icon">📖</div><div class="pstat-num" id="statGuide">0</div><div class="pstat-label">图鉴物种</div></div>
+        <div class="pstat" onclick="switchTab('photos')"><div class="pstat-icon">📸</div><div class="pstat-num" id="statPhotos">0</div><div class="pstat-label">探索照片</div></div>
+        <div class="pstat" onclick="switchTab('achieve')"><div class="pstat-icon">🎯</div><div class="pstat-num" id="statAchieve">0</div><div class="pstat-label">成就数</div></div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title"><span>🗺️</span>本周任务</div>
+      <div class="section-more" onclick="switchTab('history')">查看历史 ›</div>
+    </div>
+
+    <div class="task-list" id="taskList"></div>
+
+    <div class="section-header"><div class="section-title"><span>📝</span>今日打卡</div></div>
+    <div class="checkin-form">
+      <div class="checkin-header">
+        <h3>📸 打卡 · 第<span id="checkinWeek">2</span>周</h3>
+      </div>
+      <div class="checkin-body">
+        <div class="form-group">
+          <div class="form-label">📷 上传照片（最多9张）</div>
+          <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
+            <div class="pu-icon">📸</div>
+            <div class="pu-text">点击上传照片</div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
+          <div class="photo-preview-grid" id="photoPreview"></div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">🔍 发现了什么物种？</div>
+          <input type="text" class="form-input" id="speciesFound" placeholder="例如：蝴蝶、蒲公英">
+        </div>
+        <div class="form-group">
+          <div class="form-label">📝 探索记录</div>
+          <textarea class="form-input" id="exploreNotes" placeholder="今天探索了什么？" rows="3"></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitCheckin()">🎉 完成打卡</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-photos">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">📸 探索相册</div>
+      <div style="font-size:13px;color:#aaa;">已记录 <span id="photoCount">0</span> 个精彩瞬间</div>
+    </div>
+    <div class="week-nav" id="photoWeekNav"></div>
+    <div class="photo-wall-grid" id="photoWallGrid"></div>
+  </div>
+
+  <div class="page" id="page-badges">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">🏅 徽章墙</div>
+      <div style="font-size:13px;color:#aaa;">已获得 <span id="badgeCount">0</span>/7 道馆徽章</div>
+    </div>
+    <div class="badge-grid" id="badgeGrid"></div>
+  </div>
+
+  <div class="page" id="page-guide">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">📖 图鉴</div>
+      <div style="font-size:13px;color:#aaa;">已收录 <span id="guideCount">0</span>/50 种</div>
+    </div>
+    <div class="guide-grid" id="guideGrid"></div>
+  </div>
+
+  <div class="page" id="page-achieve">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">🎯 成就墙</div>
+      <div style="font-size:13px;color:#aaa;">已解锁 <span id="achieveCount">0</span>/6 个成就</div>
+    </div>
+    <div class="ach-grid" id="achieveGrid"></div>
+  </div>
+
+  <div class="page" id="page-history">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">📜 探险日志</div>
+      <div style="font-size:13px;color:#aaa;">已完成 <span id="histCount">0</span>/48 周</div>
+    </div>
+    <div class="week-nav" id="historyWeekNav"></div>
+    <div class="history-list" id="historyList"></div>
+    <div style="padding:12px;">
+      <button class="submit-btn" onclick="addNewWeek()">➕ 添加新周任务</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home')"><span class="nav-icon">🏠</span>首页</div>
+    <div class="nav-item" onclick="switchTab('history')"><span class="nav-icon">📜</span>历史</div>
+    <div class="nav-item" onclick="switchTab('badges')"><span class="nav-icon">🏅</span>徽章</div>
+    <div class="nav-item" onclick="switchTab('guide')"><span class="nav-icon">📖</span>图鉴</div>
+    <div class="nav-item" onclick="switchTab('photos')"><span class="nav-icon">📸</span>照片</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const API_BASE = './data.json';
+    const tasksConfig = {
+      1: { name: '小小探索家', role: '🎭 角色：小小探索家', steps: [
+        { id: 'step1', title: '准备出发', time: '10分钟', desc: '带上小本子和笔，准备记录发现', reward: '⭐1' },
+        { id: 'step2', title: '公园探索', time: '45分钟', desc: '在公园里走走看看，注意观察周围', reward: '⭐2' },
+        { id: 'step3', title: '记录发现', time: '回家后', desc: '把看到的东西画下来或写下来', reward: '⭐2' }
+      ]},
+      2: { name: '公园导航指南', role: '🎭 角色：小小制图师', steps: [
+        { id: 'step1', title: '出发前准备', time: '10分钟', desc: '画地图底稿：大圆圈代表公园，底部写「大门」', reward: '⭐1' },
+        { id: 'step2', title: '边走边记', time: '45分钟', desc: '记录方向、地点、重要特征', reward: '⭐1' },
+        { id: 'step3', title: '画正式地图', time: '回家后', desc: '把关键词整理成完整地图', reward: '⭐2' },
+        { id: 'step4', title: '讲解导航', time: '选做', desc: '用自己画的地图给妈妈指路', reward: '⭐1-3' }
+      ]}
+    };
+
+    let state = {
+      name: '云辰', age: 9, stars: 0, level: 1, xp: 0, xpMax: 10, week: 2,
+      photos: [], guide: [], achievements: [], taskHistory: {}, gymBadges: [], completedSteps: {}
+    };
+    let tempPhotos = [];
+    let currentFilterWeek = null;
+    let lastPhotoId = 0;
+
+    async function loadData() {
+      showSync(true);
+      try {
+        const response = await fetch(API_BASE + '?t=' + Date.now());
+        if (response.ok) {
+          const data = await response.json();
+          state = { ...state, ...data };
+          localStorage.setItem('yunchen_data', JSON.stringify(state));
+          console.log('数据加载成功:', state);
+          updateUI();
+          showToast('✅ 已同步云端数据', 'good');
+        } else {
+          throw new Error('网络错误');
+        }
+      } catch(e) {
+        console.log('加载云端失败，尝试本地:', e);
+        const saved = localStorage.getItem('yunchen_data');
+        if (saved) {
+          try {
+            const savedData = JSON.parse(saved);
+            if (savedData.version !== '2026-06-01.4') {
+              localStorage.removeItem('yunchen_data');
+              initDefaultData();
+              showToast('检测到旧数据，已重置', 'star');
+            } else {
+              state = { ...state, ...savedData };
+              showToast('使用本地缓存数据', 'star');
+            }
+          } catch {
+            localStorage.removeItem('yunchen_data');
+            initDefaultData();
+            showToast('数据格式错误，已重置', 'star');
+          }
+        } else {
+          initDefaultData();
+          showToast('开始新的探索！', 'good');
+        }
+      }
+      showSync(false);
+    }
+
+    function initDefaultData() {
+      state.achievements = [
+        { id: 'a1', name: '第一步', emoji: '🏃', desc: '完成第一次探索', done: false, progress: 0, total: 1 },
+        { id: 'a2', name: '星星收集者', emoji: '⭐', desc: '获得5颗星星', done: false, progress: 0, total: 5 },
+        { id: 'a3', name: '小自然家', emoji: '🌿', desc: '发现5种物种', done: false, progress: 0, total: 5 },
+        { id: 'a4', name: '制图师', emoji: '🗺️', desc: '完成地图任务', done: false, progress: 0, total: 1 },
+        { id: 'a5', name: '在家探险家', emoji: '🏡', desc: '完成在家探索', done: false, progress: 0, total: 1 },
+        { id: 'a6', name: '坚持到底', emoji: '💪', desc: '连续探索4周', done: false, progress: 0, total: 4 }
+      ];
+      state.gymBadges = [false,false,false,false,false,false,false];
+    }
+
+    function saveData() {
+      state.lastUpdate = new Date().toISOString();
+      localStorage.setItem('yunchen_data', JSON.stringify(state));
+      console.log('数据已保存');
+    }
+
+    function showSync(show) {
+      document.getElementById('syncIndicator').classList.toggle('show', show);
+    }
+
+    async function compressImage(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let w = img.width, h = img.height;
+            const maxDim = 800;
+            if (w > maxDim || h > maxDim) {
+              if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+              else { w = Math.round(w * maxDim / h); h = maxDim; }
+            }
+            canvas.width = w; canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.75));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handlePhotoUpload(event) {
+      const files = Array.from(event.target.files).slice(0, 9 - tempPhotos.length);
+      const preview = document.getElementById('photoPreview');
+      
+      for (const file of files) {
+        const compressed = await compressImage(file);
+        tempPhotos.push(compressed);
+        
+        const div = document.createElement('div');
+        div.className = 'photo-thumb';
+        div.innerHTML = `<img src="${compressed}" alt=""><div class="del-btn" onclick="removeTempPhoto(${tempPhotos.length-1}, this)">×</div>`;
+        preview.appendChild(div);
+      }
+      event.target.value = '';
+    }
+
+    function removeTempPhoto(index, el) {
+      tempPhotos.splice(index, 1);
+      el.parentElement.remove();
+      updatePreviewIndices();
+    }
+
+    function updatePreviewIndices() {
+      const items = document.querySelectorAll('#photoPreview .photo-thumb');
+      items.forEach((item, i) => {
+        const btn = item.querySelector('.del-btn');
+        btn.onclick = () => removeTempPhoto(i, item);
+      });
+    }
+
+    async function submitCheckin() {
+      const speciesInput = document.getElementById('speciesFound').value.trim();
+      const notesInput = document.getElementById('exploreNotes').value.trim();
+      let starsEarned = 2;
+
+      if (tempPhotos.length > 0) {
+        tempPhotos.forEach((data, i) => {
+          state.photos.push({
+            id: ++lastPhotoId,
+            data: data,
+            date: new Date().toLocaleDateString(),
+            week: state.week
+          });
+        });
+        starsEarned += tempPhotos.length;
+        tempPhotos = [];
+        document.getElementById('photoPreview').innerHTML = '';
+      }
+
+      if (speciesInput) {
+        speciesInput.split(/[,，、]/).forEach(name => {
+          const trimmed = name.trim();
+          if (trimmed && !state.guide.find(g => g.name === trimmed)) {
+            state.guide.push({ id: 'g' + Date.now() + Math.random(), name: trimmed, emoji: getSpeciesEmoji(trimmed), level: 1, times: 1 });
+          }
+        });
+        starsEarned += speciesInput.split(/[,，、]/).filter(s => s.trim()).length;
+      }
+
+      state.taskHistory[state.week] = {
+        name: tasksConfig[state.week]?.name || `第${state.week}周任务`,
+        week: state.week,
+        complete: true,
+        stars: state.stars + starsEarned,
+        notes: notesInput || state.taskHistory[state.week]?.notes || '',
+        species: speciesInput || state.taskHistory[state.week]?.species || ''
+      };
+
+      state.stars += starsEarned;
+      state.xp = state.stars;
+
+      if (state.stars >= state.xpMax) {
+        state.level++;
+        state.xpMax = Math.round(state.xpMax * 1.5);
+        showToast('🎉 升级到 Lv.' + state.level + '!', 'star');
+      } else {
+        showToast('✅ 打卡成功！获得 ' + starsEarned + ' 颗星星', 'good');
+      }
+
+      updateAchievements(); checkAllBadges();
+      document.getElementById('speciesFound').value = '';
+      document.getElementById('exploreNotes').value = '';
+      updateUI();
+      saveData();
+    }
+
+    function getSpeciesEmoji(name) {
+      const map = {'蝴蝶':'🦋','蜜蜂':'🐝','蚂蚁':'🐜','蜻蜓':'🌈','瓢虫':'🐞','鸟':'🐦','鸭子':'🦆','蒲公英':'🌼','花':'🌸','树':'🌳','草':'🌿','叶子':'🍃','湖':'🌊','云':'☁️'};
+      for (const [k,v] of Object.entries(map)) { if (name.includes(k)) return v; }
+      return '🔍';
+    }
+
+    function updateAchievements() {
+      if (!state.achievements) state.achievements = [];
+      
+      const achMap = {};
+      state.achievements.forEach(a => achMap[a.id] = a);
+      
+      const defaultAch = [
+        { id: 'a1', name: '第一步', emoji: '🏃', desc: '完成第一次探索', total: 1 },
+        { id: 'a2', name: '星星收集者', emoji: '⭐', desc: '获得5颗星星', total: 5 },
+        { id: 'a3', name: '小自然家', emoji: '🌿', desc: '发现5种物种', total: 5 },
+        { id: 'a4', name: '制图师', emoji: '🗺️', desc: '完成地图任务', total: 1 },
+        { id: 'a5', name: '在家探险家', emoji: '🏡', desc: '完成在家探索', total: 1 },
+        { id: 'a6', name: '坚持到底', emoji: '💪', desc: '连续探索4周', total: 4 }
+      ];
+
+      state.achievements = defaultAch.map(a => {
+        const existing = achMap[a.id];
+        let progress = 0;
+        
+        switch(a.id) {
+          case 'a1': progress = Object.values(state.taskHistory).filter(t => t.complete).length >=1 ? 1 :0; break;
+          case 'a2': progress = Math.min(state.stars, a.total); break;
+          case 'a3': progress = Math.min(state.guide.length, a.total); break;
+          case 'a4': progress = state.taskHistory[2]?.complete ? 1 :0; break;
+          case 'a5': progress = 0; break;
+          case 'a6': 
+            const weeks = Object.keys(state.taskHistory).map(Number).sort((a,b)=>a-b);
+            let streak = 0;
+            for (let i=1; i<=4; i++) { if (state.taskHistory[i]?.complete) streak++; else break; }
+            progress = Math.min(streak, a.total);
+            break;
+        }
+        
+        return {
+          ...a,
+          progress: progress,
+          done: existing?.done || progress >= a.total
+        };
+      });
+    }
+
+    function updateUI() {
+      (document.getElementById('starBadge') || {textContent: ''}).textContent = '⭐' + state.stars;
+      (document.getElementById('levelTag') || {textContent: ''}).textContent = 'Lv.' + state.level;
+      (document.getElementById('levelName') || {textContent: ''}).textContent = ['冒险新手', '小探险家', '自然观察员', '植物学家', '昆虫侦探', '生态专家'][Math.min(state.level-1, 5)];
+      (document.getElementById('xpText') || {textContent: ''}).textContent = state.xp + '/' + state.xpMax;
+      (document.getElementById('xpBar') || {style: {}}).style.width = Math.min(100, (state.xp / state.xpMax) * 100) + '%';
+      (document.getElementById('profileName') || {textContent: ''}).textContent = state.name;
+      (document.getElementById('profileAge') || {textContent: ''}).textContent = state.age + '岁';
+      
+      (document.getElementById('topWeek') || {textContent: ''}).textContent = '第' + state.week + '周';
+      (document.getElementById('topDate') || {textContent: ''}).textContent = new Date().toLocaleDateString();
+      (document.getElementById('checkinWeek') || {textContent: ''}).textContent = state.week;
+
+      const completedWeeks = Object.values(state.taskHistory).filter(t => t.complete).length;
+      (document.getElementById('statWeek') || {textContent: ''}).textContent = completedWeeks;
+      (document.getElementById('statGuide') || {textContent: ''}).textContent = state.guide.length;
+      (document.getElementById('statPhotos') || {textContent: ''}).textContent = state.photos.length;
+      (document.getElementById('statBadge') || {textContent: ''}).textContent = (state.gymBadges || []).filter(b=>b).length;
+      (document.getElementById('statAchieve') || {textContent: ''}).textContent = (state.achievements || []).filter(a=>a.done).length;
+
+      (document.getElementById('photoCount') || {textContent: ''}).textContent = state.photos.length;
+      (document.getElementById('guideCount') || {textContent: ''}).textContent = state.guide.length;
+      (document.getElementById('badgeCount') || {textContent: ''}).textContent = (state.gymBadges || []).filter(b=>b).length;
+      (document.getElementById('achieveCount') || {textContent: ''}).textContent = (state.achievements || []).filter(a=>a.done).length;
+      (document.getElementById('histCount') || {textContent: ''}).textContent = completedWeeks;
+
+      renderTasks();
+      renderPhotos();
+      renderGuide();
+      renderBadges();
+      renderAchievements();
+      renderHistory();
+      renderWeekNavs();
+    }
+
+    function renderTasks() {
+      const container = document.getElementById('taskList');
+      const task = tasksConfig[state.week];
+      if (!task) {
+        container.innerHTML = `<div class="task-card"><div class="task-header"><div class="task-week-badge">第${state.week}周</div><div class="task-name">新任务</div></div><div class="task-body">暂无预设任务，完成打卡即可！</div></div>`;
+        return;
+      }
+
+      const completed = state.completedSteps?.[state.week] || [];
+      
+      container.innerHTML = `
+        <div class="task-card">
+          <div class="task-header">
+            <div class="task-week-badge">第${state.week}周</div>
+            <div class="task-name">${task.name}</div>
+          </div>
+          <div class="task-body">
+            <div class="task-role">${task.role}</div>
+            <ul class="task-steps">
+              ${task.steps.map((s, i) => `
+                <li class="task-step">
+                  <div class="step-check ${completed.includes(s.id)?'done':''}" onclick="toggleStep('${s.id}', this)">
+                    <span class="check-icon">✓</span>
+                  </div>
+                  <div class="step-info">
+                    <h4>${s.title} <span class="step-time">${s.time}</span></h4>
+                    <p>${s.desc}</p>
+                    <div class="step-reward"><span>${s.reward}</span></div>
+                  </div>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWeekNavs() {
+      const weeks = [...new Set([state.week, ...Object.keys(state.taskHistory).map(Number)])].sort((a,b)=>b-a);
+      
+      const photoNav = document.getElementById('photoWeekNav');
+      photoNav.innerHTML = `<div class="week-tab ${currentFilterWeek === null ? 'active' : ''}" onclick="filterPhotos(null)">全部</div>` + 
+        weeks.map(w => `<div class="week-tab ${currentFilterWeek === w ? 'active' : ''}" onclick="filterPhotos(${w})">第${w}周</div>`).join('');
+
+      const histNav = document.getElementById('historyWeekNav');
+      if (weeks.length > 1) {
+        histNav.innerHTML = weeks.map(w => `<div class="week-tab" onclick="toggleWeek(${w})">第${w}周</div>`).join('');
+      } else {
+        histNav.innerHTML = '';
+      }
+    }
+
+    function filterPhotos(week) {
+      currentFilterWeek = week;
+      renderPhotos();
+      renderWeekNavs();
+    }
+
+    function renderPhotos() {
+      const grid = document.getElementById('photoWallGrid');
+      let filteredPhotos = state.photos;
+      if (currentFilterWeek !== null) {
+        filteredPhotos = state.photos.filter(p => p.week === currentFilterWeek);
+      }
+      
+      if (filteredPhotos.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><span class="empty-state-icon">📷</span><div class="empty-state-text">还没有照片<br>完成打卡上传照片吧！</div></div>`;
+        return;
+      }
+      grid.innerHTML = filteredPhotos.map(p => `<div class="photo-wall-item" onclick="viewPhoto('${p.data}')"><img src="${p.data}" alt="第${p.week}周照片"></div>`).join('');
+    }
+
+    function viewPhoto(src) {
+      const viewer = document.createElement('div');
+      viewer.className = 'photo-viewer';
+      viewer.innerHTML = `<img src="${src}" alt="照片">`;
+      viewer.onclick = () => viewer.remove();
+      document.body.appendChild(viewer);
+    }
+
+    function renderGuide() {
+      const grid = document.getElementById('guideGrid');
+      if (state.guide.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><span class="empty-state-icon">🔍</span><div class="empty-state-text">图鉴空空如也<br>去公园探索就会开始收录！</div></div>`;
+        return;
+      }
+      grid.innerHTML = state.guide.map(g => `
+        <div class="guide-card">
+          <div class="guide-pic">${g.emoji}</div>
+          <div class="guide-body">
+            <div class="guide-name">${g.name}</div>
+            <div class="guide-desc">Lv.${g.level || 1}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const BADGE_SYSTEM = [
+      {
+        id: 0, name: '冒险启程', emoji: '🌱', season: 'summer',
+        condition: '完成第1周探索',
+        effect: '解锁基础图鉴，可记录植物和昆虫',
+        type: 'auto'
+      },
+      {
+        id: 1, name: '公园通', emoji: '🗺️', season: 'summer',
+        condition: '探索5个不同区域',
+        effect: '解锁地图功能，可查看探索路线',
+        type: 'auto'
+      },
+      {
+        id: 2, name: '小摄影师', emoji: '📷', season: 'summer',
+        condition: '拍摄50张照片',
+        effect: '解锁高级拍照功能，照片质量提升',
+        type: 'auto'
+      },
+      {
+        id: 3, name: '虫虫猎人', emoji: '🐛', season: 'summer',
+        condition: '发现5种昆虫',
+        effect: '解锁昆虫图鉴，可进化昆虫物种',
+        type: 'auto'
+      },
+      {
+        id: 4, name: '变色猎人', emoji: '🍂', season: 'autumn',
+        condition: '发现5种落叶植物',
+        effect: '解锁秋季植物图鉴',
+        type: 'auto'
+      },
+      {
+        id: 5, name: '鸟语达人', emoji: '🐦', season: 'autumn',
+        condition: '发现5种鸟类',
+        effect: '解锁鸟类图鉴',
+        type: 'auto'
+      },
+      {
+        id: 6, name: '自然侦探', emoji: '🔍', season: 'autumn',
+        condition: '连续4周全任务完成',
+        effect: '解锁高级探索功能，可挑战隐藏任务',
+        type: 'manual'
+      },
+      {
+        id: 7, name: '自然艺术家', emoji: '🎨', season: 'autumn',
+        condition: '完成10幅写生画',
+        effect: '解锁艺术创作模式',
+        type: 'manual'
+      },
+      {
+        id: 8, name: '冰雪勇士', emoji: '❄️', season: 'winter',
+        condition: '冬季探索4次',
+        effect: '解锁冬季探索模式',
+        type: 'auto'
+      },
+      {
+        id: 9, name: '小科学家', emoji: '🔬', season: 'winter',
+        condition: '完成10次测量记录',
+        effect: '解锁科学探索模式，数据可视化',
+        type: 'manual'
+      },
+      {
+        id: 10, name: '脚印专家', emoji: '🐾', season: 'winter',
+        condition: '发现5种动物脚印',
+        effect: '解锁足迹追踪功能',
+        type: 'auto'
+      },
+      {
+        id: 11, name: '观察日记', emoji: '📓', season: 'winter',
+        condition: '写20页观察日记',
+        effect: '解锁高级日记模式',
+        type: 'manual'
+      },
+      {
+        id: 12, name: '冒险家毕业', emoji: '🎓', season: 'spring',
+        condition: '完成48周探索',
+        effect: '解锁所有功能，成为公园大师',
+        type: 'manual'
+      },
+      {
+        id: 13, name: '公园大师', emoji: '🌍', season: 'spring',
+        condition: '发现40种图鉴物种',
+        effect: '解锁终极图鉴模式',
+        type: 'auto'
+      },
+      {
+        id: 14, name: '四季达人', emoji: '👑', season: 'spring',
+        condition: '四季都有完整探索记录',
+        effect: '解锁四季对比功能',
+        type: 'manual'
+      },
+      {
+        id: 15, name: '小老师', emoji: '🎤', season: 'spring',
+        condition: '给爸妈讲解5分钟',
+        effect: '解锁分享模式',
+        type: 'manual'
+      }
+    ];
+
+    const GUIDE_EVOLUTIONS = {
+      '蝴蝶': {
+        stages: [
+          { name: '毛毛虫', emoji: '🐛', level: 1, badgeRequired: null },
+          { name: '蝴蝶', emoji: '🦋', level: 2, badgeRequired: 3 },
+          { name: '凤蝶', emoji: '🦋✨', level: 3, badgeRequired: 3 }
+        ]
+      },
+      '蒲公英': {
+        stages: [
+          { name: '小苗', emoji: '🌱', level: 1, badgeRequired: null },
+          { name: '蒲公英', emoji: '🌼', level: 2, badgeRequired: 0 },
+          { name: '蒲公英王', emoji: '🌟', level: 3, badgeRequired: 1 }
+        ]
+      }
+    };
+
+    function checkBadgeUnlock(badgeId) {
+      const badges = state.gymBadges || [];
+      if (badgeId === 0) { return state.taskHistory[1]?.complete; }
+      if (badgeId === 1) { return Object.values(state.taskHistory).filter(t => t.complete).length >= 5; }
+      if (badgeId === 2) { return state.photos.length >= 50; }
+      if (badgeId === 3) { 
+        const insectCount = state.guide.filter(g => 
+          ['蝴蝶','蜜蜂','蚂蚁','蜻蜓','瓢虫','螳螂','蜗牛','青蛙','蜘蛛'].includes(g.name)
+        ).length;
+        return insectCount >= 5;
+      }
+      if (badgeId === 4) {
+        if (state.week < 13) return false;
+        return state.guide.filter(g => 
+          ['银杏','枫树','梧桐','柳树','杨树','槐树'].includes(g.name)
+        ).length >= 5;
+      }
+      if (badgeId === 5) {
+        if (state.week < 18) return false;
+        return state.guide.filter(g => g.name.includes('鸟')).length >= 5;
+      }
+      if (badgeId === 6) {
+        const weeks = Object.keys(state.taskHistory).map(Number).sort((a,b) => a-b);
+        let consecutive = 0;
+        for (let i = weeks.length - 1; i >= 0; i--) {
+          if (state.taskHistory[weeks[i]]?.complete) { consecutive++; }
+          else { break; }
+          if (consecutive >= 4) return true;
+        }
+        return false;
+      }
+      if (badgeId === 7) {
+        return state.taskHistory[8]?.complete || state.photos.filter(p => 
+          p.notes?.includes('画') || p.notes?.includes('写生')
+        ).length >= 10;
+      }
+      if (badgeId === 8) { return state.week >= 25; }
+      if (badgeId === 9) {
+        return state.guide.filter(g => g.times >= 3).length >= 5;
+      }
+      if (badgeId === 10) {
+        const winterPhotos = state.photos.filter(p => p.week >= 25 && p.week <= 36);
+        return winterPhotos.length >= 3;
+      }
+      if (badgeId === 11) { return state.week >= 36; }
+      if (badgeId === 12) { return state.week >= 48; }
+      if (badgeId === 13) { return state.guide.length >= 40; }
+      if (badgeId === 14) {
+        return state.taskHistory[1] && state.taskHistory[13] && 
+               state.taskHistory[25] && state.taskHistory[37];
+      }
+      if (badgeId === 15) { return state.level >= 6; }
+      return false;
+    }
+
+    function checkAllBadges() {
+      let updated = false;
+      if (!state.gymBadges) state.gymBadges = new Array(16).fill(false);
+      for (let i = 0; i < 16; i++) {
+        if (!state.gymBadges[i] && checkBadgeUnlock(i)) {
+          state.gymBadges[i] = true;
+          setTimeout(() => {
+            const badge = BADGE_SYSTEM[i];
+            showToast(`🎖️ 获得新徽章！「${badge.emoji} ${badge.name}」`, 'star');
+          }, 500);
+          updated = true;
+        }
+      }
+      return updated;
+    }
+
+    function renderBadges() {
+      const badges = state.gymBadges || new Array(16).fill(false);
+      const seasons = ['summer','autumn','winter','spring'];
+      const seasonColors = { summer: '#52b788', autumn: '#f4a261', winter: '#74c69d', spring: '#e9a820' };
+      const seasonLabels = { summer: '☀️ 夏季', autumn: '🍂 秋季', winter: '❄️ 冬季', spring: '🌸 春季' };
+      
+      let html = '';
+      
+      seasons.forEach(season => {
+        const seasonBadges = BADGE_SYSTEM.filter(b => b.season === season);
+        const seasonUnlocked = seasonBadges.filter(b => badges[b.id]).length;
+        
+        html += `
+          <div style="padding:12px 12px 4px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:18px;">${seasonLabels[season].split(' ')[0]}</span>
+              <span style="font-size:14px;font-weight:700;color:${seasonColors[season]};">${seasonLabels[season].split(' ')[1]}</span>
+              <span style="font-size:12px;color:#aaa;">${seasonUnlocked}/${seasonBadges.length}</span>
+            </div>
+          </div>
+          <div class="badge-grid" style="padding:0 12px;">
+        `;
+        
+        seasonBadges.forEach(badge => {
+          const unlocked = badges[badge.id];
+          html += `
+            <div class="badge-card ${unlocked ? 'unlocked' : 'locked'}">
+              ${badge.type === 'manual' ? '<div style="position:absolute;top:4px;right:4px;font-size:10px;background:#ffd700;color:#fff;padding:2px 4px;border-radius:6px;">👨‍👩‍👧</div>' : ''}
+              <span class="badge-icon">${badge.emoji}</span>
+              <div class="badge-name">${badge.name}</div>
+              <div style="font-size:10px;color:#888;margin-top:4px;line-height:1.3;">${badge.condition}</div>
+              <div class="badge-status">${unlocked ? '✨ 已获得' : '🔒 未解锁'}</div>
+              ${unlocked ? `<div style="font-size:9px;color:var(--green);margin-top:6px;background:var(--green-pale);padding:4px 6px;border-radius:8px;">🎁 ${badge.effect}</div>` : ''}
+            </div>
+          `;
+        });
+        
+        html += '</div>';
+      });
+      
+      document.getElementById('badgeGrid').innerHTML = html;
+      document.getElementById('badgeCount').textContent = badges.filter(b=>b).length;
+    }
+
+    function renderAchievements() {
+      if (!state.achievements) updateAchievements(); checkAllBadges();
+      
+      document.getElementById('achieveGrid').innerHTML = state.achievements.map(a => {
+        const percent = Math.min(100, (a.progress / a.total) * 100);
+        return `
+          <div class="ach-card ${a.done ? 'unlocked' : 'locked'}">
+            <div class="ach-card-icon">${a.emoji}</div>
+            <div class="ach-card-body">
+              <div class="ach-card-title">${a.name}</div>
+              <div class="ach-card-desc">${a.desc}</div>
+              <div style="font-size:10px;color:${a.done?'var(--green)':'#aaa'};margin-top:6px;">${a.progress}/${a.total} ${a.done?'✅':'⏳'}</div>
+              ${!a.done ? `<div class="ach-progress"><div class="ach-progress-bar" style="width:${percent}%;"></div></div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('historyList');
+      const weeks = Object.keys(state.taskHistory).map(Number).sort((a,b)=>b-a);
+      
+      if (weeks.length === 0) {
+        container.innerHTML = `<div class="empty-state" style="background:#fff; border-radius:18px; margin:0 12px; box-shadow:0 3px 14px rgba(26,58,42,0.1);"><span class="empty-state-icon">📝</span><div class="empty-state-text">还没有历史记录<br>完成打卡后就会出现啦！</div></div>`;
+        return;
+      }
+      
+      container.innerHTML = weeks.map(w => {
+        const task = state.taskHistory[w];
+        const weekPhotos = state.photos.filter(p => p.week === w);
+        const isComplete = task.complete;
+        return `
+          <div class="history-week">
+            <div class="history-week-header" onclick="toggleWeek(${w})">
+              <div class="hw-week">第${w}周</div>
+              <div class="hw-name">${task.name}</div>
+              <div class="hw-rate">${isComplete ? '✅' : '⏳'}</div>
+            </div>
+            <div class="history-week-body" id="weekBody${w}">
+              ${weekPhotos.length > 0 ? `
+                <div style="font-size:12px;font-weight:700;color:#666;margin-bottom:6px;">📷 探索照片</div>
+                <div class="hw-photos">
+                  ${weekPhotos.map(p => `<div class="hw-photo-item"><img src="${p.data}" onclick="viewPhoto('${p.data}')"></div>`).join('')}
+                </div>
+              ` : ''}
+              ${task.species ? `<div class="hw-species">🔍 发现物种：${task.species}</div>` : ''}
+              ${task.notes ? `<div class="hw-notes">📝 ${task.notes}</div>` : `<div class="hw-notes" style="color:#aaa;text-align:center;">暂无记录</div>`}
+              <button class="edit-btn" onclick="editWeek(${w})">✏️ 编辑此周</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleWeek(week) {
+      const body = document.getElementById(`weekBody${week}`);
+      if (body) {
+        body.classList.toggle('show');
+      }
+    }
+
+    function editWeek(week) {
+      const task = state.taskHistory[week];
+      const notes = prompt('编辑探索记录：', task?.notes || '');
+      if (notes !== null) {
+        if (!state.taskHistory[week]) {
+          state.taskHistory[week] = { week, name: `第${week}周任务`, complete: false };
+        }
+        state.taskHistory[week].notes = notes;
+        state.taskHistory[week].complete = true;
+        updateUI();
+        saveData();
+        showToast('✅ 已更新', 'good');
+      }
+    }
+
+    function addNewWeek() {
+      const newWeek = Math.max(state.week, ...Object.keys(state.taskHistory).map(Number)) + 1;
+      const name = prompt('输入新周任务名称：', `第${newWeek}周任务`);
+      if (name) {
+        state.taskHistory[newWeek] = {
+          week: newWeek,
+          name: name,
+          complete: false,
+          stars: state.stars,
+          notes: '',
+          species: ''
+        };
+        updateUI();
+        saveData();
+        showToast(`✅ 已添加第${newWeek}周`, 'good');
+      }
+    }
+
+    function toggleStep(stepId, el) {
+      if (!state.completedSteps) state.completedSteps = {};
+      if (!state.completedSteps[state.week]) state.completedSteps[state.week] = [];
+      
+      const idx = state.completedSteps[state.week].indexOf(stepId);
+      if (idx > -1) {
+        state.completedSteps[state.week].splice(idx, 1);
+        el.classList.remove('done');
+        state.stars = Math.max(0, state.stars - 1);
+        state.xp = state.stars;
+      } else {
+        state.completedSteps[state.week].push(stepId);
+        el.classList.add('done');
+        state.stars++;
+        state.xp++;
+        showToast('⭐ +1', 'star');
+      }
+      updateUI();
+      saveData();
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelector(`.nav-item[onclick="switchTab('${name}')"]`)?.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast ' + type + ' show';
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    loadData();
+  </script>
 </body>
 </html>
