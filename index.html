@@ -678,6 +678,228 @@
       padding: 14px; font-weight: 700;
       cursor: pointer; margin-top: 16px;
     }
+
+    .evolution-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9); z-index: 2500;
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .evolution-modal.hide { display: none; }
+    
+    .evolution-content {
+      text-align: center; padding: 40px;
+      animation: evolutionStart 0.5s ease;
+    }
+    @keyframes evolutionStart {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .evolution-emoji-big {
+      font-size: 120px;
+      animation: evolutionTransform 2s ease-in-out;
+    }
+    @keyframes evolutionTransform {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.3); filter: brightness(1.5); }
+      50% { transform: scale(0.8) rotate(180deg); opacity: 0.5; }
+      75% { transform: scale(1.2); filter: brightness(2); }
+      100% { transform: scale(1); }
+    }
+    
+    .evolution-text {
+      font-size: 24px; font-weight: 900; color: var(--gold);
+      margin-top: 20px;
+      animation: textReveal 1.5s ease;
+    }
+    @keyframes textReveal {
+      0%, 50% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .evolution-stars {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+    .evo-star {
+      position: absolute; font-size: 32px;
+      animation: starFloat 2s ease-out forwards;
+    }
+    @keyframes starFloat {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-200px) scale(0); }
+    }
+
+    .title-upgrade-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.9); z-index: 2500;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .title-upgrade-modal.hide { display: none; }
+    
+    .title-upgrade-content {
+      text-align: center; padding: 40px;
+      animation: titlePopup 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes titlePopup {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .title-crown {
+      font-size: 80px; margin-bottom: 20px;
+      animation: crownBounce 1s ease infinite;
+    }
+    @keyframes crownBounce {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    .title-text {
+      font-size: 28px; font-weight: 900; color: var(--gold);
+      margin-bottom: 10px;
+    }
+    
+    .title-desc {
+      font-size: 16px; color: #fff;
+      opacity: 0.8;
+    }
+
+    .daily-checkin-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7); z-index: 1500;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .daily-checkin-modal.hide { display: none; }
+    
+    .daily-checkin-content {
+      background: #fff; border-radius: 24px; padding: 32px;
+      text-align: center;
+      animation: slideUp 0.4s ease;
+    }
+    
+    .checkin-emoji {
+      font-size: 64px; margin-bottom: 16px;
+    }
+    
+    .checkin-title {
+      font-size: 24px; font-weight: 900; color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+    
+    .checkin-reward {
+      font-size: 18px; color: var(--gold); font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .checkin-streak {
+      background: linear-gradient(135deg, rgba(233,168,32,0.1), rgba(233,168,32,0.05));
+      border-radius: 12px; padding: 16px;
+      margin-bottom: 20px;
+    }
+    
+    .checkin-btn {
+      background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 12px 32px; font-weight: 700;
+      cursor: pointer;
+    }
+    
+    .story-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85); z-index: 2500;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .story-modal.hide { display: none; }
+    
+    .story-content {
+      background: linear-gradient(180deg, #fff8e1 0%, #fff 100%);
+      border-radius: 24px; padding: 32px;
+      max-width: 400px; max-height: 80vh; overflow-y: auto;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .story-emoji {
+      font-size: 80px; text-align: center; margin-bottom: 16px;
+      animation: bounce 1s ease infinite;
+    }
+    
+    .story-title {
+      font-size: 22px; font-weight: 900; color: var(--green-deep);
+      text-align: center; margin-bottom: 16px;
+    }
+    
+    .story-text {
+      font-size: 14px; line-height: 1.8; color: #555;
+      text-align: justify; margin-bottom: 20px;
+    }
+    
+    .story-btn {
+      width: 100%; background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px; font-weight: 700; cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .side-quest-card {
+      background: linear-gradient(135deg, #f0f9f4, #e8f5e9);
+      border-radius: 16px; padding: 16px; margin: 12px;
+      box-shadow: 0 3px 12px rgba(26,58,42,0.1);
+      border: 2px dashed var(--green-pale);
+    }
+    
+    .side-quest-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+    }
+    
+    .side-quest-icon {
+      font-size: 28px;
+    }
+    
+    .side-quest-title {
+      font-size: 16px; font-weight: 800; color: var(--green-deep);
+      flex: 1;
+    }
+    
+    .side-quest-reward {
+      background: var(--gold); color: #fff; padding: 4px 10px;
+      border-radius: 12px; font-size: 11px; font-weight: 700;
+    }
+    
+    .side-quest-desc {
+      font-size: 13px; color: #666; margin-bottom: 12px;
+    }
+    
+    .side-quest-progress {
+      display: flex; align-items: center; gap: 10px;
+    }
+    
+    .side-quest-bar {
+      flex: 1; height: 10px; background: #eee; border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .side-quest-fill {
+      height: 100%; background: linear-gradient(90deg, var(--green-light), var(--green));
+      border-radius: 5px; transition: width 0.3s ease;
+    }
+    
+    .side-quest-complete {
+      text-align: center; padding: 8px 16px;
+      background: var(--green); color: #fff; border-radius: 12px;
+      font-weight: 700; cursor: pointer;
+    }
+    
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    
+    .rare-species {
+      animation: pulse 2s ease infinite;
+    }
   </style>
 </head>
 <body>
@@ -724,6 +946,23 @@
     </div>
 
     <div class="task-list" id="taskList"></div>
+
+    <div class="section-header">
+      <div class="section-title"><span>📜</span>冒险故事</div>
+      <div class="section-more" onclick="showCurrentStory()">查看故事 ›</div>
+    </div>
+    
+    <div style="margin:0 12px 12px;">
+      <div class="task-card" onclick="showCurrentStory()" style="cursor:pointer;">
+        <div class="task-header" style="background: linear-gradient(135deg, #fff8e1, #ffeaa7);">
+          <div class="task-week-badge" style="background: rgba(255,255,255,0.3); color:#d6a500;">第2周</div>
+          <div class="task-name" style="color:#8b6914;">小小制图师的冒险</div>
+        </div>
+        <div class="task-body">
+          <div style="font-size:13px;color:#888;">点击查看本周的冒险故事...</div>
+        </div>
+      </div>
+    </div>
 
     <div class="section-header"><div class="section-title"><span>📝</span>今日打卡</div></div>
     <div class="checkin-form">
@@ -1043,15 +1282,50 @@
     </div>
   </div>
 
+  <div class="page" id="page-quests">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">🎯 支线任务</div>
+      <div style="font-size:13px;color:#aaa;">完成额外挑战获得更多星星！</div>
+    </div>
+    <div id="sideQuestList"></div>
+  </div>
+
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('home')"><span class="nav-icon">🏠</span>首页</div>
     <div class="nav-item" onclick="switchTab('guide')"><span class="nav-icon">📖</span>图鉴</div>
+    <div class="nav-item" onclick="switchTab('quests')"><span class="nav-icon">🎯</span>任务</div>
     <div class="nav-item" onclick="switchTab('badges')"><span class="nav-icon">🏅</span>徽章</div>
     <div class="nav-item" onclick="switchTab('preview')"><span class="nav-icon">🔮</span>预告</div>
     <div class="nav-item" onclick="switchTab('help')"><span class="nav-icon">❓</span>说明</div>
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <div class="evolution-modal hide" id="evolutionModal">
+    <div class="evolution-stars" id="evolutionStars"></div>
+    <div class="evolution-content">
+      <div class="evolution-emoji-big" id="evolutionEmoji">🦋</div>
+      <div class="evolution-text" id="evolutionText">进化成功！</div>
+    </div>
+  </div>
+
+  <div class="title-upgrade-modal hide" id="titleUpgradeModal">
+    <div class="title-upgrade-content">
+      <div class="title-crown">👑</div>
+      <div class="title-text" id="titleText">新称号解锁！</div>
+      <div class="title-desc" id="titleDesc">称号描述</div>
+    </div>
+  </div>
+
+  <div class="daily-checkin-modal hide" id="dailyCheckinModal">
+    <div class="daily-checkin-content">
+      <div class="checkin-emoji">🌟</div>
+      <div class="checkin-title">每日签到</div>
+      <div class="checkin-reward" id="checkinReward">获得 1 颗星星</div>
+      <div class="checkin-streak" id="checkinStreak">连续签到 3 天</div>
+      <button class="checkin-btn" onclick="claimCheckin()">领取奖励</button>
+    </div>
+  </div>
 
   <div class="badge-celebrate-modal hide" id="badgeCelebrateModal">
     <div class="celebration-particles" id="celebrationParticles"></div>
@@ -1119,6 +1393,15 @@
       </div>
 
       <button class="close-detail-btn" onclick="closeSpeciesDetail()">关闭</button>
+    </div>
+  </div>
+
+  <div class="story-modal hide" id="storyModal">
+    <div class="story-content">
+      <div class="story-emoji" id="storyEmoji">🌿</div>
+      <div class="story-title" id="storyTitle">故事标题</div>
+      <div class="story-text" id="storyText">故事内容...</div>
+      <button class="story-btn" onclick="closeStory()">继续探索 ✨</button>
     </div>
   </div>
 
@@ -1417,10 +1700,30 @@
       });
     }
 
+    const TITLE_SYSTEM = [
+      { level: 1, name: '🌱 冒险新手', desc: '刚刚踏上探索之旅的小冒险家' },
+      { level: 2, name: '🚶 小探险家', desc: '已经有了一些探索经验' },
+      { level: 3, name: '🔍 自然观察员', desc: '善于发现大自然的秘密' },
+      { level: 4, name: '🌿 植物学家', desc: '认识很多植物朋友' },
+      { level: 5, name: '🐛 昆虫侦探', desc: '昆虫世界的小小侦探' },
+      { level: 6, name: '🌍 生态专家', desc: '了解整个生态系统' },
+      { level: 7, name: '👑 公园大师', desc: '世纪公园的真正主人' }
+    ];
+    
+    let lastTitleLevel = 1;
+    
     function updateUI() {
       (document.getElementById('starBadge') || {textContent: ''}).textContent = '⭐' + state.stars;
       (document.getElementById('levelTag') || {textContent: ''}).textContent = 'Lv.' + state.level;
-      (document.getElementById('levelName') || {textContent: ''}).textContent = ['冒险新手', '小探险家', '自然观察员', '植物学家', '昆虫侦探', '生态专家'][Math.min(state.level-1, 5)];
+      
+      const titleIndex = Math.min(state.level - 1, TITLE_SYSTEM.length - 1);
+      const currentTitle = TITLE_SYSTEM[titleIndex];
+      (document.getElementById('levelName') || {textContent: ''}).textContent = currentTitle.name;
+      
+      if (state.level > lastTitleLevel) {
+        showTitleUpgrade(currentTitle.name, currentTitle.desc);
+        lastTitleLevel = state.level;
+      }
       (document.getElementById('xpText') || {textContent: ''}).textContent = state.xp + '/' + state.xpMax;
       (document.getElementById('xpBar') || {style: {}}).style.width = Math.min(100, (state.xp / state.xpMax) * 100) + '%';
       (document.getElementById('profileName') || {textContent: ''}).textContent = state.name;
@@ -1451,6 +1754,7 @@
       renderAchievements();
       renderHistory();
       renderWeekNavs();
+      renderSideQuests();
     }
     
     function showWallet() {
@@ -1814,6 +2118,175 @@
       }
     };
 
+    // 主线故事线系统
+    const STORY_SYSTEM = {
+      1: {
+        title: '🌿 冒险的开始',
+        emoji: '🌟',
+        text: '在一个阳光明媚的周末，小云辰踏上了世纪公园的第一次冒险之旅。\n\n这次探索让小云辰发现了许多新奇的事物：高大的梧桐树、五彩斑斓的野花、还有蜿蜒曲折的小路。每一个发现都让他兴奋不已！\n\n虽然是第一次，但这只是一个开始。未来还有更多的冒险等待着云辰去探索...'
+      },
+      2: {
+        title: '🗺️ 小小制图师',
+        emoji: '🧭',
+        text: '第二周，云辰决定绘制一张属于自己的公园地图！\n\n从大门开始，他记录下每一条路、每一个标志性的地方。虽然画得还有些歪歪扭扭，但这是专属于云辰的地图！\n\n通过这次任务，云辰对公园更加熟悉了，下次再也不用担心迷路啦！'
+      },
+      3: {
+        title: '🚶 另辟蹊径',
+        emoji: '🛤️',
+        text: '这一周，云辰决定不走寻常路！\n\n他专门挑选了那些之前没走过的小路，果然发现了很多新的惊喜：一个隐蔽的小角落、几棵形状奇特的树、还有一条通往湖边的秘密通道！\n\n有时候，换一条路走，会发现不一样的风景哦！'
+      },
+      4: {
+        title: '⏰ 公园的一天',
+        emoji: '🌅',
+        text: '云辰想知道：公园在早晨、中午、傍晚有什么不一样呢？\n\n他和妈妈约定，这一天分三次来到公园：清晨看露珠、正午晒太阳、傍晚看日落。\n\n原来公园在不同的时间真的有完全不同的样子，太神奇了！'
+      }
+    };
+    
+    // 支线任务系统
+    const SIDE_QUESTS = [
+      {
+        id: 'q1',
+        title: '收集5种不同的叶子',
+        emoji: '🍂',
+        desc: '在公园里找到5种形状完全不同的叶子',
+        reward: 3,
+        progressType: 'guide',
+        target: 5
+      },
+      {
+        id: 'q2',
+        title: '拍摄10张照片',
+        emoji: '📸',
+        desc: '用镜头记录下公园里的美好瞬间',
+        reward: 5,
+        progressType: 'photos',
+        target: 10
+      },
+      {
+        id: 'q3',
+        title: '连续签到7天',
+        emoji: '📅',
+        desc: '每天打开应用记录你的探索',
+        reward: 10,
+        progressType: 'streak',
+        target: 7
+      },
+      {
+        id: 'q4',
+        title: '发现3种昆虫',
+        emoji: '🐛',
+        desc: '寻找公园里的小虫子们（但不要去碰它们哦！）',
+        reward: 4,
+        progressType: 'insects',
+        target: 3
+      },
+      {
+        id: 'q5',
+        title: '画一幅公园写生',
+        emoji: '🎨',
+        desc: '用画笔记录你眼中的公园美景',
+        reward: 8,
+        progressType: 'manual',
+        target: 1
+      },
+      {
+        id: 'q6',
+        title: '学会3种植物的名字',
+        emoji: '🌺',
+        desc: '通过观察或询问，认识3种植物',
+        reward: 5,
+        progressType: 'guide',
+        target: 8
+      }
+    ];
+    
+    function showCurrentStory() {
+      const story = STORY_SYSTEM[state.week] || STORY_SYSTEM[1];
+      document.getElementById('storyEmoji').textContent = story.emoji;
+      document.getElementById('storyTitle').textContent = story.title;
+      document.getElementById('storyText').textContent = story.text;
+      document.getElementById('storyModal').classList.remove('hide');
+    }
+    
+    function closeStory() {
+      document.getElementById('storyModal').classList.add('hide');
+    }
+    
+    function renderSideQuests() {
+      const list = document.getElementById('sideQuestList');
+      if (!list) return;
+      
+      let html = '';
+      SIDE_QUESTS.forEach(quest => {
+        const completed = state.completedQuests?.includes(quest.id);
+        const progress = calculateQuestProgress(quest);
+        const progressPercent = Math.min(100, (progress / quest.target) * 100);
+        
+        html += `
+          <div class="side-quest-card">
+            <div class="side-quest-header">
+              <span class="side-quest-icon">${quest.emoji}</span>
+              <span class="side-quest-title">${quest.title}</span>
+              <span class="side-quest-reward">⭐${quest.reward}</span>
+            </div>
+            <div class="side-quest-desc">${quest.desc}</div>
+            ${!completed ? `
+              <div class="side-quest-progress">
+                <div class="side-quest-bar">
+                  <div class="side-quest-fill" style="width:${progressPercent}%;"></div>
+                </div>
+                <span style="font-size:12px;color:#888;">${progress}/${quest.target}</span>
+              </div>
+              ${progress >= quest.target ? `
+                <div style="margin-top:10px;">
+                  <div class="side-quest-complete" onclick="completeQuest('${quest.id}')">领取奖励！</div>
+                </div>
+              ` : ''}
+            ` : `
+              <div style="text-align:center;color:var(--green);font-weight:700;">✅ 已完成</div>
+            `}
+          </div>
+        `;
+      });
+      
+      list.innerHTML = html;
+    }
+    
+    function calculateQuestProgress(quest) {
+      switch(quest.progressType) {
+        case 'guide':
+          return state.guide.length;
+        case 'photos':
+          return state.photos.length;
+        case 'streak':
+          return parseInt(localStorage.getItem('checkinStreak') || '0');
+        case 'insects':
+          const insectNames = ['蝴蝶','蜜蜂','蚂蚁','蜻蜓','瓢虫','螳螂','蜗牛','青蛙','蜘蛛'];
+          return state.guide.filter(g => insectNames.includes(g.name)).length;
+        case 'manual':
+          return 0;
+        default:
+          return 0;
+      }
+    }
+    
+    function completeQuest(questId) {
+      const quest = SIDE_QUESTS.find(q => q.id === questId);
+      if (!quest) return;
+      
+      if (!state.completedQuests) state.completedQuests = [];
+      if (state.completedQuests.includes(questId)) return;
+      
+      state.completedQuests.push(questId);
+      state.stars += quest.reward;
+      state.xp += quest.reward;
+      
+      saveData();
+      updateUI();
+      renderSideQuests();
+      showToast(`🎉 完成任务！获得 ${quest.reward} 颗星星`, 'star');
+    }
+
     function checkBadgeUnlock(badgeId) {
       const badges = state.gymBadges || [];
       if (badgeId === 0) { return state.taskHistory[1]?.complete; }
@@ -1869,6 +2342,92 @@
       return false;
     }
 
+    function showEvolutionAnimation(speciesName, newLevel) {
+      const evolutions = GUIDE_EVOLUTIONS[speciesName];
+      if (!evolutions) return;
+      
+      const stage = evolutions.stages.find(s => s.level === newLevel);
+      if (!stage) return;
+      
+      const modal = document.getElementById('evolutionModal');
+      const emoji = document.getElementById('evolutionEmoji');
+      const text = document.getElementById('evolutionText');
+      const stars = document.getElementById('evolutionStars');
+      
+      emoji.textContent = stage.emoji;
+      text.textContent = `${speciesName} 进化到 Lv.${newLevel}！`;
+      
+      stars.innerHTML = '';
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'evo-star';
+        star.textContent = ['⭐', '✨', '🌟', '💫'][Math.floor(Math.random() * 4)];
+        star.style.left = Math.random() * 100 + '%';
+        star.style.bottom = '20%';
+        star.style.animationDelay = Math.random() * 1.5 + 's';
+        star.style.animationDuration = (1.5 + Math.random() * 1) + 's';
+        stars.appendChild(star);
+      }
+      
+      modal.classList.remove('hide');
+      
+      setTimeout(() => {
+        modal.classList.add('hide');
+      }, 3000);
+    }
+    
+    function showTitleUpgrade(titleName, titleDesc) {
+      const modal = document.getElementById('titleUpgradeModal');
+      document.getElementById('titleText').textContent = titleName;
+      document.getElementById('titleDesc').textContent = titleDesc;
+      
+      modal.classList.remove('hide');
+      
+      setTimeout(() => {
+        modal.classList.add('hide');
+      }, 3000);
+    }
+    
+    function checkDailyCheckin() {
+      const today = new Date().toDateString();
+      const lastCheckin = localStorage.getItem('lastCheckin');
+      const streak = parseInt(localStorage.getItem('checkinStreak') || '0');
+      
+      if (lastCheckin !== today) {
+        document.getElementById('checkinReward').textContent = streak >= 7 ? '获得 3 颗星星（连续签到奖励）' : '获得 1 颗星星';
+        document.getElementById('checkinStreak').textContent = `连续签到 ${streak} 天`;
+        document.getElementById('dailyCheckinModal').classList.remove('hide');
+      }
+    }
+    
+    function claimCheckin() {
+      const today = new Date().toDateString();
+      let streak = parseInt(localStorage.getItem('checkinStreak') || '0');
+      
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toDateString();
+      const lastCheckin = localStorage.getItem('lastCheckin');
+      
+      if (lastCheckin === yesterdayStr) {
+        streak++;
+      } else if (lastCheckin !== today) {
+        streak = 1;
+      }
+      
+      const starsEarned = streak >= 7 ? 3 : 1;
+      state.stars += starsEarned;
+      state.xp += starsEarned;
+      
+      localStorage.setItem('lastCheckin', today);
+      localStorage.setItem('checkinStreak', streak.toString());
+      saveData();
+      updateUI();
+      
+      document.getElementById('dailyCheckinModal').classList.add('hide');
+      showToast(`🎉 签到成功！获得 ${starsEarned} 颗星星`, 'star');
+    }
+    
     function showBadgeCelebration(badge) {
       const modal = document.getElementById('badgeCelebrateModal');
       const emoji = document.getElementById('celebrateEmoji');
