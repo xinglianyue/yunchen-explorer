@@ -514,6 +514,170 @@
       overflow: hidden;
     }
     .ach-progress-bar { height: 100%; background: linear-gradient(90deg, var(--green-light), var(--green)); }
+
+    .badge-celebrate-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8); z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      animation: celebrateFadeIn 0.5s ease;
+    }
+    .badge-celebrate-modal.hide { display: none; }
+    @keyframes celebrateFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .badge-celebrate-content {
+      background: linear-gradient(145deg, #fff, #f8f9fa);
+      border-radius: 24px; padding: 32px;
+      text-align: center;
+      animation: celebratePopup 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 320px;
+    }
+    @keyframes celebratePopup {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .badge-celebrate-emoji {
+      font-size: 80px; margin-bottom: 16px;
+      animation: badgeBounce 0.8s ease infinite;
+    }
+    @keyframes badgeBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .badge-celebrate-title {
+      font-size: 24px; font-weight: 900; color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+    
+    .badge-celebrate-name {
+      font-size: 18px; font-weight: 700; color: var(--gold);
+      margin-bottom: 16px;
+    }
+    
+    .badge-celebrate-desc {
+      font-size: 13px; color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .badge-celebrate-btn {
+      background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 12px 32px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .badge-celebrate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(45,106,79,0.3); }
+    
+    .celebration-particles {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; overflow: hidden;
+    }
+    .particle {
+      position: absolute; font-size: 24px;
+      animation: particleFloat 3s ease-out forwards;
+    }
+    @keyframes particleFloat {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-300px) scale(0); }
+    }
+
+    .species-detail-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6); z-index: 1500;
+      display: flex; align-items: flex-end; justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .species-detail-modal.hide { display: none; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .species-detail-content {
+      width: 100%; max-width: 480px;
+      background: #fff; border-radius: 24px 24px 0 0;
+      padding: 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      animation: slideUp 0.4s ease;
+      max-height: 80vh; overflow-y: auto;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    
+    .species-detail-header {
+      text-align: center; margin-bottom: 24px;
+    }
+    .species-detail-emoji {
+      font-size: 72px; margin-bottom: 12px;
+      animation: emojiPulse 2s ease-in-out infinite;
+    }
+    @keyframes emojiPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .species-detail-name {
+      font-size: 24px; font-weight: 900; color: var(--green-deep);
+    }
+    .species-detail-level {
+      display: inline-block; margin-top: 8px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #fff; padding: 4px 16px; border-radius: 20px;
+      font-size: 13px; font-weight: 700;
+    }
+    
+    .species-detail-section {
+      margin-bottom: 20px;
+    }
+    .species-detail-section-title {
+      font-size: 14px; font-weight: 700; color: var(--green);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    
+    .species-detail-info {
+      background: rgba(45,106,79,0.05); border-radius: 12px;
+      padding: 16px;
+    }
+    .species-detail-info-row {
+      display: flex; justify-content: space-between; padding: 8px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .species-detail-info-row:last-child { border-bottom: none; }
+    .info-label { color: #888; font-size: 13px; }
+    .info-value { font-weight: 700; color: var(--green-deep); }
+    
+    .evolution-path {
+      background: linear-gradient(135deg, rgba(233,168,32,0.1), rgba(233,168,32,0.05));
+      border-radius: 12px; padding: 16px;
+    }
+    .evolution-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px dashed rgba(233,168,32,0.3);
+    }
+    .evolution-step:last-child { border-bottom: none; }
+    .evolution-emoji {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .evolution-info { flex: 1; }
+    .evolution-name { font-weight: 700; font-size: 14px; }
+    .evolution-condition { font-size: 12px; color: #888; }
+    
+    .discovery-log {
+      background: rgba(139,105,20,0.05); border-radius: 12px; padding: 16px;
+    }
+    .discovery-item {
+      display: flex; justify-content: space-between; padding: 10px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .discovery-item:last-child { border-bottom: none; }
+    
+    .close-detail-btn {
+      width: 100%; background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px; font-weight: 700;
+      cursor: pointer; margin-top: 16px;
+    }
   </style>
 </head>
 <body>
@@ -888,6 +1052,75 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <div class="badge-celebrate-modal hide" id="badgeCelebrateModal">
+    <div class="celebration-particles" id="celebrationParticles"></div>
+    <div class="badge-celebrate-content">
+      <div class="badge-celebrate-emoji" id="celebrateEmoji">🏅</div>
+      <div class="badge-celebrate-title">🎉 恭喜获得新徽章！</div>
+      <div class="badge-celebrate-name" id="celebrateName">徽章名称</div>
+      <div class="badge-celebrate-desc" id="celebrateDesc">徽章描述</div>
+      <button class="badge-celebrate-btn" onclick="closeCelebrate()">太棒了！</button>
+    </div>
+  </div>
+
+  <div class="species-detail-modal hide" id="speciesDetailModal" onclick="closeSpeciesDetail()">
+    <div class="species-detail-content" onclick="event.stopPropagation()">
+      <div class="species-detail-header">
+        <div class="species-detail-emoji" id="detailEmoji">🌳</div>
+        <div class="species-detail-name" id="detailName">物种名称</div>
+        <div class="species-detail-level" id="detailLevel">Lv.1</div>
+      </div>
+      
+      <div class="species-detail-section">
+        <div class="species-detail-section-title">📊 基本信息</div>
+        <div class="species-detail-info">
+          <div class="species-detail-info-row">
+            <span class="info-label">类别</span>
+            <span class="info-value" id="detailCategory">树木</span>
+          </div>
+          <div class="species-detail-info-row">
+            <span class="info-label">发现次数</span>
+            <span class="info-value" id="detailTimes">1次</span>
+          </div>
+          <div class="species-detail-info-row">
+            <span class="info-label">首次发现</span>
+            <span class="info-value" id="detailFirstDate">2026-05-24</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="species-detail-section">
+        <div class="species-detail-section-title">📝 描述</div>
+        <div style="background:rgba(45,106,79,0.05);border-radius:12px;padding:16px;font-size:13px;color:#555;line-height:1.5;" id="detailDesc">物种描述...</div>
+      </div>
+
+      <div class="species-detail-section">
+        <div class="species-detail-section-title">✨ 进化路线</div>
+        <div class="evolution-path" id="evolutionPath">
+          <div class="evolution-step">
+            <div class="evolution-emoji">🌱</div>
+            <div class="evolution-info">
+              <div class="evolution-name">Lv.1 幼苗</div>
+              <div class="evolution-condition">首次发现</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="species-detail-section">
+        <div class="species-detail-section-title">📅 发现记录</div>
+        <div class="discovery-log" id="discoveryLog">
+          <div class="discovery-item">
+            <span>2026-05-24</span>
+            <span style="color:var(--green);">首次发现</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="close-detail-btn" onclick="closeSpeciesDetail()">关闭</button>
+    </div>
+  </div>
 
   <div class="wallet-modal hide" id="walletModal" onclick="closeWallet()">
     <div class="wallet-content" onclick="event.stopPropagation()">
@@ -1434,19 +1667,22 @@
         const level = g.level || 1;
         const times = g.times || 1;
         const canEvolve = checkCanEvolve(g.name, level);
+        const isRare = g.rare === true;
         return `
-          <div class="guide-card">
+          <div class="guide-card" onclick="showSpeciesDetail('${g.name}')">
             <div class="guide-pic">
               ${g.emoji}
               <div class="guide-level-badge">Lv.${level}</div>
+              ${isRare ? '<div style="position:absolute;top:4px;left:4px;font-size:12px;animation:pulse 2s infinite;">💎</div>' : ''}
             </div>
             <div class="guide-body">
-              <div class="guide-name">${g.name}</div>
+              <div class="guide-name">${g.name}${isRare ? ' 💎' : ''}</div>
               ${g.desc ? `<div class="guide-desc">${g.desc}</div>` : ''}
               <div class="guide-meta">
                 <span class="guide-meta-item">👁️ ${times}次</span>
               </div>
               ${canEvolve ? `<div class="guide-evolve-hint">✨ 可进化到 Lv.${level + 1}</div>` : ''}
+              <div style="font-size:10px;color:#aaa;margin-top:4px;text-align:center;">点击查看详情</div>
             </div>
           </div>
         `;
@@ -1633,6 +1869,108 @@
       return false;
     }
 
+    function showBadgeCelebration(badge) {
+      const modal = document.getElementById('badgeCelebrateModal');
+      const emoji = document.getElementById('celebrateEmoji');
+      const name = document.getElementById('celebrateName');
+      const desc = document.getElementById('celebrateDesc');
+      const particles = document.getElementById('celebrationParticles');
+      
+      emoji.textContent = badge.emoji;
+      name.textContent = badge.emoji + ' ' + badge.name;
+      desc.textContent = badge.effect;
+      
+      particles.innerHTML = '';
+      const particleEmojis = ['⭐', '🎉', '✨', '🌟', '💫', '🎊', '🏆', '🎁'];
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.bottom = '-20px';
+        p.style.animationDelay = Math.random() * 2 + 's';
+        p.style.animationDuration = (2 + Math.random() * 2) + 's';
+        particles.appendChild(p);
+      }
+      
+      modal.classList.remove('hide');
+    }
+    
+    function closeCelebrate() {
+      document.getElementById('badgeCelebrateModal').classList.add('hide');
+    }
+    
+    function showSpeciesDetail(speciesName) {
+      const species = state.guide.find(g => g.name === speciesName);
+      if (!species) return;
+      
+      document.getElementById('detailEmoji').textContent = species.emoji;
+      document.getElementById('detailName').textContent = species.name;
+      document.getElementById('detailLevel').textContent = 'Lv.' + (species.level || 1);
+      
+      const categoryMap = { tree: '树木', plant: '植物', insect: '昆虫', bird: '鸟类', sky: '天空', other: '其他' };
+      document.getElementById('detailCategory').textContent = categoryMap[species.category] || '其他';
+      document.getElementById('detailTimes').textContent = (species.times || 1) + '次';
+      document.getElementById('detailFirstDate').textContent = species.firstDate || '未知';
+      document.getElementById('detailDesc').textContent = species.desc || '暂无描述';
+      
+      const evolutions = GUIDE_EVOLUTIONS[speciesName];
+      let evolutionHtml = '';
+      if (evolutions && evolutions.stages) {
+        evolutions.stages.forEach((stage, index) => {
+          const isUnlocked = (species.level || 1) >= stage.level;
+          evolutionHtml += `
+            <div class="evolution-step" ${!isUnlocked ? 'style="opacity:0.5;"' : ''}>
+              <div class="evolution-emoji" ${isUnlocked ? '' : 'style="background:#eee;"'}>${stage.emoji}</div>
+              <div class="evolution-info">
+                <div class="evolution-name">${isUnlocked ? '' : '🔒 '}Lv.${stage.level} ${stage.name}</div>
+                <div class="evolution-condition">${stage.badgeRequired ? `需要徽章解锁` : stage.level === 1 ? '首次发现' : `见过${stage.level * 2 - 1}次`}</div>
+              </div>
+            </div>
+          `;
+        });
+      } else {
+        evolutionHtml = `
+          <div class="evolution-step">
+            <div class="evolution-emoji">${species.emoji}</div>
+            <div class="evolution-info">
+              <div class="evolution-name">Lv.${species.level || 1} ${species.name}</div>
+              <div class="evolution-condition">基础形态</div>
+            </div>
+          </div>
+        `;
+      }
+      document.getElementById('evolutionPath').innerHTML = evolutionHtml;
+      
+      const discoveryLogs = [];
+      for (let w = 1; w <= state.week; w++) {
+        if (state.taskHistory[w]?.species?.includes(speciesName)) {
+          discoveryLogs.push(`第${w}周发现`);
+        }
+      }
+      
+      let logHtml = '';
+      if (discoveryLogs.length > 0) {
+        discoveryLogs.forEach((log, i) => {
+          logHtml += `
+            <div class="discovery-item">
+              <span>${log}</span>
+              <span style="color:var(--green);">${i === 0 ? '首次发现' : '再次发现'}</span>
+            </div>
+          `;
+        });
+      } else {
+        logHtml = '<div style="text-align:center;color:#aaa;font-size:13px;">暂无发现记录</div>';
+      }
+      document.getElementById('discoveryLog').innerHTML = logHtml;
+      
+      document.getElementById('speciesDetailModal').classList.remove('hide');
+    }
+    
+    function closeSpeciesDetail() {
+      document.getElementById('speciesDetailModal').classList.add('hide');
+    }
+    
     function checkAllBadges() {
       let updated = false;
       if (!state.gymBadges) state.gymBadges = new Array(16).fill(false);
@@ -1641,7 +1979,7 @@
           state.gymBadges[i] = true;
           setTimeout(() => {
             const badge = BADGE_SYSTEM[i];
-            showToast(`🎖️ 获得新徽章！「${badge.emoji} ${badge.name}」`, 'star');
+            showBadgeCelebration(badge);
           }, 500);
           updated = true;
         }
