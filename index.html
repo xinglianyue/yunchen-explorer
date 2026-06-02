@@ -185,27 +185,79 @@
     .photo-wall-item:hover { transform: scale(1.02); }
     .photo-wall-item img { width: 100%; height: 100%; object-fit: cover; }
 
-    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 12px; }
-    .badge-card {
-      background: #fff; border-radius: 12px; padding: 16px 12px; text-align: center;
-      box-shadow: 0 3px 14px rgba(26,58,42,0.1); transition: all 0.2s;
+    .badge-section { margin-bottom: 20px; }
+    .badge-section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px; margin: 0 6px;
+      background: rgba(45, 106, 79, 0.05);
+      border-radius: 12px; margin-bottom: 8px;
     }
-    .badge-card.locked { opacity: 0.6; filter: grayscale(0.7); }
-    .badge-card.unlocked { animation: badgeUnlock 0.4s ease; }
+    .badge-section-title { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+    .badge-section-count { font-size: 12px; color: #888; }
+    .badge-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 0 12px; }
+    .badge-card {
+      background: #fff; border-radius: 14px; padding: 14px 8px; text-align: center;
+      box-shadow: 0 3px 12px rgba(26,58,42,0.08); transition: all 0.2s;
+      position: relative; min-height: 100px;
+    }
+    .badge-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(26,58,42,0.15); }
+    .badge-card.locked { opacity: 0.5; filter: grayscale(0.8); }
+    .badge-card.unlocked { 
+      animation: badgeUnlock 0.4s ease; 
+      background: linear-gradient(145deg, #fff, #f8fff9);
+    }
     @keyframes badgeUnlock { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-    .badge-icon { font-size: 42px; margin-bottom: 6px; display: block; }
-    .badge-name { font-size: 12px; font-weight: 700; }
-    .badge-status { font-size: 10px; padding: 3px 10px; border-radius: 12px; margin-top: 8px; display: inline-block; }
-    .badge-card.locked .badge-status { background: #eee; color: #aaa; }
+    .badge-emoji-wrap {
+      width: 44px; height: 44px; margin: 0 auto 8px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #e8f5e9, #d8f3dc);
+    }
+    .badge-card.unlocked .badge-emoji-wrap {
+      background: linear-gradient(135deg, #ffd166, #f4a261);
+      box-shadow: 0 4px 12px rgba(233, 168, 32, 0.3);
+    }
+    .badge-icon { font-size: 28px; }
+    .badge-name { font-size: 11px; font-weight: 800; color: var(--green-deep); }
+    .badge-card.locked .badge-name { color: #aaa; }
+    .badge-status { font-size: 9px; padding: 2px 8px; border-radius: 10px; margin-top: 6px; display: inline-block; }
+    .badge-card.locked .badge-status { background: #f0f0f0; color: #999; }
     .badge-card.unlocked .badge-status { background: var(--green-pale); color: var(--green); font-weight: 600; }
+    .badge-manual {
+      position: absolute; top: 4px; right: 4px;
+      font-size: 9px; background: #ffd700; color: #8b6914;
+      padding: 1px 5px; border-radius: 8px;
+    }
 
     .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
-    .guide-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 14px rgba(26,58,42,0.1); transition: transform 0.2s; }
-    .guide-card:hover { transform: translateY(-2px); }
-    .guide-pic { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #e8f5e9, #d8f3dc); display: flex; align-items: center; justify-content: center; font-size: 48px; }
-    .guide-body { padding: 10px 12px; }
-    .guide-name { font-size: 14px; font-weight: 800; }
-    .guide-desc { font-size: 11px; color: #aaa; margin-top: 3px; }
+    .guide-card { 
+      background: #fff; border-radius: 16px; overflow: hidden; 
+      box-shadow: 0 4px 16px rgba(26,58,42,0.1); 
+      transition: all 0.3s; position: relative;
+    }
+    .guide-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,58,42,0.15); }
+    .guide-pic { 
+      width: 100%; aspect-ratio: 1; background: linear-gradient(135deg, #e8f5e9, #d8f3dc); 
+      display: flex; align-items: center; justify-content: center; font-size: 44px;
+      position: relative;
+    }
+    .guide-level-badge {
+      position: absolute; top: 6px; right: 6px;
+      background: var(--gold); color: #fff; font-size: 9px; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px;
+    }
+    .guide-body { padding: 12px; }
+    .guide-name { font-size: 15px; font-weight: 800; color: var(--green-deep); }
+    .guide-desc { font-size: 11px; color: #888; margin-top: 4px; line-height: 1.4; }
+    .guide-meta { 
+      display: flex; gap: 12px; margin-top: 8px; 
+      font-size: 10px; color: #999;
+    }
+    .guide-meta-item { display: flex; align-items: center; gap: 2px; }
+    .guide-evolve-hint {
+      margin-top: 8px; padding: 6px; background: rgba(233, 168, 32, 0.1);
+      border-radius: 8px; font-size: 10px; color: var(--gold);
+      display: flex; align-items: center; gap: 4px;
+    }
 
     .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
     .ach-card { background: #fff; border-radius: 12px; padding: 14px 12px; box-shadow: 0 3px 14px rgba(26,58,42,0.1); display: flex; gap: 10px; transition: all 0.2s; }
@@ -273,6 +325,99 @@
     .empty-state { text-align: center; padding: 48px 24px; color: #aaa; }
     .empty-state-icon { font-size: 48px; margin-bottom: 12px; display: block; }
     .empty-state-text { font-size: 14px; line-height: 1.6; }
+    
+    .wallet-btn { background: linear-gradient(135deg, #fff8e1, #fff3cd); }
+    .wallet-btn:hover { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); }
+    
+    .wallet-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); z-index: 1000;
+      display: flex; align-items: flex-end; justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .wallet-modal.hide { display: none; }
+    .wallet-content {
+      width: 100%; max-width: 480px;
+      background: #fff; border-radius: 24px 24px 0 0;
+      padding: 24px; padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .wallet-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .wallet-title { font-size: 20px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+    .wallet-close { width: 36px; height: 36px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+    .wallet-close:hover { background: #e0e0e0; }
+    
+    .wallet-balance {
+      background: linear-gradient(135deg, #fff8e1, #ffeaa7);
+      border-radius: 16px; padding: 20px; text-align: center;
+      margin-bottom: 20px;
+    }
+    .balance-label { font-size: 12px; color: #8b6914; margin-bottom: 8px; }
+    .balance-value { font-size: 36px; font-weight: 900; color: #d6a500; }
+    .balance-unit { font-size: 16px; color: #8b6914; margin-left: 4px; }
+    
+    .wallet-rules {
+      background: rgba(45, 106, 79, 0.05);
+      border-radius: 12px; padding: 16px;
+      margin-bottom: 20px;
+    }
+    .rules-title { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 10px; }
+    .rules-list { list-style: none; font-size: 12px; color: #666; line-height: 1.8; }
+    .rules-list li { padding-left: 20px; position: relative; }
+    .rules-list li::before { content: '⭐'; position: absolute; left: 0; font-size: 10px; }
+    
+    .wallet-exchange { margin-bottom: 20px; }
+    .exchange-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .exchange-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .exchange-btn {
+      background: linear-gradient(135deg, var(--gold-light), #f4a261);
+      border: none; border-radius: 14px; padding: 14px;
+      color: #fff; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+    }
+    .exchange-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 162, 97, 0.3); }
+    .exchange-btn:active { transform: scale(0.98); }
+    .exchange-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .exchange-stars { font-size: 11px; opacity: 0.9; }
+    .exchange-mins { font-size: 18px; }
+    
+    .wallet-spend {
+      background: rgba(231, 111, 81, 0.08);
+      border-radius: 12px; padding: 16px;
+    }
+    .spend-title { font-size: 14px; font-weight: 700; color: var(--orange); margin-bottom: 12px; }
+    .spend-input-wrap { display: flex; gap: 10px; }
+    .spend-input {
+      flex: 1; border: 2px solid #e0e0e0; border-radius: 12px;
+      padding: 12px; font-size: 16px; font-weight: 700;
+      text-align: center; outline: none;
+    }
+    .spend-input:focus { border-color: var(--orange); }
+    .spend-btn {
+      background: linear-gradient(135deg, var(--orange), #d63031);
+      border: none; border-radius: 12px; padding: 0 20px;
+      color: #fff; font-weight: 700; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .spend-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(231, 111, 81, 0.3); }
+    .spend-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .wallet-history { margin-top: 20px; }
+    .history-title { font-size: 13px; font-weight: 700; color: #888; margin-bottom: 10px; }
+    .history-list { list-style: none; max-height: 150px; overflow-y: auto; }
+    .history-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px dashed #eee;
+      font-size: 12px;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-type { display: flex; align-items: center; gap: 6px; }
+    .history-type.earn { color: var(--green); }
+    .history-type.spend { color: var(--orange); }
+    .history-date { font-size: 10px; color: #aaa; }
   </style>
 </head>
 <body>
@@ -309,7 +454,7 @@
         <div class="pstat" onclick="switchTab('badges')"><div class="pstat-icon">🏅</div><div class="pstat-num" id="statBadge">0</div><div class="pstat-label">道馆徽章</div></div>
         <div class="pstat" onclick="switchTab('guide')"><div class="pstat-icon">📖</div><div class="pstat-num" id="statGuide">0</div><div class="pstat-label">图鉴物种</div></div>
         <div class="pstat" onclick="switchTab('photos')"><div class="pstat-icon">📸</div><div class="pstat-num" id="statPhotos">0</div><div class="pstat-label">探索照片</div></div>
-        <div class="pstat" onclick="switchTab('achieve')"><div class="pstat-icon">🎯</div><div class="pstat-num" id="statAchieve">0</div><div class="pstat-label">成就数</div></div>
+        <div class="pstat wallet-btn" onclick="showWallet()"><div class="pstat-icon">👛</div><div class="pstat-num" id="statWallet">0</div><div class="pstat-label">屏幕时间</div></div>
       </div>
     </div>
 
@@ -402,6 +547,57 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <div class="wallet-modal hide" id="walletModal" onclick="closeWallet()">
+    <div class="wallet-content" onclick="event.stopPropagation()">
+      <div class="wallet-header">
+        <div class="wallet-title">👛 屏幕时间钱包</div>
+        <div class="wallet-close" onclick="closeWallet()">✕</div>
+      </div>
+      
+      <div class="wallet-balance">
+        <div class="balance-label">当前可用时间</div>
+        <div><span class="balance-value" id="walletBalance">0</span><span class="balance-unit">分钟</span></div>
+      </div>
+      
+      <div class="wallet-rules">
+        <div class="rules-title">⭐ 兑换规则</div>
+        <ul class="rules-list">
+          <li>5颗星星 = 30分钟屏幕时间</li>
+          <li>10颗星星 = 60分钟屏幕时间</li>
+          <li>每周最多兑换120分钟</li>
+          <li>本周已兑换: <span id="weekUsed">0</span>分钟</li>
+        </ul>
+      </div>
+      
+      <div class="wallet-exchange">
+        <div class="exchange-title">⭐ 兑换屏幕时间</div>
+        <div class="exchange-grid">
+          <button class="exchange-btn" onclick="exchangeStars(5)" id="exch30">
+            <span class="exchange-stars">5颗星星</span>
+            <span class="exchange-mins">⏱️ 30分钟</span>
+          </button>
+          <button class="exchange-btn" onclick="exchangeStars(10)" id="exch60">
+            <span class="exchange-stars">10颗星星</span>
+            <span class="exchange-mins">⏱️ 60分钟</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="wallet-spend">
+        <div class="spend-title">⏳ 消耗屏幕时间</div>
+        <div class="spend-input-wrap">
+          <input type="number" class="spend-input" id="spendAmount" placeholder="分钟数" min="1" max="120">
+          <button class="spend-btn" onclick="spendMinutes()">确认消耗</button>
+        </div>
+      </div>
+      
+      <div class="wallet-history">
+        <div class="history-title">📋 最近记录</div>
+        <ul class="history-list" id="walletHistory"></ul>
+      </div>
+    </div>
+  </div>
 
   <script>
     const API_BASE = './data.json';
@@ -666,6 +862,7 @@
       (document.getElementById('statPhotos') || {textContent: ''}).textContent = state.photos.length;
       (document.getElementById('statBadge') || {textContent: ''}).textContent = (state.gymBadges || []).filter(b=>b).length;
       (document.getElementById('statAchieve') || {textContent: ''}).textContent = (state.achievements || []).filter(a=>a.done).length;
+      (document.getElementById('statWallet') || {textContent: ''}).textContent = (state.walletMins || 0) + '分';
 
       (document.getElementById('photoCount') || {textContent: ''}).textContent = state.photos.length;
       (document.getElementById('guideCount') || {textContent: ''}).textContent = state.guide.length;
@@ -680,6 +877,130 @@
       renderAchievements();
       renderHistory();
       renderWeekNavs();
+    }
+    
+    function showWallet() {
+      document.getElementById('walletModal').classList.remove('hide');
+      updateWalletUI();
+    }
+    
+    function closeWallet() {
+      document.getElementById('walletModal').classList.add('hide');
+    }
+    
+    function updateWalletUI() {
+      const wallet = state.walletMins || 0;
+      const weekUsed = getWeeklyUsedMinutes();
+      
+      (document.getElementById('walletBalance') || {textContent: ''}).textContent = wallet;
+      (document.getElementById('weekUsed') || {textContent: ''}).textContent = weekUsed;
+      
+      const stars = state.stars || 0;
+      document.getElementById('exch30').disabled = stars < 5 || (weekUsed + 30) > 120;
+      document.getElementById('exch60').disabled = stars < 10 || (weekUsed + 60) > 120;
+      
+      renderWalletHistory();
+    }
+    
+    function getWeeklyUsedMinutes() {
+      const history = state.walletHistory || [];
+      const now = new Date();
+      const startOfWeek = new Date(now);
+      startOfWeek.setDate(now.getDate() - now.getDay() + 1);
+      
+      return history
+        .filter(h => {
+          const date = new Date(h.date);
+          return date >= startOfWeek;
+        })
+        .reduce((sum, h) => sum + (h.type === 'earn' ? h.amount : -h.amount), 0);
+    }
+    
+    function exchangeStars(starsNeeded) {
+      const weekUsed = getWeeklyUsedMinutes();
+      const minutes = starsNeeded === 5 ? 30 : 60;
+      
+      if (state.stars < starsNeeded) {
+        showToast('⭐ 星星不够！', 'star');
+        return;
+      }
+      
+      if (weekUsed + minutes > 120) {
+        showToast('⚠️ 本周兑换已达上限！', 'star');
+        return;
+      }
+      
+      state.stars -= starsNeeded;
+      state.walletMins = (state.walletMins || 0) + minutes;
+      
+      if (!state.walletHistory) state.walletHistory = [];
+      state.walletHistory.unshift({
+        type: 'earn',
+        amount: minutes,
+        note: `兑换${starsNeeded}颗星星`,
+        date: new Date().toISOString()
+      });
+      
+      saveAndUpdate();
+      showToast(`✅ 成功兑换 ${minutes} 分钟！`, 'good');
+      updateWalletUI();
+    }
+    
+    function spendMinutes() {
+      const amount = parseInt(document.getElementById('spendAmount').value) || 0;
+      
+      if (amount <= 0) {
+        showToast('请输入有效分钟数', 'star');
+        return;
+      }
+      
+      if (amount > (state.walletMins || 0)) {
+        showToast('⏱️ 余额不足！', 'star');
+        return;
+      }
+      
+      if (!confirm(`确定要消耗 ${amount} 分钟屏幕时间吗？`)) {
+        return;
+      }
+      
+      state.walletMins = (state.walletMins || 0) - amount;
+      
+      if (!state.walletHistory) state.walletHistory = [];
+      state.walletHistory.unshift({
+        type: 'spend',
+        amount: amount,
+        note: '使用屏幕时间',
+        date: new Date().toISOString()
+      });
+      
+      saveAndUpdate();
+      showToast(`⏳ 已消耗 ${amount} 分钟`, 'good');
+      updateWalletUI();
+      document.getElementById('spendAmount').value = '';
+    }
+    
+    function renderWalletHistory() {
+      const history = state.walletHistory || [];
+      const list = document.getElementById('walletHistory');
+      
+      if (history.length === 0) {
+        list.innerHTML = '<li class="history-item" style="justify-content:center;color:#aaa;">暂无记录</li>';
+        return;
+      }
+      
+      list.innerHTML = history.slice(0, 10).map(h => {
+        const date = new Date(h.date);
+        const dateStr = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        return `
+          <li class="history-item">
+            <div class="history-type ${h.type}">
+              ${h.type === 'earn' ? '+' : '-'} ${h.amount}分钟
+              <span style="font-size:10px;color:#ccc;">${h.note}</span>
+            </div>
+            <div class="history-date">${dateStr}</div>
+          </li>
+        `;
+      }).join('');
     }
 
     function renderTasks() {
@@ -768,15 +1089,36 @@
         grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;"><span class="empty-state-icon">🔍</span><div class="empty-state-text">图鉴空空如也<br>去公园探索就会开始收录！</div></div>`;
         return;
       }
-      grid.innerHTML = state.guide.map(g => `
-        <div class="guide-card">
-          <div class="guide-pic">${g.emoji}</div>
-          <div class="guide-body">
-            <div class="guide-name">${g.name}</div>
-            <div class="guide-desc">Lv.${g.level || 1}</div>
+      grid.innerHTML = state.guide.map(g => {
+        const level = g.level || 1;
+        const times = g.times || 1;
+        const canEvolve = checkCanEvolve(g.name, level);
+        return `
+          <div class="guide-card">
+            <div class="guide-pic">
+              ${g.emoji}
+              <div class="guide-level-badge">Lv.${level}</div>
+            </div>
+            <div class="guide-body">
+              <div class="guide-name">${g.name}</div>
+              ${g.desc ? `<div class="guide-desc">${g.desc}</div>` : ''}
+              <div class="guide-meta">
+                <span class="guide-meta-item">👁️ ${times}次</span>
+              </div>
+              ${canEvolve ? `<div class="guide-evolve-hint">✨ 可进化到 Lv.${level + 1}</div>` : ''}
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+    }
+    
+    function checkCanEvolve(speciesName, currentLevel) {
+      const evolutions = GUIDE_EVOLUTIONS[speciesName];
+      if (!evolutions) return false;
+      const nextStage = evolutions.stages.find(s => s.level === currentLevel + 1);
+      if (!nextStage) return false;
+      if (!nextStage.badgeRequired) return true;
+      return state.gymBadges?.[nextStage.badgeRequired] || false;
     }
 
     const BADGE_SYSTEM = [
@@ -969,8 +1311,8 @@
     function renderBadges() {
       const badges = state.gymBadges || new Array(16).fill(false);
       const seasons = ['summer','autumn','winter','spring'];
-      const seasonColors = { summer: '#52b788', autumn: '#f4a261', winter: '#74c69d', spring: '#e9a820' };
-      const seasonLabels = { summer: '☀️ 夏季', autumn: '🍂 秋季', winter: '❄️ 冬季', spring: '🌸 春季' };
+      const seasonEmojis = { summer: '☀️', autumn: '🍂', winter: '❄️', spring: '🌸' };
+      const seasonLabels = { summer: '夏季', autumn: '秋季', winter: '冬季', spring: '春季' };
       
       let html = '';
       
@@ -979,31 +1321,30 @@
         const seasonUnlocked = seasonBadges.filter(b => badges[b.id]).length;
         
         html += `
-          <div style="padding:12px 12px 4px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:18px;">${seasonLabels[season].split(' ')[0]}</span>
-              <span style="font-size:14px;font-weight:700;color:${seasonColors[season]};">${seasonLabels[season].split(' ')[1]}</span>
-              <span style="font-size:12px;color:#aaa;">${seasonUnlocked}/${seasonBadges.length}</span>
+          <div class="badge-section">
+            <div class="badge-section-header">
+              <div class="badge-section-title">
+                <span>${seasonEmojis[season]}</span>
+                <span style="color:var(--green);">${seasonLabels[season]}</span>
+              </div>
+              <div class="badge-section-count">${seasonUnlocked}/${seasonBadges.length}</div>
             </div>
-          </div>
-          <div class="badge-grid" style="padding:0 12px;">
+            <div class="badge-grid">
         `;
         
         seasonBadges.forEach(badge => {
           const unlocked = badges[badge.id];
           html += `
             <div class="badge-card ${unlocked ? 'unlocked' : 'locked'}">
-              ${badge.type === 'manual' ? '<div style="position:absolute;top:4px;right:4px;font-size:10px;background:#ffd700;color:#fff;padding:2px 4px;border-radius:6px;">👨‍👩‍👧</div>' : ''}
-              <span class="badge-icon">${badge.emoji}</span>
+              ${badge.type === 'manual' ? '<div class="badge-manual">👨‍👩‍👧</div>' : ''}
+              <div class="badge-emoji-wrap"><span class="badge-icon">${badge.emoji}</span></div>
               <div class="badge-name">${badge.name}</div>
-              <div style="font-size:10px;color:#888;margin-top:4px;line-height:1.3;">${badge.condition}</div>
               <div class="badge-status">${unlocked ? '✨ 已获得' : '🔒 未解锁'}</div>
-              ${unlocked ? `<div style="font-size:9px;color:var(--green);margin-top:6px;background:var(--green-pale);padding:4px 6px;border-radius:8px;">🎁 ${badge.effect}</div>` : ''}
             </div>
           `;
         });
         
-        html += '</div>';
+        html += '</div></div>';
       });
       
       document.getElementById('badgeGrid').innerHTML = html;
