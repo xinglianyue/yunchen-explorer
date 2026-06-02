@@ -116,47 +116,113 @@
       overflow: hidden;
     }
     .checkin-header {
-      background: linear-gradient(135deg, var(--gold-light), #f4a261);
-      padding: 12px 16px;
+      background: linear-gradient(135deg, var(--green-deep), var(--green));
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
     }
-    .checkin-header h3 { font-size: 15px; font-weight: 900; }
-    .checkin-body { padding: 14px 16px; }
+    .checkin-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .checkin-header h3 { font-size: 16px; font-weight: 900; color: #fff; position: relative; z-index: 1; }
+    .checkin-body { padding: 16px; }
+    .checkin-task {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; margin-bottom: 10px;
+      background: linear-gradient(135deg, #f8faf8, #f0f9f4);
+      border-radius: 12px; border: 2px solid #e8f5e9;
+      transition: all 0.3s ease;
+    }
+    .checkin-task.completed {
+      background: linear-gradient(135deg, #e8f5e9, #d8f3dc);
+      border-color: var(--green-light);
+    }
+    .checkin-task-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      background: linear-gradient(135deg, var(--green-pale), var(--green-light));
+      box-shadow: 0 2px 8px rgba(45,106,79,0.15);
+    }
+    .checkin-task.completed .checkin-task-icon {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    }
+    .checkin-task-info { flex: 1; }
+    .checkin-task-title {
+      font-size: 14px; font-weight: 800; color: var(--green-deep);
+    }
+    .checkin-task-desc {
+      font-size: 11px; color: #888; margin-top: 2px;
+    }
+    .checkin-task-status {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 2px solid #ddd; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .checkin-task.completed .checkin-task-status {
+      background: var(--green); border-color: var(--green);
+    }
+    .checkin-task-status span { display: none; font-size: 16px; color: #fff; }
+    .checkin-task.completed .checkin-task-status span { display: block; }
     .form-group { margin-bottom: 14px; }
-    .form-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .form-label { font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--green-deep); }
     .form-input {
-      width: 100%; padding: 10px 12px; border-radius: 10px;
+      width: 100%; padding: 12px 14px; border-radius: 12px;
       border: 2px solid #e8f5e9; font-size: 14px;
       background: #f8faf8; transition: all 0.2s;
     }
-    .form-input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 3px rgba(82,183,136,0.2); }
+    .form-input:focus { outline: none; border-color: var(--green-light); box-shadow: 0 0 0 4px rgba(82,183,136,0.15); }
     .photo-upload-area {
-      border: 2px dashed var(--green-pale); border-radius: 10px;
-      padding: 20px; text-align: center; cursor: pointer;
-      transition: all 0.2s;
+      border: 2px dashed var(--green-pale); border-radius: 14px;
+      padding: 24px; text-align: center; cursor: pointer;
+      transition: all 0.3s;
+      background: linear-gradient(135deg, #f8faf8, #f0f9f4);
     }
-    .photo-upload-area:hover { border-color: var(--green-light); background: #f0f9f4; }
-    .pu-icon { font-size: 36px; }
-    .pu-text { font-size: 13px; color: #aaa; margin-top: 6px; }
-    .photo-preview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
-    .photo-thumb { aspect-ratio: 1; border-radius: 8px; overflow: hidden; position: relative; animation: fadeIn 0.3s ease; }
+    .photo-upload-area:hover { 
+      border-color: var(--green-light); 
+      background: linear-gradient(135deg, #f0f9f4, #e8f5e9);
+      transform: scale(1.01);
+    }
+    .pu-icon { font-size: 40px; margin-bottom: 6px; display: block; }
+    .pu-text { font-size: 14px; color: #666; font-weight: 600; }
+    .photo-preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+    .photo-thumb { aspect-ratio: 1; border-radius: 10px; overflow: hidden; position: relative; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
     .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .del-btn {
       position: absolute; top: 4px; right: 4px;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(0,0,0,0.7); color: #fff;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(231, 111, 81, 0.95); color: #fff;
       font-size: 14px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.2s;
+      cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .del-btn:hover { background: #e76f51; transform: scale(1.1); }
+    .del-btn:hover { background: #d63031; transform: scale(1.1); }
     .submit-btn {
-      width: 100%; padding: 14px; border-radius: 14px;
-      background: linear-gradient(135deg, var(--green), var(--green-light));
-      color: #fff; font-size: 15px; font-weight: 800; border: none;
-      cursor: pointer; transition: all 0.2s;
+      width: 100%; padding: 16px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--green-deep), var(--green), var(--green-light));
+      color: #fff; font-size: 17px; font-weight: 900; border: none;
+      cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 6px 20px rgba(45,106,79,0.35);
+      position: relative; overflow: hidden;
     }
-    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45,106,79,0.3); }
-    .submit-btn:active { transform: translateY(0); }
+    .submit-btn::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.6s;
+    }
+    .submit-btn:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 8px 24px rgba(45,106,79,0.45);
+    }
+    .submit-btn:hover::before { left: 100%; }
+    .submit-btn:active { transform: translateY(-1px); }
     .edit-btn {
       width: 100%; padding: 10px; border-radius: 10px;
       background: var(--green-pale); color: var(--green);
@@ -967,30 +1033,67 @@
       </div>
     </div>
 
-    <div class="section-header"><div class="section-title"><span>📝</span>今日打卡</div></div>
+    <div class="section-header"><div class="section-title"><span>⚔️</span>今日探险任务</div></div>
     <div class="checkin-form">
       <div class="checkin-header">
-        <h3>📸 打卡 · 第<span id="checkinWeek">2</span>周</h3>
+        <h3>🎯 第<span id="checkinWeek">2</span>周 · 任务清单</h3>
       </div>
       <div class="checkin-body">
-        <div class="form-group">
-          <div class="form-label">📷 上传照片（最多9张）</div>
+        
+        <div class="checkin-task" id="task-photo" onclick="toggleTask('photo')">
+          <div class="checkin-task-icon">📸</div>
+          <div class="checkin-task-info">
+            <div class="checkin-task-title">记录精彩瞬间</div>
+            <div class="checkin-task-desc">上传照片，获得 +1⭐/张</div>
+          </div>
+          <div class="checkin-task-status"><span>✓</span></div>
+        </div>
+
+        <div id="photo-section" style="display:none; margin-bottom: 12px;">
           <div class="photo-upload-area" onclick="document.getElementById('photoInput').click()">
             <div class="pu-icon">📸</div>
-            <div class="pu-text">点击上传照片</div>
+            <div class="pu-text">点击上传探索照片</div>
           </div>
           <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
           <div class="photo-preview-grid" id="photoPreview"></div>
         </div>
-        <div class="form-group">
-          <div class="form-label">🔍 发现了什么物种？</div>
-          <input type="text" class="form-input" id="speciesFound" placeholder="例如：蝴蝶、蒲公英">
+        
+        <div class="checkin-task" id="task-species" onclick="toggleTask('species')">
+          <div class="checkin-task-icon">🔍</div>
+          <div class="checkin-task-info">
+            <div class="checkin-task-title">发现新物种</div>
+            <div class="checkin-task-desc">记录今天发现了什么，获得 +2⭐/种</div>
+          </div>
+          <div class="checkin-task-status"><span>✓</span></div>
         </div>
-        <div class="form-group">
-          <div class="form-label">📝 探索记录</div>
-          <textarea class="form-input" id="exploreNotes" placeholder="今天探索了什么？" rows="3"></textarea>
+
+        <div id="species-section" style="display:none; margin-bottom: 12px;">
+          <div class="form-group">
+            <input type="text" class="form-input" id="speciesFound" placeholder="例如：蝴蝶、蒲公英、梧桐树..." oninput="updateExpectedStars()">
+          </div>
         </div>
-        <button class="submit-btn" onclick="submitCheckin()">🎉 完成打卡</button>
+        
+        <div class="checkin-task" id="task-notes" onclick="toggleTask('notes')">
+          <div class="checkin-task-icon">📝</div>
+          <div class="checkin-task-info">
+            <div class="checkin-task-title">写探险日记</div>
+            <div class="checkin-task-desc">记录今天的故事，获得 +3⭐</div>
+          </div>
+          <div class="checkin-task-status"><span>✓</span></div>
+        </div>
+
+        <div id="notes-section" style="display:none; margin-bottom: 12px;">
+          <div class="form-group">
+            <textarea class="form-input" id="exploreNotes" placeholder="今天探索了什么？发生了什么有趣的事？" rows="3" oninput="updateExpectedStars()"></textarea>
+          </div>
+        </div>
+
+        <div style="margin-top: 12px; padding: 12px; background: linear-gradient(135deg, #fff8e1, #ffeaa7); border-radius: 12px; text-align: center;">
+          <div style="font-size: 13px; color: #8b6914; margin-bottom: 6px;">预计获得</div>
+          <div style="font-size: 32px; font-weight: 900; color: #d6a500;" id="expected-stars">+0 ⭐</div>
+        </div>
+        
+        <button class="submit-btn" onclick="submitCheckin()">🎊 完成探险！</button>
       </div>
     </div>
   </div>
@@ -1605,29 +1708,33 @@
       const notesInput = document.getElementById('exploreNotes').value.trim();
       let starsEarned = 2;
 
-      if (tempPhotos.length > 0) {
-        tempPhotos.forEach((data, i) => {
+      const photoThumbs = document.querySelectorAll('#photoPreview .photo-thumb');
+      if (photoThumbs.length > 0) {
+        photoThumbs.forEach(thumb => {
+          const img = thumb.querySelector('img');
           state.photos.push({
             id: ++lastPhotoId,
-            data: data,
+            data: img.src,
             date: new Date().toLocaleDateString(),
             week: state.week
           });
         });
-        starsEarned += tempPhotos.length;
-        tempPhotos = [];
+        starsEarned += photoThumbs.length;
         document.getElementById('photoPreview').innerHTML = '';
       }
 
       if (speciesInput) {
-        speciesInput.split(/[,，、]/).forEach(name => {
+        const speciesList = speciesInput.split(/[,，、\s]+/).filter(s => s.trim());
+        speciesList.forEach(name => {
           const trimmed = name.trim();
           if (trimmed && !state.guide.find(g => g.name === trimmed)) {
-            state.guide.push({ id: 'g' + Date.now() + Math.random(), name: trimmed, emoji: getSpeciesEmoji(trimmed), level: 1, times: 1 });
+            state.guide.push({ id: 'g' + Date.now() + Math.random(), name: trimmed, emoji: getSpeciesEmoji(trimmed), level: 1, times: 1, desc: '在第' + state.week + '周发现！' });
           }
         });
-        starsEarned += speciesInput.split(/[,，、]/).filter(s => s.trim()).length;
+        starsEarned += speciesList.length * 2;
       }
+
+      if (notesInput && notesInput.length > 5) starsEarned += 3;
 
       state.taskHistory[state.week] = {
         name: tasksConfig[state.week]?.name || `第${state.week}周任务`,
@@ -1646,12 +1753,21 @@
         state.xpMax = Math.round(state.xpMax * 1.5);
         showToast('🎉 升级到 Lv.' + state.level + '!', 'star');
       } else {
-        showToast('✅ 打卡成功！获得 ' + starsEarned + ' 颗星星', 'good');
+        showToast('🎊 探险完成！获得 +' + starsEarned + ' ⭐', 'good');
       }
 
       updateAchievements(); checkAllBadges();
       document.getElementById('speciesFound').value = '';
       document.getElementById('exploreNotes').value = '';
+      
+      document.getElementById('task-photo').classList.remove('completed');
+      document.getElementById('photo-section').style.display = 'none';
+      document.getElementById('task-species').classList.remove('completed');
+      document.getElementById('species-section').style.display = 'none';
+      document.getElementById('task-notes').classList.remove('completed');
+      document.getElementById('notes-section').style.display = 'none';
+      
+      updateExpectedStars();
       updateUI();
       saveData();
     }
@@ -2721,6 +2837,58 @@
       t.textContent = msg;
       t.className = 'toast ' + type + ' show';
       setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function toggleTask(taskType) {
+      const taskEl = document.getElementById('task-' + taskType);
+      const sectionEl = document.getElementById(taskType + '-section');
+      
+      if (sectionEl.style.display === 'none') {
+        sectionEl.style.display = 'block';
+        taskEl.classList.add('completed');
+      } else {
+        sectionEl.style.display = 'none';
+        taskEl.classList.remove('completed');
+      }
+      updateExpectedStars();
+    }
+
+    function updateExpectedStars() {
+      let stars = 0;
+      
+      const photos = document.querySelectorAll('#photoPreview .photo-thumb');
+      if (photos.length > 0) stars += photos.length * 1;
+      
+      const speciesInput = document.getElementById('speciesFound');
+      if (speciesInput && speciesInput.value.trim()) {
+        const species = speciesInput.value.split(/[,，\s]+/).filter(s => s.trim());
+        stars += species.length * 2;
+      }
+      
+      const notesInput = document.getElementById('exploreNotes');
+      if (notesInput && notesInput.value.trim().length > 5) stars += 3;
+      
+      document.getElementById('expected-stars').textContent = '+' + stars + ' ⭐';
+    }
+
+    function handlePhotoUpload(event) {
+      const files = event.target.files;
+      const preview = document.getElementById('photoPreview');
+      let total = preview.children.length;
+      
+      Array.from(files).forEach(async file => {
+        if (total >= 9) return;
+        const compressed = await compressImage(file);
+        const div = document.createElement('div');
+        div.className = 'photo-thumb';
+        div.innerHTML = `
+          <img src="${compressed}">
+          <div class="del-btn" onclick="this.parentElement.remove(); updateExpectedStars();">×</div>
+        `;
+        preview.appendChild(div);
+        updateExpectedStars();
+        total++;
+      });
     }
 
     loadData();
