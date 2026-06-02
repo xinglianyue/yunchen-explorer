@@ -915,6 +915,31 @@
       opacity: 0.8;
     }
 
+    .title-power {
+      font-size: 14px; color: var(--gold-light);
+      margin-top: 16px; font-weight: 600;
+      padding: 10px 20px;
+      background: rgba(255, 209, 102, 0.2);
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .title-upgrade-particles {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 2501;
+    }
+
+    .title-particle {
+      position: absolute; font-size: 30px;
+      animation: titleParticleFloat 3s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes titleParticleFloat {
+      0% { opacity: 0; transform: translateY(100vh) scale(0); }
+      20% { opacity: 1; transform: translateY(80vh) scale(1); }
+      100% { opacity: 0; transform: translateY(-20vh) scale(0.5); }
+    }
+
     .daily-checkin-modal {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.7); z-index: 1500;
@@ -1541,10 +1566,12 @@
   </div>
 
   <div class="title-upgrade-modal hide" id="titleUpgradeModal">
+    <div class="title-upgrade-particles" id="titleUpgradeParticles"></div>
     <div class="title-upgrade-content">
       <div class="title-crown">👑</div>
       <div class="title-text" id="titleText">新称号解锁！</div>
       <div class="title-desc" id="titleDesc">称号描述</div>
+      <div class="title-power" id="titlePower" style="display:none;"></div>
     </div>
   </div>
 
@@ -1946,13 +1973,13 @@
     }
 
     const TITLE_SYSTEM = [
-      { level: 1, name: '🌱 冒险新手', desc: '刚刚踏上探索之旅的小冒险家' },
-      { level: 2, name: '🚶 小探险家', desc: '已经有了一些探索经验' },
-      { level: 3, name: '🔍 自然观察员', desc: '善于发现大自然的秘密' },
-      { level: 4, name: '🌿 植物学家', desc: '认识很多植物朋友' },
-      { level: 5, name: '🐛 昆虫侦探', desc: '昆虫世界的小小侦探' },
-      { level: 6, name: '🌍 生态专家', desc: '了解整个生态系统' },
-      { level: 7, name: '👑 公园大师', desc: '世纪公园的真正主人' }
+      { level: 1, name: '🌱 冒险新手', desc: '刚刚踏上探索之旅的小冒险家', power: '基础探索权限' },
+      { level: 2, name: '🚶 小探险家', desc: '已经有了一些探索经验', power: '可选择探索区域' },
+      { level: 3, name: '🔍 自然观察员', desc: '善于发现大自然的秘密', power: '可选择拍摄内容' },
+      { level: 4, name: '🌿 植物学家', desc: '认识很多植物朋友', power: '可提议新物种' },
+      { level: 5, name: '🐛 昆虫侦探', desc: '昆虫世界的小小侦探', power: '可设计任务让爸妈执行' },
+      { level: 6, name: '🌍 生态专家', desc: '了解整个生态系统', power: '可修改任务难度' },
+      { level: 7, name: '👑 公园大师', desc: '世纪公园的真正主人', power: '完全自主探索' }
     ];
     
     let lastTitleLevel = 1;
@@ -1966,7 +1993,7 @@
       (document.getElementById('levelName') || {textContent: ''}).textContent = currentTitle.name;
       
       if (state.level > lastTitleLevel) {
-        showTitleUpgrade(currentTitle.name, currentTitle.desc);
+        showTitleUpgrade(currentTitle.name, currentTitle.desc, currentTitle.power);
         lastTitleLevel = state.level;
       }
       (document.getElementById('xpText') || {textContent: ''}).textContent = state.xp + '/' + state.xpMax;
@@ -2621,16 +2648,37 @@
       }, 3000);
     }
     
-    function showTitleUpgrade(titleName, titleDesc) {
+    function showTitleUpgrade(titleName, titleDesc, titlePower) {
       const modal = document.getElementById('titleUpgradeModal');
       document.getElementById('titleText').textContent = titleName;
       document.getElementById('titleDesc').textContent = titleDesc;
+      
+      const powerEl = document.getElementById('titlePower');
+      if (powerEl && titlePower) {
+        powerEl.textContent = '✨ 解锁权限：' + titlePower;
+        powerEl.style.display = 'block';
+      }
+      
+      const particles = document.getElementById('titleUpgradeParticles');
+      if (particles) {
+        particles.innerHTML = '';
+        const particleEmojis = ['👑', '⭐', '✨', '🌟', '💫', '🏆', '🎖️'];
+        for (let i = 0; i < 30; i++) {
+          const p = document.createElement('div');
+          p.className = 'title-particle';
+          p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+          p.style.left = Math.random() * 100 + '%';
+          p.style.animationDelay = Math.random() * 2 + 's';
+          p.style.animationDuration = (2 + Math.random() * 2) + 's';
+          particles.appendChild(p);
+        }
+      }
       
       modal.classList.remove('hide');
       
       setTimeout(() => {
         modal.classList.add('hide');
-      }, 3000);
+      }, 4000);
     }
     
     function checkDailyCheckin() {
