@@ -418,6 +418,102 @@
     .history-type.earn { color: var(--green); }
     .history-type.spend { color: var(--orange); }
     .history-date { font-size: 10px; color: #aaa; }
+
+    .season-card {
+      background: #fff; border-radius: 16px; margin: 12px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(26,58,42,0.08);
+    }
+    .season-header {
+      background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: #fff; padding: 14px 16px; font-weight: 700; font-size: 15px;
+    }
+    .season-desc {
+      background: rgba(45,106,79,0.08); padding: 8px 16px;
+      font-size: 12px; color: #666;
+    }
+    .week-preview-list { padding: 8px; }
+    .week-preview-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; margin: 8px; border-radius: 12px;
+      background: rgba(45,106,79,0.05);
+      transition: all 0.2s;
+    }
+    .week-preview-item:hover { background: rgba(45,106,79,0.1); }
+    .week-preview-item.future { opacity: 0.7; }
+    .week-preview-item.future .week-hint { color: #aaa; }
+    .week-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #fff; font-weight: 700; font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .week-name { font-weight: 700; font-size: 14px; color: var(--green-deep); }
+    .week-hint { font-size: 12px; color: #888; flex: 1; }
+
+    .help-section {
+      background: #fff; border-radius: 16px; margin: 12px; padding: 16px;
+      box-shadow: 0 4px 16px rgba(26,58,42,0.08);
+    }
+    .help-title {
+      font-size: 16px; font-weight: 800; color: var(--green-deep);
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .help-content { font-size: 13px; line-height: 1.6; }
+    .help-list {
+      list-style: none; padding-left: 0; margin: 0;
+    }
+    .help-list li {
+      padding: 6px 0; padding-left: 24px; position: relative;
+      color: #555;
+    }
+    .help-list li::before {
+      content: '✓'; position: absolute; left: 0;
+      color: var(--green); font-weight: 700; font-size: 12px;
+    }
+    .help-list.safety li::before {
+      content: '⚠️'; font-size: 14px; color: var(--orange);
+    }
+
+    .title-list {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .title-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; border-radius: 12px;
+      background: rgba(45,106,79,0.05);
+      opacity: 0.5;
+    }
+    .title-item.active {
+      background: linear-gradient(135deg, rgba(45,106,79,0.1), rgba(233,168,32,0.1));
+      opacity: 1;
+    }
+    .title-level {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #eee; color: #888; font-weight: 700; font-size: 11px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .title-item.active .title-level {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: #fff;
+    }
+    .title-name { font-weight: 700; font-size: 14px; color: var(--green-deep); flex: 1; }
+    .title-desc { font-size: 11px; color: #888; }
+
+    .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
+    .ach-card {
+      background: #fff; border-radius: 14px; padding: 16px; text-align: center;
+      box-shadow: 0 3px 12px rgba(26,58,42,0.08);
+    }
+    .ach-card.locked { opacity: 0.5; filter: grayscale(0.8); }
+    .ach-icon { font-size: 32px; margin-bottom: 8px; }
+    .ach-name { font-size: 13px; font-weight: 700; }
+    .ach-desc { font-size: 11px; color: #888; margin-top: 4px; }
+    .ach-progress {
+      margin-top: 8px; height: 6px; background: #eee; border-radius: 3px;
+      overflow: hidden;
+    }
+    .ach-progress-bar { height: 100%; background: linear-gradient(90deg, var(--green-light), var(--green)); }
   </style>
 </head>
 <body>
@@ -538,12 +634,257 @@
     </div>
   </div>
 
+  <div class="page" id="page-preview">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">🔮 任务预告</div>
+      <div style="font-size:13px;color:#aaa;">即将开启的冒险</div>
+    </div>
+    
+    <div class="season-card">
+      <div class="season-header">☀️ 夏季 · 认识公园</div>
+      <div class="season-desc">难度：★☆☆☆☆ | 核心能力：观察</div>
+      <div class="week-preview-list">
+        <div class="week-preview-item" id="wp-3">
+          <div class="week-num">第3周</div>
+          <div class="week-name">换条路走</div>
+          <div class="week-hint">🗺️ 走没走过的路，发现新惊喜</div>
+        </div>
+        <div class="week-preview-item" id="wp-4">
+          <div class="week-num">第4周</div>
+          <div class="week-name">公园的一天</div>
+          <div class="week-hint">⏰ 同一地方早中晚有什么变化</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第5-8周</div>
+          <div class="week-name">🌳 树木月</div>
+          <div class="week-hint">发现5种不同的树，认识树叶和树皮</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第9-12周</div>
+          <div class="week-name">🐛 昆虫+水月</div>
+          <div class="week-hint">找小虫子、观察蚂蚁、湖边探险</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="season-card">
+      <div class="season-header">🍂 秋季 · 变化</div>
+      <div class="season-desc">难度：★★★☆☆ | 核心能力：对比</div>
+      <div class="week-preview-list">
+        <div class="week-preview-item future">
+          <div class="week-num">第13-16周</div>
+          <div class="week-name">🍁 变化月</div>
+          <div class="week-hint">叶子变色了，收集落叶做拼画</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第17-20周</div>
+          <div class="week-name">🐦 鸟类月</div>
+          <div class="week-hint">观察小鸟，学它们的叫声</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第21-24周</div>
+          <div class="week-name">🦶 地面月</div>
+          <div class="week-hint">找动物脚印、蘑菇、枯枝艺术</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="season-card">
+      <div class="season-header">❄️ 冬季 · 寻找痕迹</div>
+      <div class="season-desc">难度：★★★★☆ | 核心能力：推理+记录</div>
+      <div class="week-preview-list">
+        <div class="week-preview-item future">
+          <div class="week-num">第25-28周</div>
+          <div class="week-name">🔍 痕迹月</div>
+          <div class="week-hint">冬天谁还活着？测不同地方的温度</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第29-32周</div>
+          <div class="week-name">❄️ 冰雪月</div>
+          <div class="week-hint">结冰了吗？观察霜和雾</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第33-36周</div>
+          <div class="week-name">🌱 准备月</div>
+          <div class="week-hint">找春天的芽，准备迎接春天</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="season-card">
+      <div class="season-header">🌸 春季 · 新生</div>
+      <div class="season-desc">难度：★★★★★ | 核心能力：创造</div>
+      <div class="week-preview-list">
+        <div class="week-preview-item future">
+          <div class="week-num">第37-40周</div>
+          <div class="week-name">🌷 新生月</div>
+          <div class="week-hint">找发芽的树，看花开了</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第41-44周</div>
+          <div class="week-name">🔬 科学月</div>
+          <div class="week-hint">做生长实验，观察花粉</div>
+        </div>
+        <div class="week-preview-item future">
+          <div class="week-num">第45-48周</div>
+          <div class="week-name">🏆 创造月</div>
+          <div class="week-hint">自己设计任务，当小老师！</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page" id="page-help">
+    <div style="padding:20px;text-align:center;">
+      <div style="font-size:24px;">🎮 游戏玩法</div>
+      <div style="font-size:13px;color:#aaa;">让探险更有趣</div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">⭐ 星星怎么得？</div>
+      <div class="help-content">
+        <ul class="help-list">
+          <li>🌳 去了公园：+1星</li>
+          <li>🔍 完成发现任务：+1星</li>
+          <li>✅ 完成挑战任务：+1星</li>
+          <li>📝 完成记录任务：+1星</li>
+          <li>📸 拍照超5张：+1星</li>
+          <li>🎨 画了一幅画：+2星</li>
+          <li>🏠 完成回家任务：+2星</li>
+          <li>🔖 发现新物种：+2星/种</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">👛 星星换什么？</div>
+      <div class="help-content">
+        <ul class="help-list">
+          <li>5颗星 = 30分钟屏幕时间</li>
+          <li>10颗星 = 60分钟屏幕时间</li>
+          <li>每周最多兑换120分钟</li>
+        </ul>
+        <div style="background:rgba(233,168,32,0.1);padding:12px;border-radius:10px;margin-top:10px;">
+          <div style="font-weight:700;color:#d6a500;">💡 小提示</div>
+          <div style="font-size:12px;color:#8b6914;margin-top:4px;">攒够星星后，让妈妈帮你兑换屏幕时间！</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">📖 图鉴怎么玩？</div>
+      <div class="help-content">
+        <ul class="help-list">
+          <li>🔍 Lv.1：首次发现</li>
+          <li>⭐ Lv.2：见过3次</li>
+          <li>⭐⭐ Lv.3：见过5次</li>
+          <li>⭐⭐⭐ Lv.4：见过8次以上</li>
+        </ul>
+        <div style="background:rgba(45,106,79,0.1);padding:12px;border-radius:10px;margin-top:10px;">
+          <div style="font-weight:700;color:var(--green);">🌿 小知识</div>
+          <div style="font-size:12px;color:#2d6a4f;margin-top:4px;">图鉴里有50种动植物等着你来发现！</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">🏅 徽章怎么拿？</div>
+      <div class="help-content">
+        <ul class="help-list">
+          <li>🌱 冒险启程：首次探索</li>
+          <li>🗺️ 公园通：探索5个区域</li>
+          <li>📸 小摄影师：拍摄50张照片</li>
+          <li>🐛 虫虫猎人：发现5种昆虫</li>
+          <li>🦆 鸟语达人：发现5种鸟</li>
+          <li>❄️ 冰雪勇士：冬季探索4次</li>
+        </ul>
+        <div style="font-size:12px;color:#888;margin-top:8px;">还有更多徽章等你解锁！</div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">🏆 称号升级</div>
+      <div class="help-content">
+        <div class="title-list">
+          <div class="title-item active">
+            <span class="title-level">Lv.1</span>
+            <span class="title-name">新手冒险家</span>
+            <span class="title-desc">初始称号</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.2</span>
+            <span class="title-name">自然观察员</span>
+            <span class="title-desc">第4周解锁</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.3</span>
+            <span class="title-name">草丛猎手</span>
+            <span class="title-desc">第8周解锁</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.4</span>
+            <span class="title-name">变化侦探</span>
+            <span class="title-desc">第12周解锁</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.5</span>
+            <span class="title-name">四季旅者</span>
+            <span class="title-desc">第24周解锁</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.6</span>
+            <span class="title-name">小科学家</span>
+            <span class="title-desc">第36周解锁</span>
+          </div>
+          <div class="title-item">
+            <span class="title-level">Lv.7</span>
+            <span class="title-name">公园大师</span>
+            <span class="title-desc">第48周解锁</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">⚠️ 安全提示</div>
+      <div class="help-content">
+        <ul class="help-list safety">
+          <li>🚫 不下水（湖边保持2米距离）</li>
+          <li>🚫 不爬树（远观拍照即可）</li>
+          <li>🚫 不吃公园里的东西</li>
+          <li>🚫 不碰不认识的虫子和植物</li>
+          <li>👀 始终在妈妈视线范围内</li>
+          <li>🧴 防晒防蚊必备</li>
+          <li>💧 带好水壶</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <div class="help-title">💡 探索小贴士</div>
+      <div class="help-content">
+        <div style="background:#fff8e1;padding:12px;border-radius:10px;">
+          <div style="font-weight:700;color:#8b6914;">跟着走，不推着走</div>
+          <div style="font-size:12px;color:#8b6914;margin-top:4px;">想停就停，想玩就玩</div>
+        </div>
+        <div style="background:#e8f5e9;padding:12px;border-radius:10px;margin-top:10px;">
+          <div style="font-weight:700;color:#2d6a4f;">多问少教</div>
+          <div style="font-size:12px;color:#2d6a4f;margin-top:4px;">不直接告诉答案，多问"你觉得呢？"</div>
+        </div>
+        <div style="background:#ede9fe;padding:12px;border-radius:10px;margin-top:10px;">
+          <div style="font-weight:700;color:#6d28d9;">任何发现都值得回应</div>
+          <div style="font-size:12px;color:#6d28d9;margin-top:4px;">即使是"无聊"的发现</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('home')"><span class="nav-icon">🏠</span>首页</div>
-    <div class="nav-item" onclick="switchTab('history')"><span class="nav-icon">📜</span>历史</div>
-    <div class="nav-item" onclick="switchTab('badges')"><span class="nav-icon">🏅</span>徽章</div>
     <div class="nav-item" onclick="switchTab('guide')"><span class="nav-icon">📖</span>图鉴</div>
-    <div class="nav-item" onclick="switchTab('photos')"><span class="nav-icon">📸</span>照片</div>
+    <div class="nav-item" onclick="switchTab('badges')"><span class="nav-icon">🏅</span>徽章</div>
+    <div class="nav-item" onclick="switchTab('preview')"><span class="nav-icon">🔮</span>预告</div>
+    <div class="nav-item" onclick="switchTab('help')"><span class="nav-icon">❓</span>说明</div>
   </div>
 
   <div class="toast" id="toast"></div>
