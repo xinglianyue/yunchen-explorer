@@ -26,7 +26,7 @@
 
     .music-bar {
       position: fixed;
-      top: 100px;
+      bottom: 75px;
       left: 10px;
       right: 10px;
       background: linear-gradient(135deg, #1a3a2a, #2d6a4f, #40916c);
@@ -34,12 +34,14 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      z-index: 999;
-      box-shadow: 0 4px 20px rgba(26,58,42,0.4);
+      z-index: 99;
+      box-shadow: 0 -4px 20px rgba(26,58,42,0.3);
       border-radius: 20px;
       max-width: 480px;
       margin: 0 auto;
       border: 2px solid rgba(255,255,255,0.2);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
     .music-btn {
       width: 44px;
