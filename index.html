@@ -22,7 +22,69 @@
       --gray-pale: #eee;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family: 'Noto Sans SC', sans-serif; background: #e8f5e9; color: var(--green-deep); min-height: 100vh; padding-bottom: 85px; }
+    body { font-family: 'Noto Sans SC', sans-serif; background: #e8f5e9; color: var(--green-deep); min-height: 100vh; padding-bottom: 140px; }
+
+    .music-bar {
+      position: fixed;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #1a3a2a, #2d6a4f, #40916c);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 99;
+      box-shadow: 0 -4px 20px rgba(26,58,42,0.3);
+    }
+    .music-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(233,168,32,0.4);
+    }
+    .music-btn:hover {
+      transform: scale(1.1);
+      background: var(--gold-light);
+    }
+    .music-btn:active {
+      transform: scale(0.95);
+    }
+    .music-info {
+      flex: 1;
+      color: #fff;
+    }
+    .music-name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .music-season {
+      font-size: 11px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+    .music-volume {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .music-volume-icon {
+      font-size: 18px;
+      color: #fff;
+    }
+    input[type="range"] {
+      width: 80px;
+      accent-color: var(--gold);
+    }
 
     .top-bar {
       background: linear-gradient(160deg, #1a3a2a 0%, #2d6a4f 60%, #40916c 100%);
@@ -1587,6 +1649,23 @@
     <div id="sideQuestList"></div>
   </div>
 
+  <div class="music-bar" id="musicBar">
+    <button class="music-btn" id="musicToggle" onclick="toggleMusic()">
+      <span id="musicIcon">▶️</span>
+    </button>
+    <div class="music-info">
+      <div class="music-name" id="musicName">🎵 真新镇</div>
+      <div class="music-season" id="musicSeason">☀️ 夏季主题</div>
+    </div>
+    <div class="music-volume">
+      <span class="music-volume-icon" id="volumeIcon">🔊</span>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)">
+    </div>
+  </div>
+
+  <audio id="bgMusic" loop>
+  </audio>
+
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('home')"><span class="nav-icon">🏠</span>首页</div>
     <div class="nav-item" onclick="switchTab('guide')"><span class="nav-icon">📖</span>图鉴</div>
@@ -1757,6 +1836,15 @@
 
   <script>
     const API_BASE = './data.json';
+    const seasonMusic = {
+      summer: { name: '🎵 真新镇', emoji: '☀️', label: '夏季主题', src: 'music/summer.mp3' },
+      autumn: { name: '🎵 金黄的道路', emoji: '🍂', label: '秋季主题', src: 'music/autumn.mp3' },
+      winter: { name: '🎵 雪花纷飞', emoji: '❄️', label: '冬季主题', src: 'music/winter.mp3' },
+      spring: { name: '🎵 新的冒险', emoji: '🌸', label: '春季主题', src: 'music/spring.mp3' }
+    };
+    let currentSeason = 'summer';
+    let isMusicPlaying = false;
+    let musicVolume = 0.5;
     const tasksConfig = {
       1: { name: '小小探索家', role: '🎭 角色：小小探索家', steps: [
         { id: 'step1', title: '准备出发', time: '10分钟', desc: '带上小本子和笔，准备记录发现', reward: '⭐1' },
@@ -1789,6 +1877,7 @@
           localStorage.setItem('yunchen_data', JSON.stringify(state));
           console.log('数据加载成功:', state);
           updateUI();
+          initMusic();
           renderChallengeOptions();
           renderDailyQuest();
           showToast('✅ 已同步云端数据', 'good');
@@ -1807,19 +1896,101 @@
               showToast('检测到旧数据，已重置', 'star');
             } else {
               state = { ...state, ...savedData };
+              updateUI();
+              initMusic();
               showToast('使用本地缓存数据', 'star');
             }
           } catch {
             localStorage.removeItem('yunchen_data');
             initDefaultData();
+            updateUI();
+            initMusic();
             showToast('数据格式错误，已重置', 'star');
           }
         } else {
           initDefaultData();
+          updateUI();
+          initMusic();
           showToast('开始新的探索！', 'good');
         }
       }
       showSync(false);
+    }
+
+    function getSeasonForWeek(week) {
+      if (week >= 1 && week <= 12) return 'summer';
+      if (week >= 13 && week <= 24) return 'autumn';
+      if (week >= 25 && week <= 36) return 'winter';
+      if (week >= 37 && week <= 48) return 'spring';
+      return 'summer';
+    }
+
+    function initMusic() {
+      currentSeason = getSeasonForWeek(state.week);
+      const music = seasonMusic[currentSeason];
+      document.getElementById('musicName').textContent = music.name;
+      document.getElementById('musicSeason').textContent = music.emoji + ' ' + music.label;
+      
+      const savedVolume = localStorage.getItem('musicVolume');
+      if (savedVolume) {
+        musicVolume = parseFloat(savedVolume);
+        document.getElementById('volumeSlider').value = musicVolume;
+      }
+      document.getElementById('bgMusic').volume = musicVolume;
+      updateVolumeIcon();
+
+      const savedSrc = localStorage.getItem('musicSrc');
+      if (savedSrc) {
+        document.getElementById('bgMusic').src = savedSrc;
+      }
+      
+      const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+      if (wasPlaying) {
+        isMusicPlaying = true;
+        document.getElementById('musicIcon').textContent = '⏸️';
+      }
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const music = seasonMusic[currentSeason];
+      
+      if (!audio.src || audio.src === window.location.href) {
+        audio.src = music.src;
+        localStorage.setItem('musicSrc', music.src);
+      }
+      
+      if (isMusicPlaying) {
+        audio.pause();
+        document.getElementById('musicIcon').textContent = '▶️';
+        isMusicPlaying = false;
+      } else {
+        audio.play().catch(e => {
+          console.log('播放需要用户交互:', e);
+          showToast('点击播放按钮开始音乐！', 'star');
+        });
+        document.getElementById('musicIcon').textContent = '⏸️';
+        isMusicPlaying = true;
+      }
+      localStorage.setItem('musicPlaying', isMusicPlaying);
+    }
+
+    function changeVolume(value) {
+      musicVolume = parseFloat(value);
+      document.getElementById('bgMusic').volume = musicVolume;
+      localStorage.setItem('musicVolume', musicVolume);
+      updateVolumeIcon();
+    }
+
+    function updateVolumeIcon() {
+      const iconEl = document.getElementById('volumeIcon');
+      if (musicVolume === 0) {
+        iconEl.textContent = '🔇';
+      } else if (musicVolume < 0.5) {
+        iconEl.textContent = '🔉';
+      } else {
+        iconEl.textContent = '🔊';
+      }
     }
 
     function initDefaultData() {
