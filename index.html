@@ -1663,9 +1663,6 @@
     </div>
   </div>
 
-  <audio id="bgMusic" loop>
-  </audio>
-
   <div class="bottom-nav">
     <div class="nav-item active" onclick="switchTab('home')"><span class="nav-icon">🏠</span>首页</div>
     <div class="nav-item" onclick="switchTab('guide')"><span class="nav-icon">📖</span>图鉴</div>
@@ -1837,14 +1834,18 @@
   <script>
     const API_BASE = './data.json';
     const seasonMusic = {
-      summer: { name: '🎵 真新镇', emoji: '☀️', label: '夏季主题', src: 'music/summer.mp3' },
-      autumn: { name: '🎵 金黄的道路', emoji: '🍂', label: '秋季主题', src: 'music/autumn.mp3' },
-      winter: { name: '🎵 雪花纷飞', emoji: '❄️', label: '冬季主题', src: 'music/winter.mp3' },
-      spring: { name: '🎵 新的冒险', emoji: '🌸', label: '春季主题', src: 'music/spring.mp3' }
+      summer: { name: '🎵 夏日微风', emoji: '☀️', label: '夏季主题' },
+      autumn: { name: '🎵 金黄落叶', emoji: '🍂', label: '秋季主题' },
+      winter: { name: '🎵 雪花飘落', emoji: '❄️', label: '冬季主题' },
+      spring: { name: '🎵 新的开始', emoji: '🌸', label: '春季主题' }
     };
-    let currentSeason = 'summer';
+    let audioContext;
+    let oscillators = [];
     let isMusicPlaying = false;
     let musicVolume = 0.5;
+    let currentNoteIndex = 0;
+    let musicTimer;
+    let currentSeason = 'summer';
     const tasksConfig = {
       1: { name: '小小探索家', role: '🎭 角色：小小探索家', steps: [
         { id: 'step1', title: '准备出发', time: '10分钟', desc: '带上小本子和笔，准备记录发现', reward: '⭐1' },
@@ -1925,6 +1926,29 @@
       return 'summer';
     }
 
+    const melodies = {
+      summer: {
+        scale: [261.63, 293.66, 329.63, 392.00, 440.00, 523.25],
+        durations: [0.4, 0.2, 0.4, 0.2, 0.8],
+        tempo: 120
+      },
+      autumn: {
+        scale: [293.66, 329.63, 349.23, 392.00, 440.00, 349.23],
+        durations: [0.6, 0.2, 0.2, 0.6, 0.4],
+        tempo: 100
+      },
+      winter: {
+        scale: [261.63, 246.94, 261.63, 293.66, 329.63, 261.63],
+        durations: [0.8, 0.2, 0.4, 0.4, 0.6],
+        tempo: 80
+      },
+      spring: {
+        scale: [329.63, 392.00, 440.00, 523.25, 440.00, 392.00],
+        durations: [0.3, 0.3, 0.3, 0.5, 0.6],
+        tempo: 130
+      }
+    };
+
     function initMusic() {
       currentSeason = getSeasonForWeek(state.week);
       const music = seasonMusic[currentSeason];
@@ -1936,14 +1960,8 @@
         musicVolume = parseFloat(savedVolume);
         document.getElementById('volumeSlider').value = musicVolume;
       }
-      document.getElementById('bgMusic').volume = musicVolume;
       updateVolumeIcon();
 
-      const savedSrc = localStorage.getItem('musicSrc');
-      if (savedSrc) {
-        document.getElementById('bgMusic').src = savedSrc;
-      }
-      
       const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
       if (wasPlaying) {
         isMusicPlaying = true;
@@ -1951,24 +1969,116 @@
       }
     }
 
-    function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      const music = seasonMusic[currentSeason];
+    function playNote(frequency, duration, startTime) {
+      if (!audioContext) return;
       
-      if (!audio.src || audio.src === window.location.href) {
-        audio.src = music.src;
-        localStorage.setItem('musicSrc', music.src);
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.type = 'sine';
+      oscillator.frequency.value = frequency;
+      
+      gainNode.gain.value = 0;
+      gainNode.gain.setValueAtTime(0, startTime);
+      gainNode.gain.linearRampToValueAtTime(musicVolume * 0.3, startTime + 0.05);
+      gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.start(startTime);
+      oscillator.stop(startTime + duration);
+      
+      oscillators.push(oscillator);
+    }
+
+    function playChord(baseFreq, duration, startTime) {
+      if (!audioContext) return;
+      
+      const frequencies = [
+        baseFreq,
+        baseFreq * 1.26,
+        baseFreq * 1.5
+      ];
+      
+      frequencies.forEach((freq, i) => {
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        
+        osc.type = i === 0 ? 'sine' : 'triangle';
+        osc.frequency.value = freq;
+        
+        gain.gain.value = 0;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(musicVolume * 0.15, startTime + 0.1);
+        gain.gain.linearRampToValueAtTime(0, startTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+        
+        oscillators.push(osc);
+      });
+    }
+
+    function startMusic() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
       }
       
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
+      const melody = melodies[currentSeason];
+      const now = audioContext.currentTime;
+      let time = now;
+      
+      for (let i = 0; i < melody.scale.length * 2; i++) {
+        const noteIndex = currentNoteIndex % melody.scale.length;
+        const duration = melody.durations[noteIndex % melody.durations.length];
+        const noteDuration = duration * (60 / melody.tempo);
+        
+        if (i % 3 === 0) {
+          playChord(melody.scale[noteIndex] / 2, noteDuration * 2, time);
+        }
+        playNote(melody.scale[noteIndex], noteDuration, time);
+        
+        time += noteDuration;
+        currentNoteIndex++;
+      }
+      
+      musicTimer = setTimeout(() => {
+        if (isMusicPlaying) {
+          startMusic();
+        }
+      }, (time - now) * 1000);
+    }
+
+    function stopMusic() {
+      oscillators.forEach(osc => {
+        try { osc.stop(); } catch(e) {}
+      });
+      oscillators = [];
+      
+      if (musicTimer) {
+        clearTimeout(musicTimer);
+        musicTimer = null;
+      }
+    }
+
+    function toggleMusic() {
       if (isMusicPlaying) {
-        audio.pause();
+        stopMusic();
         document.getElementById('musicIcon').textContent = '▶️';
         isMusicPlaying = false;
       } else {
-        audio.play().catch(e => {
-          console.log('播放需要用户交互:', e);
-          showToast('点击播放按钮开始音乐！', 'star');
-        });
+        if (!audioContext) {
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        startMusic();
         document.getElementById('musicIcon').textContent = '⏸️';
         isMusicPlaying = true;
       }
@@ -1977,7 +2087,6 @@
 
     function changeVolume(value) {
       musicVolume = parseFloat(value);
-      document.getElementById('bgMusic').volume = musicVolume;
       localStorage.setItem('musicVolume', musicVolume);
       updateVolumeIcon();
     }
