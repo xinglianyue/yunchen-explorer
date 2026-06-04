@@ -1877,7 +1877,12 @@
         if (response.ok) {
           const data = await response.json();
           state = { ...state, ...data };
-          localStorage.setItem('yunchen_data', JSON.stringify(state));
+          const dataWithoutPhotos = { ...state, photos: [] };
+          try {
+            localStorage.setItem('yunchen_data', JSON.stringify(dataWithoutPhotos));
+          } catch(e) {
+            console.log('localStorage 容量不足，跳过缓存');
+          }
           console.log('数据加载成功:', state);
           updateUI();
           initMusic();
@@ -2118,7 +2123,12 @@
 
     function saveData() {
       state.lastUpdate = new Date().toISOString();
-      localStorage.setItem('yunchen_data', JSON.stringify(state));
+      const dataWithoutPhotos = { ...state, photos: [] };
+          try {
+            localStorage.setItem('yunchen_data', JSON.stringify(dataWithoutPhotos));
+          } catch(e) {
+            console.log('localStorage 容量不足，跳过缓存');
+          }
       console.log('数据已保存');
     }
 
