@@ -1839,7 +1839,94 @@
 
   <script>
     const API_BASE = './data.json';
-    const seasonMusic = {
+    
+    // ==================== 徽章配置 ====================
+const badgesConfig = [
+  // 夏季道馆（第1-12周获得）
+  { id: 'badge_summer_1', name: '夏日探险家', emoji: '☀️', desc: '完成夏季第1-4周任务', requirement: { type: 'weeks', value: [1,2,3,4] }, unlock: 'week4' },
+  { id: 'badge_summer_2', name: '自然观察者', emoji: '🌿', desc: '完成夏季第5-8周任务', requirement: { type: 'weeks', value: [5,6,7,8] }, unlock: 'week8' },
+  { id: 'badge_summer_3', name: '科学小达人', emoji: '🔬', desc: '完成夏季第9-11周任务', requirement: { type: 'weeks', value: [9,10,11] }, unlock: 'week11' },
+  { id: 'badge_summer_master', name: '夏日大师', emoji: '🌟', desc: '完成夏季全部12周任务，获得第1道馆徽章', requirement: { type: 'week', value: 10 }, unlock: 'week12', special: true },
+  
+  // 秋季道馆（第13-24周获得）
+  { id: 'badge_autumn_1', name: '秋叶收藏家', emoji: '🍂', desc: '完成秋季第13-16周任务', requirement: { type: 'weeks', value: [13,14,15,16] }, unlock: 'week16' },
+  { id: 'badge_autumn_2', name: '动物小专家', emoji: '🐦', desc: '完成秋季第17-20周任务', requirement: { type: 'weeks', value: [17,18,19,20] }, unlock: 'week20' },
+  { id: 'badge_autumn_3', name: '自然艺术家', emoji: '🎨', desc: '完成秋季第21-23周任务', requirement: { type: 'weeks', value: [21,22,23] }, unlock: 'week23' },
+  { id: 'badge_autumn_master', name: '秋季大师', emoji: '🌟', desc: '完成秋季全部12周任务，获得第2道馆徽章', requirement: { type: 'week', value: 24 }, unlock: 'week24', special: true },
+  
+  // 冬季道馆（第25-36周获得）
+  { id: 'badge_winter_1', name: '冬季探险家', emoji: '❄️', desc: '完成冬季第25-28周任务', requirement: { type: 'weeks', value: [25,26,27,28] }, unlock: 'week28' },
+  { id: 'badge_winter_2', name: '科学家', emoji: '🧪', desc: '完成冬季第29-32周任务', requirement: { type: 'weeks', value: [29,30,31,32] }, unlock: 'week32' },
+  { id: 'badge_winter_3', name: '生态卫士', emoji: '🌍', desc: '完成冬季第33-35周任务', requirement: { type: 'weeks', value: [33,34,35] }, unlock: 'week35' },
+  { id: 'badge_winter_master', name: '冬季大师', emoji: '🌟', desc: '完成冬季全部12周任务，获得第3道馆徽章', requirement: { type: 'week', value: 36 }, unlock: 'week36', special: true },
+  
+  // 春季道馆（第37-48周获得）
+  { id: 'badge_spring_1', name: '春天使者', emoji: '🌸', desc: '完成春季第37-40周任务', requirement: { type: 'weeks', value: [37,38,39,40] }, unlock: 'week40' },
+  { id: 'badge_spring_2', name: '创意大师', emoji: '✨', desc: '完成春季第41-44周任务', requirement: { type: 'weeks', value: [41,42,43,44] }, unlock: 'week44' },
+  { id: 'badge_spring_3', name: '知识博士', emoji: '📚', desc: '完成春季第45-47周任务', requirement: { type: 'weeks', value: [45,46,47] }, unlock: 'week47' },
+  { id: 'badge_master', name: '探险大师', emoji: '👑', desc: '完成全部48周任务，获得终极徽章', requirement: { type: 'week', value: 48 }, unlock: 'week48', special: true }
+];
+
+    // ==================== 成就配置 ====================
+const achievementsConfig = {
+  // 夏季成就（第1-12周）
+  1: { id: 'ach_summer_1', name: '第一步', emoji: '🏃', desc: '完成第一次探索', condition: { type: 'complete_week', value: 1 } },
+  2: { id: 'ach_summer_2', name: '地图绘制员', emoji: '🗺️', desc: '完成地图任务', condition: { type: 'complete_week', value: 2 } },
+  3: { id: 'ach_summer_3', name: '色彩猎人', emoji: '🎨', desc: '收集5种颜色', condition: { type: 'complete_week', value: 3 } },
+  4: { id: 'ach_summer_4', name: '顺风耳', emoji: '👂', desc: '辨别3种自然声音', condition: { type: 'complete_week', value: 4 } },
+  5: { id: 'ach_summer_5', name: '形状发现者', emoji: '🔷', desc: '找出3种形状', condition: { type: 'complete_week', value: 5 } },
+  6: { id: 'ach_summer_6', name: '植物小卫士', emoji: '🌱', desc: '认识3种植物', condition: { type: 'complete_week', value: 6 } },
+  7: { id: 'ach_summer_7', name: '天气预报员', emoji: '⛅', desc: '观察天气变化', condition: { type: 'complete_week', value: 7 } },
+  8: { id: 'ach_summer_8', name: '昆虫侦探', emoji: '🐛', desc: '观察昆虫行为', condition: { type: 'complete_week', value: 8 } },
+  9: { id: 'ach_summer_9', name: '水实验员', emoji: '💧', desc: '完成水实验', condition: { type: 'complete_week', value: 9 } },
+  10: { id: 'ach_summer_10', name: '夏日探险家', emoji: '☀️', desc: '完成第一道馆挑战', condition: { type: 'complete_week', value: 10 } },
+  11: { id: 'ach_summer_11', name: '光影魔术师', emoji: '🌟', desc: '创作光影艺术', condition: { type: 'complete_week', value: 11 } },
+  12: { id: 'ach_summer_12', name: '夏日冠军', emoji: '🏆', desc: '完成夏季全部任务', condition: { type: 'complete_weeks', value: [1,2,3,4,5,6,7,8,9,10,11,12] } },
+  
+  // 秋季成就（第13-24周）
+  13: { id: 'ach_autumn_1', name: '秋叶收藏家', emoji: '🍂', desc: '收集5种树叶', condition: { type: 'complete_week', value: 13 } },
+  14: { id: 'ach_autumn_2', name: '鸟类学家', emoji: '🐦', desc: '观察3种鸟类', condition: { type: 'complete_week', value: 14 } },
+  15: { id: 'ach_autumn_3', name: '种子守护者', emoji: '🌰', desc: '种下种子', condition: { type: 'complete_week', value: 15 } },
+  16: { id: 'ach_autumn_4', name: '气味猎人', emoji: '👃', desc: '发现3种气味', condition: { type: 'complete_week', value: 16 } },
+  17: { id: 'ach_autumn_5', name: '土壤科学家', emoji: '🪨', desc: '完成土壤实验', condition: { type: 'complete_week', value: 17 } },
+  18: { id: 'ach_autumn_6', name: '真菌探索家', emoji: '🍄', desc: '观察真菌', condition: { type: 'complete_week', value: 18 } },
+  19: { id: 'ach_autumn_7', name: '自然艺术家', emoji: '🧶', desc: '创作自然手工', condition: { type: 'complete_week', value: 19 } },
+  20: { id: 'ach_autumn_8', name: '蛛网专家', emoji: '🕸️', desc: '观察蜘蛛网', condition: { type: 'complete_week', value: 20 } },
+  21: { id: 'ach_autumn_9', name: '音乐家', emoji: '🎵', desc: '演奏自然音乐', condition: { type: 'complete_week', value: 21 } },
+  22: { id: 'ach_autumn_10', name: '气象学家', emoji: '📊', desc: '记录一周天气', condition: { type: 'complete_week', value: 22 } },
+  23: { id: 'ach_autumn_11', name: '动物追踪者', emoji: '🐿️', desc: '观察松鼠', condition: { type: 'complete_week', value: 23 } },
+  24: { id: 'ach_autumn_12', name: '秋季冠军', emoji: '🍁', desc: '完成秋季全部任务', condition: { type: 'complete_weeks', value: [13,14,15,16,17,18,19,20,21,22,23,24] } },
+  
+  // 冬季成就（第25-36周）
+  25: { id: 'ach_winter_1', name: '树木医生', emoji: '🌲', desc: '认识3种树木', condition: { type: 'complete_week', value: 25 } },
+  26: { id: 'ach_winter_2', name: '足迹侦探', emoji: '🦶', desc: '发现动物脚印', condition: { type: 'complete_week', value: 26 } },
+  27: { id: 'ach_winter_3', name: '冰晶探索家', emoji: '❄️', desc: '观察冰的变化', condition: { type: 'complete_week', value: 27 } },
+  28: { id: 'ach_winter_4', name: '鸟类守护者', emoji: '🕊️', desc: '观察留鸟', condition: { type: 'complete_week', value: 28 } },
+  29: { id: 'ach_winter_5', name: '种子收藏家', emoji: '🌱', desc: '收集种子', condition: { type: 'complete_week', value: 29 } },
+  30: { id: 'ach_winter_6', name: '温度管家', emoji: '🌡️', desc: '测量温度变化', condition: { type: 'complete_week', value: 30 } },
+  31: { id: 'ach_winter_7', name: '风能探索家', emoji: '🌬️', desc: '观察风的力量', condition: { type: 'complete_week', value: 31 } },
+  32: { id: 'ach_winter_8', name: '岩石猎人', emoji: '💎', desc: '收集石头', condition: { type: 'complete_week', value: 32 } },
+  33: { id: 'ach_winter_9', name: '微观探险家', emoji: '🔬', desc: '使用放大镜', condition: { type: 'complete_week', value: 33 } },
+  34: { id: 'ach_winter_10', name: '生态调查员', emoji: '🌍', desc: '了解生态系统', condition: { type: 'complete_week', value: 34 } },
+  35: { id: 'ach_winter_11', name: '环保卫士', emoji: '🛡️', desc: '保护自然环境', condition: { type: 'complete_week', value: 35 } },
+  36: { id: 'ach_winter_12', name: '冬季冠军', emoji: '🏔️', desc: '完成冬季全部任务', condition: { type: 'complete_weeks', value: [25,26,27,28,29,30,31,32,33,34,35,36] } },
+  
+  // 春季成就（第37-48周）
+  37: { id: 'ach_spring_1', name: '春天使者', emoji: '🌸', desc: '发现春天迹象', condition: { type: 'complete_week', value: 37 } },
+  38: { id: 'ach_spring_2', name: '花朵专家', emoji: '🌺', desc: '认识5种花', condition: { type: 'complete_week', value: 38 } },
+  39: { id: 'ach_spring_3', name: '授粉卫士', emoji: '🐝', desc: '观察蜜蜂蝴蝶', condition: { type: 'complete_week', value: 39 } },
+  40: { id: 'ach_spring_4', name: '小领队', emoji: '👑', desc: '带领家人探索', condition: { type: 'complete_week', value: 40 } },
+  41: { id: 'ach_spring_5', name: '自然作家', emoji: '✍️', desc: '写自然故事', condition: { type: 'complete_week', value: 41 } },
+  42: { id: 'ach_spring_6', name: '小摄影师', emoji: '📷', desc: '拍摄自然照片', condition: { type: 'complete_week', value: 42 } },
+  43: { id: 'ach_spring_7', name: '知识博士', emoji: '📚', desc: '整合所学知识', condition: { type: 'complete_week', value: 43 } },
+  44: { id: 'ach_spring_8', name: '艺术大师', emoji: '🎨', desc: '创作自然艺术', condition: { type: 'complete_week', value: 44 } },
+  45: { id: 'ach_spring_9', name: '科学家', emoji: '🔬', desc: '完成科学实验', condition: { type: 'complete_week', value: 45 } },
+  46: { id: 'ach_spring_10', name: '准大师', emoji: '🎓', desc: '准备毕业', condition: { type: 'complete_week', value: 46 } },
+  47: { id: 'ach_spring_11', name: '挑战者', emoji: '⚔️', desc: '通过最终挑战', condition: { type: 'complete_week', value: 47 } },
+  48: { id: 'ach_spring_12', name: '探险大师', emoji: '👑', desc: '完成全部48周任务', condition: { type: 'complete_week', value: 48 } }
+};
+
+const seasonMusic = {
       summer: { name: '🎵 夏日微风', emoji: '☀️', label: '夏季主题' },
       autumn: { name: '🎵 金黄落叶', emoji: '🍂', label: '秋季主题' },
       winter: { name: '🎵 雪花飘落', emoji: '❄️', label: '冬季主题' },
@@ -1852,19 +1939,498 @@
     let currentNoteIndex = 0;
     let musicTimer;
     let currentSeason = 'summer';
+    
     const tasksConfig = {
-      1: { name: '小小探索家', role: '🎭 角色：小小探索家', steps: [
+      // ==================== 夏季篇（第1-12周）- 基础技能修炼 ====================
+      1: { season: 'summer', name: '小小探索家', role: '🎭 角色：见习探险家', theme: '🌞 夏日冒险开始', steps: [
         { id: 'step1', title: '准备出发', time: '10分钟', desc: '带上小本子和笔，准备记录发现', reward: '⭐1' },
         { id: 'step2', title: '公园探索', time: '45分钟', desc: '在公园里走走看看，注意观察周围', reward: '⭐2' },
         { id: 'step3', title: '记录发现', time: '回家后', desc: '把看到的东西画下来或写下来', reward: '⭐2' }
       ]},
-      2: { name: '公园导航指南', role: '🎭 角色：小小制图师', steps: [
+      2: { season: 'summer', name: '公园导航指南', role: '🎭 角色：小小制图师', theme: '🗺️ 绘制你的地图', steps: [
         { id: 'step1', title: '出发前准备', time: '10分钟', desc: '画地图底稿：大圆圈代表公园，底部写「大门」', reward: '⭐1' },
         { id: 'step2', title: '边走边记', time: '45分钟', desc: '记录方向、地点、重要特征', reward: '⭐1' },
         { id: 'step3', title: '画正式地图', time: '回家后', desc: '把关键词整理成完整地图', reward: '⭐2' },
         { id: 'step4', title: '讲解导航', time: '选做', desc: '用自己画的地图给妈妈指路', reward: '⭐1-3' }
+      ]},
+      3: { season: 'summer', name: '色彩猎人', role: '🎭 角色：色彩收集者', theme: '🎨 大自然的调色盘', steps: [
+        { id: 'step1', title: '制定色彩任务', time: '10分钟', desc: '准备好色笔或蜡笔', reward: '⭐1' },
+        { id: 'step2', title: '寻找色彩', time: '40分钟', desc: '找出至少5种不同颜色的植物或花朵', reward: '⭐2' },
+        { id: 'step3', title: '记录色彩', time: '回家后', desc: '把找到的颜色画在纸上', reward: '⭐2' }
+      ]},
+      4: { season: 'summer', name: '声音侦探', role: '🎭 角色：声音猎人', theme: '🔊 听，大自然在说话', steps: [
+        { id: 'step1', title: '声音任务卡', time: '10分钟', desc: '制作一个声音记录表', reward: '⭐1' },
+        { id: 'step2', title: '聆听自然', time: '30分钟', desc: '闭上眼睛，记录听到的3种不同声音', reward: '⭐2' },
+        { id: 'step3', title: '声音地图', time: '回家后', desc: '画出声音的位置和来源', reward: '⭐2' }
+      ]},
+      5: { season: 'summer', name: '形状大师', role: '🎭 角色：几何发现者', theme: '🔷 发现形状的世界', steps: [
+        { id: 'step1', title: '形状任务', time: '10分钟', desc: '找出圆形、方形、三角形的自然物', reward: '⭐1' },
+        { id: 'step2', title: '自然探索', time: '40分钟', desc: '在公园里寻找各种形状', reward: '⭐2' },
+        { id: 'step3', title: '形状拼图', time: '回家后', desc: '用找到的东西拼出一个图案', reward: '⭐2' }
+      ]},
+      6: { season: 'summer', name: '植物日记', role: '🎭 角色：植物小卫士', theme: '🌿 认识植物朋友', steps: [
+        { id: 'step1', title: '准备工具', time: '10分钟', desc: '带上放大镜和本子', reward: '⭐1' },
+        { id: 'step2', title: '观察植物', time: '40分钟', desc: '仔细观察3种不同的植物', reward: '⭐2' },
+        { id: 'step3', title: '植物档案', time: '回家后', desc: '画下植物的样子，记录特点', reward: '⭐2' }
+      ]},
+      7: { season: 'summer', name: '天气观测员', role: '🎭 角色：天气小主播', theme: '⛅ 云朵预报员', steps: [
+        { id: 'step1', title: '观察天空', time: '15分钟', desc: '看看云朵像什么动物或东西', reward: '⭐1' },
+        { id: 'step2', title: '记录天气', time: '10分钟', desc: '记录今天的温度、天气和感受', reward: '⭐1' },
+        { id: 'step3', title: '天气预报', time: '回家后', desc: '画出明天的天气预报', reward: '⭐3' }
+      ]},
+      8: { season: 'summer', name: '昆虫世界', role: '🎭 角色：昆虫小侦探', theme: '🐞 蚂蚁的王国', steps: [
+        { id: 'step1', title: '寻找昆虫', time: '35分钟', desc: '找一找蚂蚁、蝴蝶或其他昆虫', reward: '⭐2' },
+        { id: 'step2', title: '观察记录', time: '20分钟', desc: '仔细观察它们的样子和行为', reward: '⭐2' },
+        { id: 'step3', title: '昆虫故事', time: '回家后', desc: '写一个小昆虫的故事', reward: '⭐1' }
+      ]},
+      9: { season: 'summer', name: '水的神奇', role: '🎭 角色：水实验员', theme: '💧 水的魔法', steps: [
+        { id: 'step1', title: '水观察', time: '20分钟', desc: '观察公园里的水池或喷泉', reward: '⭐1' },
+        { id: 'step2', title: '水实验', time: '30分钟', desc: '把树叶放在水里观察变化', reward: '⭐2' },
+        { id: 'step3', title: '实验报告', time: '回家后', desc: '画出实验过程和结果', reward: '⭐2' }
+      ]},
+      10: { season: 'summer', name: '夏日大挑战', role: '🎭 角色：探险家', theme: '🏆 第一道馆挑战', steps: [
+        { id: 'step1', title: '综合任务', time: '40分钟', desc: '完成所有之前学到的技能', reward: '⭐3' },
+        { id: 'step2', title: '创意展示', time: '30分钟', desc: '用喜欢的方式展示一周的发现', reward: '⭐2' },
+        { id: 'step3', title: '获得徽章', time: '回家后', desc: '获得「夏日探险家」徽章', reward: '🏅1' }
+      ]},
+      11: { season: 'summer', name: '光影游戏', role: '🎭 角色：光影魔术师', theme: '🌟 光与影的舞蹈', steps: [
+        { id: 'step1', title: '寻找影子', time: '30分钟', desc: '找出不同物体的影子', reward: '⭐2' },
+        { id: 'step2', title: '影子变化', time: '20分钟', desc: '观察影子随时间的变化', reward: '⭐2' },
+        { id: 'step3', title: '光影画', time: '回家后', desc: '用手影表演一个故事', reward: '⭐1' }
+      ]},
+      12: { season: 'summer', name: '夏日庆典', role: '🎭 角色：冒险家', theme: '🎉 夏日回忆册', steps: [
+        { id: 'step1', title: '整理作品', time: '30分钟', desc: '把所有作品整理好', reward: '⭐2' },
+        { id: 'step2', title: '制作回忆册', time: '回家后', desc: '把一周最好的发现做成小册子', reward: '⭐3' },
+        { id: 'step3', title: '分享故事', time: '选做', desc: '给家人讲讲夏日的冒险故事', reward: '⭐1-2' }
+      ]},
+
+      // ==================== 秋季篇（第13-24周）- 进阶技能修炼 ====================
+      13: { season: 'autumn', name: '叶子收集家', role: '🎭 角色：秋叶收藏家', theme: '🍂 秋天的信', steps: [
+        { id: 'step1', title: '收集叶子', time: '30分钟', desc: '收集5种不同形状的叶子', reward: '⭐2' },
+        { id: 'step2', title: '观察记录', time: '20分钟', desc: '观察叶子的颜色、形状、纹路', reward: '⭐1' },
+        { id: 'step3', title: '叶子画', time: '回家后', desc: '用叶子拼成一幅画', reward: '⭐2' }
+      ]},
+      14: { season: 'autumn', name: '鸟类观察员', role: '🎭 角色：小小鸟类学家', theme: '🐦 天空的使者', steps: [
+        { id: 'step1', title: '准备观察', time: '10分钟', desc: '带上望远镜或用手机拍照', reward: '⭐1' },
+        { id: 'step2', title: '寻找鸟类', time: '40分钟', desc: '观察并记录看到的鸟类', reward: '⭐2' },
+        { id: 'step3', title: '鸟类档案', time: '回家后', desc: '画出看到的鸟类', reward: '⭐2' }
+      ]},
+      15: { season: 'autumn', name: '果实猎人', role: '🎭 角色：自然寻宝者', theme: '🌰 种子的旅行', steps: [
+        { id: 'step1', title: '寻找果实', time: '35分钟', desc: '找出树上的果实或地上的种子', reward: '⭐2' },
+        { id: 'step2', title: '观察种子', time: '20分钟', desc: '观察种子的形状和传播方式', reward: '⭐1' },
+        { id: 'step3', title: '种子实验', time: '回家后', desc: '种下一颗种子，观察发芽', reward: '⭐2' }
+      ]},
+      16: { season: 'autumn', name: '气味侦探', role: '🎭 角色：香味探索者', theme: '🌸 闻闻大自然', steps: [
+        { id: 'step1', title: '嗅觉任务', time: '30分钟', desc: '寻找有香味的东西', reward: '⭐2' },
+        { id: 'step2', title: '记录气味', time: '20分钟', desc: '描述你闻到的味道', reward: '⭐1' },
+        { id: 'step3', title: '气味地图', time: '回家后', desc: '画出不同气味的来源位置', reward: '⭐2' }
+      ]},
+      17: { season: 'autumn', name: '土壤科学家', role: '🎭 角色：小小地质学家', theme: '🪨 土壤的秘密', steps: [
+        { id: 'step1', title: '观察土壤', time: '20分钟', desc: '看看土壤的颜色和质地', reward: '⭐1' },
+        { id: 'step2', title: '土壤实验', time: '30分钟', desc: '把土加水搅拌，观察分层', reward: '⭐2' },
+        { id: 'step3', title: '实验报告', time: '回家后', desc: '记录土壤实验的发现', reward: '⭐2' }
+      ]},
+      18: { season: 'autumn', name: '真菌探索', role: '🎭 角色：蘑菇小侦探', theme: '🍄 地下的网络', steps: [
+        { id: 'step1', title: '寻找真菌', time: '30分钟', desc: '在阴凉处找找蘑菇或霉菌', reward: '⭐2' },
+        { id: 'step2', title: '安全观察', time: '20分钟', desc: '只观察不触摸，画下样子', reward: '⭐1' },
+        { id: 'step3', title: '真菌知识', time: '回家后', desc: '学习真菌的有趣知识', reward: '⭐2' }
+      ]},
+      19: { season: 'autumn', name: '自然编织', role: '🎭 角色：自然艺术家', theme: '🧶 大自然的礼物', steps: [
+        { id: 'step1', title: '收集材料', time: '25分钟', desc: '收集树叶、树枝、小果子', reward: '⭐1' },
+        { id: 'step2', title: '创意编织', time: '35分钟', desc: '用自然物做一个小手工', reward: '⭐3' }
+      ]},
+      20: { season: 'autumn', name: '蜘蛛网观察', role: '🎭 角色：蛛网小专家', theme: '🕸️ 自然的杰作', steps: [
+        { id: 'step1', title: '寻找蜘蛛网', time: '30分钟', desc: '找找看蜘蛛网在哪里', reward: '⭐2' },
+        { id: 'step2', title: '观察网的结构', time: '25分钟', desc: '仔细观察蜘蛛网的设计', reward: '⭐2' },
+        { id: 'step3', title: '画蜘蛛网', time: '回家后', desc: '画出你看到的蜘蛛网', reward: '⭐1' }
+      ]},
+      21: { season: 'autumn', name: '自然音乐家', role: '🎭 角色：声音创作者', theme: '🎵 落叶交响曲', steps: [
+        { id: 'step1', title: '收集材料', time: '20分钟', desc: '收集能发出声音的自然物', reward: '⭐1' },
+        { id: 'step2', title: '创作音乐', time: '40分钟', desc: '用自然物创作一首小曲子', reward: '⭐3' }
+      ]},
+      22: { season: 'autumn', name: '天气记录员', role: '🎭 角色：气象小博士', theme: '🌧️ 天气预报员', steps: [
+        { id: 'step1', title: '每日观察', time: '每天5分钟', desc: '记录一周的天气变化', reward: '⭐2' },
+        { id: 'step2', title: '制作图表', time: '回家后', desc: '把一周天气画成图表', reward: '⭐2' },
+        { id: 'step3', title: '预测练习', time: '选做', desc: '试着预测下周的天气', reward: '⭐1-2' }
+      ]},
+      23: { season: 'autumn', name: '松鼠朋友', role: '🎭 角色：动物小使者', theme: '🐿️ 储粮的小能手', steps: [
+        { id: 'step1', title: '寻找松鼠', time: '35分钟', desc: '找找松鼠的家和储藏的食物', reward: '⭐2' },
+        { id: 'step2', title: '观察行为', time: '25分钟', desc: '观察松鼠是怎么找食物的', reward: '⭐2' },
+        { id: 'step3', title: '松鼠日记', time: '回家后', desc: '写一篇松鼠观察日记', reward: '⭐1' }
+      ]},
+      24: { season: 'autumn', name: '秋季大挑战', role: '🎭 角色：探险家', theme: '🏆 第二道馆挑战', steps: [
+        { id: 'step1', title: '综合任务', time: '40分钟', desc: '完成所有之前学到的技能', reward: '⭐3' },
+        { id: 'step2', title: '知识测试', time: '20分钟', desc: '回答关于秋季的知识问题', reward: '⭐2' },
+        { id: 'step3', title: '获得徽章', time: '回家后', desc: '获得「秋季探索家」徽章', reward: '🏅1' }
+      ]},
+
+      // ==================== 冬季篇（第25-36周）- 深度技能修炼 ====================
+      25: { season: 'winter', name: '树木冬装', role: '🎭 角色：树木小医生', theme: '🌲 冬天的树', steps: [
+        { id: 'step1', title: '观察树木', time: '30分钟', desc: '观察不同树木的树皮和枝干', reward: '⭐2' },
+        { id: 'step2', title: '记录特征', time: '20分钟', desc: '比较不同树木的特点', reward: '⭐1' },
+        { id: 'step3', title: '树木档案', time: '回家后', desc: '画一棵你最喜欢的树', reward: '⭐2' }
+      ]},
+      26: { season: 'winter', name: '冬日精灵', role: '🎭 角色：动物追踪者', theme: '🦌 冬天的动物', steps: [
+        { id: 'step1', title: '寻找足迹', time: '30分钟', desc: '在雪地或泥地上找动物脚印', reward: '⭐2' },
+        { id: 'step2', title: '观察痕迹', time: '25分钟', desc: '看看动物留下了什么痕迹', reward: '⭐2' },
+        { id: 'step3', title: '足迹图鉴', time: '回家后', desc: '画出不同动物的脚印', reward: '⭐1' }
+      ]},
+      27: { season: 'winter', name: '冰雪世界', role: '🎭 角色：冰晶探索家', theme: '❄️ 冰的魔法', steps: [
+        { id: 'step1', title: '观察结冰', time: '20分钟', desc: '观察水面结冰的样子', reward: '⭐1' },
+        { id: 'step2', title: '冰的实验', time: '30分钟', desc: '收集冰块，观察融化过程', reward: '⭐2' },
+        { id: 'step3', title: '实验记录', time: '回家后', desc: '画出冰的变化过程', reward: '⭐2' }
+      ]},
+      28: { season: 'winter', name: '鸟类的冬天', role: '🎭 角色：鸟类守护者', theme: '🕊️ 留鸟和候鸟', steps: [
+        { id: 'step1', title: '观察鸟类', time: '35分钟', desc: '观察冬天还能看到的鸟类', reward: '⭐2' },
+        { id: 'step2', title: '喂鸟体验', time: '20分钟', desc: '给鸟类准备食物并观察', reward: '⭐2' },
+        { id: 'step3', title: '鸟类保护', time: '回家后', desc: '制作一个喂鸟器', reward: '⭐1' }
+      ]},
+      29: { season: 'winter', name: '植物的休眠', role: '🎭 角色：植物小专家', theme: '🌱 种子的沉睡', steps: [
+        { id: 'step1', title: '观察冬芽', time: '30分钟', desc: '观察树枝上的冬芽', reward: '⭐2' },
+        { id: 'step2', title: '记录发现', time: '20分钟', desc: '记录不同植物的冬芽特点', reward: '⭐1' },
+        { id: 'step3', title: '种子保存', time: '回家后', desc: '学习如何保存和种植种子', reward: '⭐2' }
+      ]},
+      30: { season: 'winter', name: '温度测量员', role: '🎭 角色：温度小管家', theme: '🌡️ 热与冷', steps: [
+        { id: 'step1', title: '测量温度', time: '25分钟', desc: '测量不同地方的温度', reward: '⭐2' },
+        { id: 'step2', title: '记录对比', time: '20分钟', desc: '比较阳光和阴凉处的温度', reward: '⭐2' },
+        { id: 'step3', title: '温度日记', time: '回家后', desc: '记录一周的温度变化', reward: '⭐1' }
+      ]},
+      31: { season: 'winter', name: '风的力量', role: '🎭 角色：风能探索家', theme: '🌬️ 看不见的朋友', steps: [
+        { id: 'step1', title: '感受风', time: '20分钟', desc: '用身体感受风的方向和强弱', reward: '⭐1' },
+        { id: 'step2', title: '风的证据', time: '30分钟', desc: '找找风留下的痕迹', reward: '⭐2' },
+        { id: 'step3', title: '风车制作', time: '回家后', desc: '用自然物做一个风向标', reward: '⭐2' }
+      ]},
+      32: { season: 'winter', name: '岩石探索', role: '🎭 角色：地质小专家', theme: '🪨 地球的皮肤', steps: [
+        { id: 'step1', title: '收集岩石', time: '25分钟', desc: '收集不同颜色和质地的石头', reward: '⭐2' },
+        { id: 'step2', title: '观察特征', time: '25分钟', desc: '观察岩石的纹路和形状', reward: '⭐1' },
+        { id: 'step3', title: '岩石收藏', time: '回家后', desc: '整理自己的岩石收藏', reward: '⭐2' }
+      ]},
+      33: { season: 'winter', name: '微生物世界', role: '🎭 角色：微观探险家', theme: '🔬 看不见的世界', steps: [
+        { id: 'step1', title: '准备观察', time: '15分钟', desc: '准备好放大镜', reward: '⭐1' },
+        { id: 'step2', title: '微观观察', time: '40分钟', desc: '用放大镜观察树叶、树皮等', reward: '⭐2' },
+        { id: 'step3', title: '微观画', time: '回家后', desc: '画出在显微镜下看到的世界', reward: '⭐2' }
+      ]},
+      34: { season: 'winter', name: '生态调查员', role: '🎭 角色：生态小卫士', theme: '🌍 生态系统', steps: [
+        { id: 'step1', title: '观察生态', time: '40分钟', desc: '观察公园里的生物链', reward: '⭐2' },
+        { id: 'step2', title: '记录关系', time: '25分钟', desc: '记录生物之间的相互关系', reward: '⭐2' },
+        { id: 'step3', title: '生态图', time: '回家后', desc: '画出一个简单的食物链', reward: '⭐1' }
+      ]},
+      35: { season: 'winter', name: '自然保护区', role: '🎭 角色：自然保护者', theme: '🛡️ 守护大自然', steps: [
+        { id: 'step1', title: '发现问题', time: '30分钟', desc: '找出公园里需要改善的地方', reward: '⭐2' },
+        { id: 'step2', title: '提出方案', time: '20分钟', desc: '想出保护自然的办法', reward: '⭐2' },
+        { id: 'step3', title: '行动倡议', time: '回家后', desc: '制作自然保护宣传画', reward: '⭐2' }
+      ]},
+      36: { season: 'winter', name: '冬季大挑战', role: '🎭 角色：探险家', theme: '🏆 第三道馆挑战', steps: [
+        { id: 'step1', title: '综合任务', time: '40分钟', desc: '完成所有之前学到的技能', reward: '⭐3' },
+        { id: 'step2', title: '冬季知识', time: '20分钟', desc: '展示冬季学到的所有知识', reward: '⭐2' },
+        { id: 'step3', title: '获得徽章', time: '回家后', desc: '获得「冬季探险家」徽章', reward: '🏅1' }
+      ]},
+
+      // ==================== 春季篇（第37-48周）- 大师之路 ====================
+      37: { season: 'spring', name: '春天来了', role: '🎭 角色：春天使者', theme: '🌸 生命苏醒', steps: [
+        { id: 'step1', title: '寻找春天', time: '35分钟', desc: '找出春天来临的迹象', reward: '⭐2' },
+        { id: 'step2', title: '记录变化', time: '25分钟', desc: '记录植物和动物的变化', reward: '⭐2' },
+        { id: 'step3', title: '春天日记', time: '回家后', desc: '写下对春天的感受', reward: '⭐1' }
+      ]},
+      38: { season: 'spring', name: '花朵的世界', role: '🎭 角色：花朵小专家', theme: '🌺 花的秘密', steps: [
+        { id: 'step1', title: '观察花朵', time: '35分钟', desc: '观察不同花朵的结构', reward: '⭐2' },
+        { id: 'step2', title: '数数花瓣', time: '20分钟', desc: '数数不同花的花瓣数量', reward: '⭐1' },
+        { id: 'step3', title: '花朵档案', time: '回家后', desc: '画下最喜欢的花', reward: '⭐2' }
+      ]},
+      39: { season: 'spring', name: '蜜蜂和蝴蝶', role: '🎭 角色：授粉小卫士', theme: '🐝 花的媒人', steps: [
+        { id: 'step1', title: '寻找授粉者', time: '35分钟', desc: '观察蜜蜂和蝴蝶采蜜', reward: '⭐2' },
+        { id: 'step2', title: '观察行为', time: '25分钟', desc: '仔细观察它们如何采蜜', reward: '⭐2' },
+        { id: 'step3', title: '授粉实验', time: '回家后', desc: '了解人工授粉的知识', reward: '⭐1' }
+      ]},
+      40: { season: 'spring', name: 'Leadership培养', role: '🎭 角色：小小领队', theme: '👑 带领大家探索', steps: [
+        { id: 'step1', title: '规划任务', time: '20分钟', desc: '自己设计一个探索任务', reward: '⭐2' },
+        { id: 'step2', title: '带领探索', time: '40分钟', desc: '带领家人完成探索任务', reward: '⭐3' }
+      ]},
+      41: { season: 'spring', name: '创意写作', role: '🎭 角色：自然作家', theme: '✍️ 写下自然故事', steps: [
+        { id: 'step1', title: '收集灵感', time: '30分钟', desc: '在公园里收集写作灵感', reward: '⭐2' },
+        { id: 'step2', title: '创作故事', time: '30分钟', desc: '写一个关于自然的短故事', reward: '⭐3' }
+      ]},
+      42: { season: 'spring', name: '自然摄影', role: '🎭 角色：小小摄影师', theme: '📷 捕捉自然之美', steps: [
+        { id: 'step1', title: '拍摄任务', time: '40分钟', desc: '用手机或相机拍摄自然景物', reward: '⭐3' },
+        { id: 'step2', title: '选出最佳', time: '20分钟', desc: '选出最喜欢的一张照片', reward: '⭐1' }
+      ]},
+      43: { season: 'spring', name: '知识整合', role: '🎭 角色：自然博士', theme: '📚 学以致用', steps: [
+        { id: 'step1', title: '回顾学习', time: '30分钟', desc: '回顾一年学到的所有知识', reward: '⭐2' },
+        { id: 'step2', title: '制作手册', time: '40分钟', desc: '把知识整理成小手册', reward: '⭐3' }
+      ]},
+      44: { season: 'spring', name: '自然艺术', role: '🎭 角色：自然艺术家', theme: '🎨 大自然的艺术', steps: [
+        { id: 'step1', title: '创作任务', time: '45分钟', desc: '用自然材料创作一件艺术品', reward: '⭐4' }
+      ]},
+      45: { season: 'spring', name: '科学实验', role: '🎭 角色：科学家', theme: '🔬 做实验', steps: [
+        { id: 'step1', title: '实验设计', time: '20分钟', desc: '设计一个简单的自然实验', reward: '⭐2' },
+        { id: 'step2', title: '实验操作', time: '40分钟', desc: '完成实验并记录结果', reward: '⭐3' }
+      ]},
+      46: { season: 'spring', name: '毕业准备', role: '🎭 角色：准大师', theme: '🎓 迎接挑战', steps: [
+        { id: 'step1', title: '整理作品', time: '30分钟', desc: '整理一年的所有作品', reward: '⭐2' },
+        { id: 'step2', title: '制作简历', time: '30分钟', desc: '制作自己的探险家简历', reward: '⭐2' },
+        { id: 'step3', title: '准备演讲', time: '回家后', desc: '准备毕业演讲', reward: '⭐2' }
+      ]},
+      47: { season: 'spring', name: '最终挑战', role: '🎭 角色：挑战者', theme: '⚔️ 最终道馆挑战', steps: [
+        { id: 'step1', title: '综合考验', time: '60分钟', desc: '完成所有技能的综合考验', reward: '⭐5' },
+        { id: 'step2', title: '成果展示', time: '30分钟', desc: '向家人展示学习成果', reward: '⭐3' }
+      ]},
+      48: { season: 'spring', name: '探险家毕业', role: '🎭 角色：探险大师', theme: '🏆 获得「世纪公园探险大师」称号', steps: [
+        { id: 'step1', title: '毕业典礼', time: '30分钟', desc: '获得探险大师徽章', reward: '🏅1' },
+        { id: 'step2', title: '未来计划', time: '30分钟', desc: '制定新的探索计划', reward: '⭐3' },
+        { id: 'step3', title: '特别徽章', time: '回家后', desc: '获得终极徽章「探险大师」', reward: '🏅1' }
       ]}
     };
+{
+  // ==================== 夏季篇（第1-12周）====================
+  1: {
+    title: '🌞 新的冒险开始',
+    content: `在阳光明媚的夏天，小探险家云辰收到了一个神秘的包裹。里面有一张古老的地图和一枚闪闪发光的徽章！\n\n地图上显示，在世纪公园的深处，藏着一个属于勇敢探索者的秘密基地。只有完成12周冒险任务的小探险家，才能获得开启秘密基地的钥匙。\n\n云辰激动地跳了起来："我一定要成为最棒的探险家！"`,
+    unlockHint: '完成第1周任务即可解锁'
+  },
+  2: {
+    title: '🗺️ 地图的秘密',
+    content: `云辰按照地图的指示，第一次来到世纪公园。公园比想象中大多了，有湖泊、有小山、还有各种各样的小动物。\n\n"妈妈，这里太大了，我怕迷路！"云辰有点担心。\n\n妈妈笑着说："真正的探险家，会自己画地图哦！"\n\n于是云辰拿出小本子，开始仔细观察周围的环境，准备画一张属于自己的公园地图...`,
+    unlockHint: '完成第2周任务即可解锁'
+  },
+  3: {
+    title: '🎨 大自然的调色盘',
+    content: `今天的探索任务是寻找色彩。云辰惊讶地发现，公园里藏着一个巨大的调色盘！\n\n红色的花朵、粉色的樱花、金黄的向日葵... 每一种颜色都那么美丽。\n\n"大自然是最好的画家！"云辰兴奋地说，"它用阳光作画笔，用花朵作颜料，画出了这么美的世界！"\n\n云辰开始用蜡笔记录这些美丽的颜色...`,
+    unlockHint: '完成第3周任务即可解锁'
+  },
+  4: {
+    title: '🔊 听，自然的声音',
+    content: `闭上眼睛，世界变得不一样了！\n\n小鸟在唱歌，风吹过树叶沙沙响，小溪流水哗哗哗... 这些声音交织成一首美妙的自然交响曲。\n\n"原来大自然也会说话呢！"云辰说，"树叶沙沙是在欢迎我们，风儿呼啸是在讲述远方的故事..."\n\n云辰开始用心地聆听每一个细微的声音。`,
+    unlockHint: '完成第4周任务即可解锁'
+  },
+  5: {
+    title: '🔷 形状大发现',
+    content: `今天云辰的任务是寻找形状。\n\n圆圆的太阳、方方的石块、三角形的屋顶... 原来我们身边有这么多几何图形！\n\n"如果我们用这些形状来拼图，会发生什么呢？"云辰好奇地问。\n\n于是他开始收集各种形状的自然物，准备创作一幅特别的形状拼图...`,
+    unlockHint: '完成第5周任务即可解锁'
+  },
+  6: {
+    title: '🌿 植物朋友',
+    content: `每一种植物都有自己的名字和故事。\n\n云辰在公园里遇到了各种有趣的植物朋友：会随风摇摆的杨柳、会捕捉阳光的向日葵、还有散发清香的各种花朵。\n\n"如果我给它们都画一张身份证，是不是就能记住它们了？"云辰想。\n\n于是他开始为每一种植物制作专属的"植物档案"...`,
+    unlockHint: '完成第6周任务即可解锁'
+  },
+  7: {
+    title: '⛅ 云朵预报员',
+    content: `抬头看天空，云朵像什么呢？\n\n有的像棉花糖，有的像小兔子，有的像大轮船... 云朵每天都在变换着不同的形状。\n\n"如果我能看懂云朵的语言，就能预测天气了！"云辰兴奋地说。\n\n于是他开始每天观察云朵，学习做一个小小天气预报员。`,
+    unlockHint: '完成第7周任务即可解锁'
+  },
+  8: {
+    title: '🐞 蚂蚁王国',
+    content: `在公园的角落里，云辰发现了一个热闹的"王国"——蚂蚁王国！\n\n成千上万只蚂蚁忙忙碌碌，它们排着整齐的队伍，搬运着比自己身体还大的食物。\n\n"它们是怎么沟通的？它们是怎么找到回家的路的？"云辰满脑子都是问号。\n\n他决定要当一个小小昆虫学家，好好研究这些神奇的小生命。`,
+    unlockHint: '完成第8周任务即可解锁'
+  },
+  9: {
+    title: '💧 水的魔法',
+    content: `水是生命的源泉，也是最有魔法的元素！\n\n云辰把一片小树叶放进水里，观察它慢慢变软、变色... 原来水有这么神奇的力量！\n\n"水可以变成冰，可以变成云，还可以在叶子里流动... 水一定是会魔法的精灵！"云辰感叹道。\n\n他决定要更深入地了解水的奥秘。`,
+    unlockHint: '完成第9周任务即可解锁'
+  },
+  10: {
+    title: '🏆 第一道馆挑战',
+    content: `经过9周的训练，云辰迎来了第一次道馆挑战！\n\n他要综合运用所有学到的技能：观察、记录、测量、分析... 完成一系列高难度的任务。\n\n挑战非常艰难，但云辰没有放弃。他回想起每一次探索的快乐，每一个新发现的惊喜，这些都给了他力量。\n\n"我做到了！"云辰激动地喊道，"我获得了第一枚道馆徽章——「夏日探险家」！"`,
+    unlockHint: '完成第10周任务即可解锁'
+  },
+  11: {
+    title: '🌟 光影舞蹈',
+    content: `阳光洒下来，世界变得光影交错。\n\n云辰发现，影子就像魔术师一样，会变大变小，会变形。同一棵树，上午和下午的影子完全不同！\n\n"如果用手影来表演故事，一定很有趣！"云辰兴奋地说。\n\n于是他开始用手做出各种形状，在阳光下表演影子戏...`,
+    unlockHint: '完成第11周任务即可解锁'
+  },
+  12: {
+    title: '🎉 夏日庆典',
+    content: `12周的夏日冒险结束了！\n\n云辰把自己最好的作品整理成一本厚厚的"夏日回忆册"。里面有地图、有图画、有观察日记，还有和家人一起探险的美好回忆。\n\n"这个夏天，我学到了好多东西！"云辰骄傲地说，"我认识了植物朋友，发现了昆虫的秘密，还学会了观察大自然..."\n\n妈妈给了云辰一个大大的拥抱："你已经成为一个真正的小探险家了！"`,
+    unlockHint: '完成第12周任务即可解锁'
+  },
+
+  // ==================== 秋季篇（第13-24周）====================
+  13: {
+    title: '🍂 秋天的信',
+    content: `凉爽的秋风吹来，夏天的炎热渐渐消退。\n\n云辰再次来到世纪公园，发现公园变了模样——树叶开始变色，有红的、有黄的、有橙的，就像大地收到了秋天的信笺。\n\n"每一片落叶都是秋天寄来的明信片！"云辰捡起一片金黄的银杏叶，仔细端详着上面的纹路。\n\n秋天是收集的季节，也是创作的季节...`,
+    unlockHint: '完成第13周任务即可解锁'
+  },
+  14: {
+    title: '🐦 天空的使者',
+    content: `秋天是鸟类迁徙的季节。\n\n云辰来到湖边，拿出望远镜（其实是妈妈的手机），开始观察天空飞过的鸟儿。\n\n"看！那边有一群大雁！它们排成人字形飞向南方！"云辰兴奋地喊道。\n\n"鸟类是天空的使者，它们知道很多我们不知道的秘密呢！"妈妈说。\n\n云辰决定要好好研究这些会飞的朋友。`,
+    unlockHint: '完成第14周任务即可解锁'
+  },
+  15: {
+    title: '🌰 种子的旅行',
+    content: `秋天的公园里，随处可见各种果实和种子。\n\n为什么有的种子有翅膀？有的种子有刺？有的种子藏在美味的果实里？\n\n"原来种子的形状和它的旅行方式有关！"云辰恍然大悟。\n\n有翅膀的种子可以飞得很远，有刺的种子会粘在动物身上传播... 大自然真是奇妙！\n\n云辰还种下了一颗橡树种子，期待着它快快发芽。`,
+    unlockHint: '完成第15周任务即可解锁'
+  },
+  16: {
+    title: '🌸 闻闻大自然',
+    content: `闭上眼睛，深呼吸... 你能闻到什么呢？\n\n桂花的甜香、泥土的清新、落叶的芬芳... 秋天有它独特的气味。\n\n"如果把气味画成地图，那一定是世界上最特别的地图！"云辰突发奇想。\n\n于是他开始制作一张"气味地图"，标记公园里各种香味的位置。`,
+    unlockHint: '完成第16周任务即可解锁'
+  },
+  17: {
+    title: '🪨 土壤的秘密',
+    content: `看似普通的泥土，其实藏着很多秘密！\n\n云辰把一些土壤放进瓶子里，加水搅拌，然后静静等待... 奇迹发生了！\n\n土壤分成了好几层：沙子在最下面，泥土在中间，枯叶浮在上面。\n\n"原来土壤不是单一的，它是由很多东西组成的！"云辰惊叹道，"而且，不同地方的土壤成分都不一样呢！"`,
+    unlockHint: '完成第17周任务即可解锁'
+  },
+  18: {
+    title: '🍄 地下的网络',
+    content: `在阴凉的树荫下，云辰发现了一丛可爱的小蘑菇。\n\n"蘑菇是真菌，不是植物哦！"妈妈解释道，"真菌就像地下的网络，把森林里的树木连接在一起。"\n\n"什么？真菌是连接树木的网络？"云辰瞪大了眼睛。\n\n原来大自然里有很多看不见的联系，真菌就是其中之一！\n\n不过云辰牢牢记住了：野生蘑菇不能随便吃哦！`,
+    unlockHint: '完成第18周任务即可解锁'
+  },
+  19: {
+    title: '🧶 大自然的礼物',
+    content: `秋天是大自然最慷慨的季节，到处都是创作的素材。\n\n云辰收集了各种各样的自然物：金色的落叶、火红的果实、弯曲的树枝、蓬松的蒲公英...\n\n"我要用这些宝贝做一个独一无二的手工！"云辰兴奋地说。\n\n他用树叶做了一条金色的裙子，用树枝做了一个小相框，用松果做了一朵花... 每一件作品都是大自然的礼物！`,
+    unlockHint: '完成第19周任务即可解锁'
+  },
+  20: {
+    title: '🕸️ 自然的杰作',
+    content: `蜘蛛网是自然界最精美的艺术品之一！\n\n云辰在两个树枝之间发现了一张完美的蜘蛛网，每一根丝都一样粗细，每一个角度都一样完美。\n\n"蜘蛛不用尺子，怎么能织出这么精准的网呢？"云辰百思不得其解。\n\n他决定好好观察蜘蛛织网的过程，学习这种"天然数学"。`,
+    unlockHint: '完成第20周任务即可解锁'
+  },
+  21: {
+    title: '🎵 落叶交响曲',
+    content: `干燥的落叶也能演奏美妙的音乐！\n\n云辰捡起一把落叶，轻轻捏碎，听！沙沙沙沙... 像雨声，像海浪，像树叶在唱歌。\n\n他又找来不同大小的树枝、空心的草茎... 哇，原来这些都是天然的乐器！\n\n"我要组建一个'落叶交响乐团'！"云辰激动地说。\n\n他用落叶、小树枝和石头，演奏了一首独特的"秋天交响曲"。`,
+    unlockHint: '完成第21周任务即可解锁'
+  },
+  22: {
+    title: '🌧️ 天气预报员',
+    content: `秋天的天气变化多端，忽冷忽热。\n\n云辰决定每天记录天气，制作一张属于自己的天气图表。\n\n"我发现规律了！"几天后云辰兴奋地说，"如果早上有雾，下午一般会晴天；如果天空发红，第二天往往是好天气！"\n\n这些都是老祖宗传下来的天气谚语，云辰正在用自己的观察来验证它们。`,
+    unlockHint: '完成第22周任务即可解锁'
+  },
+  23: {
+    title: '🐿️ 储粮的小能手',
+    content: `在公园的草坪上，云辰发现了一只忙碌的松鼠。\n\n它嘴里塞满了橡果，爪子还抱着几颗，摇摇晃晃地跑向一棵大树。\n\n"它在藏食物！"云辰恍然大悟，"原来松鼠冬天不出来，是因为它提前把食物藏好了！"\n\n云辰决定要追踪这只小松鼠，看看它把食物藏在哪里...`,
+    unlockHint: '完成第23周任务即可解锁'
+  },
+  24: {
+    title: '🏆 第二道馆挑战',
+    content: `秋天即将结束，云辰迎来了第二次道馆挑战！\n\n这次的任务更加复杂，需要综合运用秋季学到的所有技能：观察鸟类、研究种子、调查土壤、测量天气...\n\n挑战结束后，云辰累得满头大汗，但心里充满了成就感。\n\n"恭喜你获得了「秋季探险家」徽章！"妈妈骄傲地说，"你已经完成了一半的冒险旅程了！"`,
+    unlockHint: '完成第24周任务即可解锁'
+  },
+
+  // ==================== 冬季篇（第25-36周）====================
+  25: {
+    title: '🌲 冬天的树',
+    content: `冬天的公园变得不一样了。\n\n树叶落光了，大地换上了灰褐色的外衣。但仔细看，每棵树都有自己的特点：\n\n柳树的树皮光滑白净，像小姑娘的皮肤；梧桐树的树皮粗糙开裂，像老人的皱纹；松树依然翠绿，像坚定的士兵...\n\n"即使没有叶子，我也能认出每一棵树！"云辰骄傲地说。`,
+    unlockHint: '完成第25周任务即可解锁'
+  },
+  26: {
+    title: '🦌 冬天的动物',
+    content: `下过雪的早晨，云辰早早地来到公园。\n\n哇！雪地上到处都是脚印——有大的有小的，有圆的有的像花朵... \n\n"这是兔子的脚印，这是鸟儿的脚印，这是... 哇，这是狗狗的脚印！"云辰像发现了宝藏一样兴奋。\n\n动物们虽然藏起来了，但它们留下了独特的签名，告诉云辰："我们在这里哦！"`,
+    unlockHint: '完成第26周任务即可解锁'
+  },
+  27: {
+    title: '❄️ 冰的魔法',
+    content: `寒冷的早晨，水池边结了一层薄薄的冰。\n\n云辰小心翼翼地把冰块捡起来，对着阳光看。哇，冰块像水晶一样透明！\n\n"为什么水会变成冰呢？"云辰问。\n\n妈妈说："当温度降到0度以下，水分子就会放慢脚步，紧紧抱在一起，就变成了冰。"\n\n云辰把冰块放在手心里，感受它慢慢融化的过程。`,
+    unlockHint: '完成第27周任务即可解锁'
+  },
+  28: {
+    title: '🕊️ 留鸟和候鸟',
+    content: `大多数鸟儿都飞到南方过冬了，但还有一些"勇敢者"留在公园里。\n\n云辰在湖边发现了正在觅食的小䴙䴘，在树枝上看到了蹦跳的麻雀。\n\n"这些鸟为什么不飞走呢？"云辰好奇地问。\n\n"因为它们已经适应了这里的生活，而且冬天也能找到食物。"妈妈解释道，"这些鸟叫'留鸟'，而飞走的叫'候鸟'。"`,
+    unlockHint: '完成第28周任务即可解锁'
+  },
+  29: {
+    title: '🌱 种子的沉睡',
+    content: `虽然外面很冷，但种子正在地下沉睡。\n\n云辰仔细观察树枝上的冬芽——那些小小的、紧紧包裹着的芽苞。\n\n"别看它们现在小小的，春天的时候，它们就会变成嫩绿的叶子或者美丽的花朵！"妈妈说。\n\n云辰小心翼翼地收集了一些种子，准备在春天的时候种下它们。`,
+    unlockHint: '完成第29周任务即可解锁'
+  },
+  30: {
+    title: '🌡️ 热与冷',
+    content: `冬天是一个学习温度的好季节！\n\n云辰带着温度计，在公园里测量不同地方的温度。\n\n阳光下好暖和，有18度呢！但是在阴凉处，只有10度。埋在土里的种子那边呢？只有5度... \n\n"原来温度的变化这么大！"云辰感叹道，"难怪动物们要冬眠，植物要休眠——它们在躲避寒冷呢！"`,
+    unlockHint: '完成第30周任务即可解锁'
+  },
+  31: {
+    title: '🌬️ 看不见的朋友',
+    content: `冬天的风虽然冷，但它也是一位"看不见的朋友"。\n\n云辰张开双臂，感受风的方向和强弱。风从北方吹来，带着一丝丝寒意... \n\n"风是大气的运动，它可以把种子带到远方，可以传播花粉，还可以帮我们放风筝呢！"云辰说。\n\n他用一根小棍子和一条彩带，做了一个简单的风向标。`,
+    unlockHint: '完成第31周任务即可解锁'
+  },
+  32: {
+    title: '🪨 地球的皮肤',
+    content: `石头是大地的骨骼，每块石头都有自己的故事。\n\n云辰在公园的小溪边收集各种石头：灰色的花岗岩、红色的砂岩、白色的石英... \n\n"这块石头好光滑，一定在水里滚了很久吧！"云辰感叹道。\n\n"石头也会变化的，"妈妈说，"经过风化、侵蚀、沉积，它们会变成不同的样子。地球的皮肤一直在变化着呢！"`,
+    unlockHint: '完成第32周任务即可解锁'
+  },
+  33: {
+    title: '🔬 看不见的世界',
+    content: `用放大镜看世界，世界变得不一样了！\n\n树叶的纹路像一张地图，蜘蛛的丝线闪着银光，蚂蚁的眼睛像两颗宝石... \n\n"原来我们的眼睛看到的世界，只是一小部分！"云辰惊叹道。\n\n在显微镜下，还有一个更神奇的世界等着云辰去探索呢！`,
+    unlockHint: '完成第33周任务即可解锁'
+  },
+  34: {
+    title: '🌍 生态系统',
+    content: `公园里所有的生物都是连在一起的！\n\n云辰观察到：树木给鸟儿提供住处，鸟儿吃虫子保护树木，虫子死后变成肥料滋养土壤，土壤又供给树木营养... \n\n"这是一个大圈子！"云辰说，"就像我们人和人之间的关系一样，谁也离不开谁！"\n\n这就是生态系统，每个生物都是重要的一环。`,
+    unlockHint: '完成第34周任务即可解锁'
+  },
+  35: {
+    title: '🛡️ 守护大自然',
+    content: `云辰在公园里发现了一些不美好的东西：\n\n有人乱扔了塑料瓶，有人在草地上踩出了小路，还有些花被人摘走了... \n\n"大自然这么美丽，我们一定要保护它！"云辰说。\n\n他决定要做一个小小的环保卫士，开始捡拾垃圾，告诉大家要爱护环境。`,
+    unlockHint: '完成第35周任务即可解锁'
+  },
+  36: {
+    title: '🏆 第三道馆挑战',
+    content: `经过冬季的深度学习，云辰迎来了第三次道馆挑战！\n\n这次的任务涉及很多科学知识：测量温度、研究生态系统、观察微观世界...\n\n云辰沉着应对，把学到的东西都发挥出来了。\n\n"你获得了「冬季探险家」徽章！"妈妈骄傲地说，"而且，你已经集齐了三个季节的徽章！再完成春季的冒险，就能成为真正的探险大师了！"`,
+    unlockHint: '完成第36周任务即可解锁'
+  },
+
+  // ==================== 春季篇（第37-48周）====================
+  37: {
+    title: '🌸 生命苏醒',
+    content: `春天来了！\n\n云辰再次来到公园，发现整个世界都在苏醒：\n\n柳树冒出了嫩芽，迎春花绽开了笑脸，小草从地下探出了头... 空气中弥漫着泥土和青草的清香。\n\n"春天是万物复苏的季节！"云辰激动地说，"冬天沉睡的一切，都在这个季节醒来了！"\n\n这是冒险旅程的最后阶段，也是最精彩的阶段！`,
+    unlockHint: '完成第37周任务即可解锁'
+  },
+  38: {
+    title: '🌺 花的秘密',
+    content: `春天的公园变成了花的海洋！\n\n云辰用放大镜仔细观察一朵花：美丽的花瓣、香甜的花蜜、神奇的花蕊... \n\n"原来花是大树的生殖器官！"云辰惊叹道，"它们用美丽的花瓣吸引昆虫，来帮助传播花粉，这样就能结出果实和种子了！"\n\n云辰开始为公园里的各种花制作"花朵档案"。`,
+    unlockHint: '完成第38周任务即可解锁'
+  },
+  39: {
+    title: '🐝 花的媒人',
+    content: `蜜蜂和蝴蝶是花儿的"媒人"！\n\n云辰安静地观察，发现：当蜜蜂钻进花朵里采蜜时，身上会沾上花粉；飞到另一朵花时，花粉就传过去了... \n\n"原来这就是传粉！"云辰恍然大悟，"没有蜜蜂，就没有苹果、没有草莓、没有那么多好吃的水果了！"\n\n他决定要保护这些小小的"媒人"。`,
+    unlockHint: '完成第39周任务即可解锁'
+  },
+  40: {
+    title: '👑 带领大家探索',
+    content: `经过三个季节的学习，云辰已经成为一名真正的探险家了！\n\n这天，妈妈让云辰来当"领队"，带领全家探索公园。\n\n云辰认真地规划路线，安排每个景点的观察任务，还准备了有趣的小知识要分享。\n\n"以前都是妈妈带我探索，没想到我也能当领队了！"云辰自豪地说。`,
+    unlockHint: '完成第40周任务即可解锁'
+  },
+  41: {
+    title: '✍️ 写下自然故事',
+    content: `春天的大自然，是最好的写作素材！\n\n云辰决定写一篇关于春天的故事。他来到公园，寻找灵感...\n\n"一只小鸟在枝头唱歌，它在唱什么呢？"云辰想象着，"也许它在唱：春天来了，春天来了！"\n\n他把这个想法写进故事里，又配上了自己画的插图。一篇美丽的自然故事诞生了！`,
+    unlockHint: '完成第41周任务即可解锁'
+  },
+  42: {
+    title: '📷 捕捉自然之美',
+    content: `用镜头捕捉春天的美！\n\n云辰拿着妈妈的手机，开始在公园里"寻宝"——寻找最美的景色。\n\n一朵刚绽放的花、一滴闪光的露珠、一只忙碌的蜜蜂... 每个瞬间都值得记录！\n\n"拍照让我学会了用另一个视角看世界！"云辰说。`,
+    unlockHint: '完成第42周任务即可解锁'
+  },
+  43: {
+    title: '📚 学以致用',
+    content: `一年快过去了，云辰学到了好多好多知识！\n\n他整理出一本厚厚的"探险手册"，里面有：\n\n- 春夏秋冬四季的观察方法\n- 植物、动物、土壤的研究技巧\n- 天气、气候的科学知识\n- 生态系统的基本概念\n\n"这本手册，以后可以给弟弟妹妹用呢！"云辰骄傲地说。`,
+    unlockHint: '完成第43周任务即可解锁'
+  },
+  44: {
+    title: '🎨 大自然的艺术',
+    content: `一年的积累，让云辰有了创作大作品的能力。\n\n他决定用自然材料创作一件特别的艺术品——一幅"四季森林"的拼贴画。\n\n夏天翠绿的树叶代表生命力，秋天金黄的落叶代表丰收，冬天灰褐色的枝干代表等待，春天五彩的花朵代表希望...\n\n这幅画融合了一年的探险记忆，是云辰最珍贵的作品！`,
+    unlockHint: '完成第44周任务即可解锁'
+  },
+  45: {
+    title: '🔬 做实验',
+    content: `云辰决定做一个综合性的科学实验。\n\n他选了一个有趣的问题："不同颜色的水，蒸发速度一样吗？"\n\n于是他准备了红、蓝、绿三种颜色的水，放在同样的环境下，每天观察记录。\n\n几天后，他发现：红色蒸发得最快，绿色次之，蓝色最慢。\n\n"原来颜色会影响蒸发的速度！"云辰又学到了新知识！`,
+    unlockHint: '完成第45周任务即可解锁'
+  },
+  46: {
+    title: '🎓 迎接挑战',
+    content: `终极挑战即将来临！\n\n云辰开始认真准备：他整理了一年的作品，回顾了学到的所有技能，还练习了演讲...\n\n"不管挑战多难，我都不怕！"云辰自信地说。\n\n他准备好了自己的"探险家简历"，上面写着这一年的成长和收获。`,
+    unlockHint: '完成第46周任务即可解锁'
+  },
+  47: {
+    title: '⚔️ 最终道馆挑战',
+    content: `终极挑战的日子到了！\n\n这次的任务需要综合运用一年来学到的所有技能：观察、记录、实验、创作、领导...\n\n云辰沉着冷静，把每一个任务都完成得很出色。\n\n当最后一关通过时，云辰激动得跳了起来："我做到了！我通过了所有道馆挑战！"`,
+    unlockHint: '完成第47周任务即可解锁'
+  },
+  48: {
+    title: '🏆 探险大师毕业',
+    content: `一年的冒险旅程画上了完美的句号！\n\n云辰站在世纪公园的最高处，看着这片见证他成长的土地，感慨万千：\n\n从春天到冬天，从观察到创造，从懵懂到自信... 这一年，他收获了知识，收获了成长，更收获了发现美的眼睛和热爱自然的心。\n\n妈妈把一枚闪闪发光的"探险大师"徽章别在云辰的胸前。\n\n"恭喜你，"妈妈说，"你已经成为了真正的探险大师！"\n\n云辰看着胸前的徽章，心里暗暗决定：新的冒险，才刚刚开始...`,
+    unlockHint: '恭喜你完成了全部48周的探险旅程！'
+  }
+};
+
+};
 
     let state = {
       name: '云辰', age: 9, stars: 0, level: 1, xp: 0, xpMax: 10, week: 2,
